@@ -1,0 +1,8 @@
+# The page is a shareable draft: placeholder contact details, no Impressum yet.
+# Crawlers are kept out until the copy is final — an indexed page outlives the
+# version that was indexed.
+#
+# To open it up, delete these two lines and set INDEXABLE = true in
+# src/layouts/Base.astro.
+User-agent: *
+Disallow: /

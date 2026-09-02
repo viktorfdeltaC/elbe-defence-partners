@@ -4,6 +4,16 @@ import '../styles/global.css';
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
+
+/**
+ * Search engines are kept out while the page is a shareable draft: the contact
+ * details are still placeholders and there is no Impressum yet, and an indexed
+ * page outlives the version that was indexed.
+ *
+ * Flip to true — together with public/robots.txt — when the copy is final and
+ * the legal pages exist. Nothing else has to change.
+ */
+const INDEXABLE = false;
 ---
 
 <!doctype html>
@@ -14,7 +24,7 @@ const t = dictionaries[DEFAULT_LANG];
     <meta name="color-scheme" content="light" />
     <title data-i18n="htmlTitle">{t.htmlTitle}</title>
     <meta name="description" content={t.htmlDescription} data-i18n-attr="content:htmlDescription" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={INDEXABLE ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {/* The two display faces carry the hero; preloading them keeps the
         headline from reflowing after first paint. */}
