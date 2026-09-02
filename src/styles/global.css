@@ -1,0 +1,312 @@
+/*
+ * Elbe Defence Partners — design system.
+ *
+ * Values are carried over 1:1 from Richtung-D-Grid.dc.html. The signature of
+ * the design is narrow and worth stating so it survives future edits:
+ *
+ *   - Two grounds only, no intermediate tones: paper #f2f3f4 and near-black
+ *     #111213. Sections alternate hard between them.
+ *   - Ocker is a code, not decoration. It marks file references (A-01, B-01.2)
+ *     and lead figures — nothing else. On dark grounds #c9873f, on light
+ *     grounds the darker #a4611f so the contrast holds.
+ *   - Archivo carries headlines (900 in the hero, 600 in sections) and, as
+ *     Archivo Narrow, the figures. Manrope is body text. IBM Plex Mono is
+ *     reserved for metadata: references, labels, captions, form labels.
+ *   - Hairline rules run down both edges of every section at the 5% gutter,
+ *     with 26px tick marks at 17% and 55% marking the column grid.
+ */
+
+:root {
+  --paper: #f2f3f4;
+  --ink: #101010;
+  --dark: #111213;
+  --dark-well: #1a1c1d;
+  --dark-field: #16181a;
+  --capital: #e7e8e8;
+
+  --ocker: #c9873f;
+  --ocker-on-light: #a4611f;
+  --ocker-rail: #e8c9a4;
+
+  --muted-light: #4f5457;
+  --muted-light-2: #5f666a;
+  --muted-dark: #a2a8ac;
+  --muted-dark-2: #8b9195;
+  --muted-dark-3: #6f7579;
+  --bright-dark: #e8ecec;
+
+  --rule-light: rgba(16, 16, 16, 0.14);
+  --rule-light-strong: rgba(16, 16, 16, 0.2);
+  --rule-light-tick: rgba(16, 16, 16, 0.28);
+  --rule-dark: rgba(255, 255, 255, 0.16);
+  --rule-dark-tick: rgba(255, 255, 255, 0.4);
+
+  --gutter: 5%;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-figure: 'Archivo Narrow', 'Archivo', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+}
+
+body {
+  color: var(--ink);
+  font-family: var(--font-body);
+  /* clip, not hidden: `hidden` makes the root a scroll container and every
+     position:sticky inside it silently stops working. */
+  overflow-x: clip;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5a5f62;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* A black focus ring is invisible on the near-black sections. Anything sitting
+   on a dark ground states its own ring. */
+.on-dark :focus-visible,
+.hero :focus-visible {
+  outline-color: var(--paper);
+}
+
+/* ── Section chrome ──────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  padding: 104px var(--gutter) 112px;
+}
+
+.section--dark {
+  background: var(--dark);
+  color: var(--paper);
+}
+
+.section__inner {
+  position: relative;
+}
+
+/* Hairline frame: a full-height rule down each gutter edge, plus 26px ticks at
+   the 17% and 55% column lines. Each rule grows downwards on entry. */
+.rules {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  pointer-events: none;
+}
+
+.rules span {
+  position: absolute;
+  width: 1px;
+  background: var(--rule-light);
+  transform-origin: top;
+}
+
+.rules span:nth-child(1) {
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.rules span:nth-child(2) {
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.rules span:nth-child(3),
+.rules span:nth-child(4) {
+  top: 0;
+  height: 26px;
+  background: var(--rule-light-tick);
+}
+
+.rules span:nth-child(3) {
+  left: 17%;
+}
+
+.rules span:nth-child(4) {
+  left: 55%;
+}
+
+.section--dark .rules span {
+  background: var(--rule-dark);
+}
+
+.section--dark .rules span:nth-child(3),
+.section--dark .rules span:nth-child(4) {
+  background: var(--rule-dark-tick);
+}
+
+/* Section marker: the black bar carrying the file reference. It sticks in the
+   gutter while its section scrolls past, under the progress rail. */
+.marker {
+  position: sticky;
+  top: 52px;
+  z-index: 4;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 12px;
+  background: var(--ink);
+  color: #fff;
+  padding: 7px 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.marker__ref {
+  color: var(--ocker);
+}
+
+/* Inverted marker for the dark sections. */
+.marker--invert {
+  background: var(--paper);
+  color: var(--dark);
+}
+
+.marker--invert .marker__ref {
+  color: var(--ocker-on-light);
+}
+
+.marker--static {
+  position: static;
+}
+
+/* ── Type ────────────────────────────────────────────────────────────────── */
+
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 3.9vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.042em;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Reveals ─────────────────────────────────────────────────────────────── */
+
+/* Set by the client script only once it has taken over, so the page is fully
+   legible with JavaScript disabled or still loading. */
+[data-reveal].is-armed {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+[data-imgreveal].is-armed {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1s var(--ease);
+}
+
+[data-imgreveal].is-revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+.marker.is-armed {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.6s var(--ease);
+}
+
+.marker.is-revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+.rules span.is-armed {
+  transform: scaleY(0);
+  transition: transform 0.9s var(--ease);
+}
+
+.rules span.is-revealed {
+  transform: scaleY(1);
+}
+
+@keyframes edp-mask-up {
+  from {
+    transform: translateY(112%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Everything lands in its final state at once: no travel, no count-up, no
+     video. The brief asked for restrained motion — this is the floor of it. */
+  [data-reveal].is-armed,
+  [data-imgreveal].is-armed,
+  .marker.is-armed,
+  .rules span.is-armed {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .hero__title span {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,27 @@
+---
+import '../styles/fonts.css';
+import '../styles/global.css';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<!doctype html>
+<html lang={DEFAULT_LANG}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title data-i18n="htmlTitle">{t.htmlTitle}</title>
+    <meta name="description" content={t.htmlDescription} data-i18n-attr="content:htmlDescription" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* The two display faces carry the hero; preloading them keeps the
+        headline from reflowing after first paint. */}
+    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

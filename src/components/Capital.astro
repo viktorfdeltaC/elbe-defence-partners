@@ -1,0 +1,131 @@
+---
+/**
+ * D-01 Kapital & Standortentwicklung — the second audience.
+ *
+ * Deliberately downstream of the contact section and off the main narrative:
+ * the hero belongs to the manufacturers, and this section is reached through
+ * exactly one route, the last item in the navigation. Its lighter ground and
+ * the 2px black edge above mark it as a separate address, not a further
+ * chapter — hence the marker here does not stick.
+ */
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<section id="kapital" class="capital">
+  <div class="section__inner">
+    <span class="marker marker--static" data-marker>
+      <span class="marker__ref">{t.refCap}</span>
+      <span data-i18n="capLabel">{t.capLabel}</span>
+    </span>
+
+    <div class="capital__grid">
+      <div>
+        <h2 class="capital__title" data-i18n="capTitle">{t.capTitle}</h2>
+        <p class="capital__body" data-i18n="capBody">{t.capBody}</p>
+        <p class="capital__note" data-i18n="capNote">{t.capNote}</p>
+        <a class="capital__cta" href="mailto:kapital@example.com" data-i18n="capCta">{t.capCta}</a>
+      </div>
+
+      <div class="ledger">
+        {
+          t.capItems.map((ci, i) => (
+            <div class="ledger__row">
+              <span class="ledger__n">{ci.n}</span>
+              <span class="ledger__t" data-i18n={`capItems.${i}.t`}>
+                {ci.t}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .capital {
+    position: relative;
+    background: var(--capital);
+    color: var(--ink);
+    border-top: 2px solid var(--ink);
+    padding: 88px var(--gutter) 96px;
+  }
+
+  .capital__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 40px 64px;
+    align-items: start;
+  }
+
+  .capital__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 3.1vw, 44px);
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+    margin: 0 0 20px;
+    max-width: 18em;
+    text-wrap: pretty;
+  }
+
+  .capital__body {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--muted-light);
+    margin: 0 0 18px;
+    max-width: 32em;
+  }
+
+  .capital__note {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--muted-light-2);
+    margin: 0 0 30px;
+    max-width: 32em;
+  }
+
+  .capital__cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 15px 28px;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .capital__cta:hover {
+    background: var(--ocker);
+    color: #fff;
+  }
+
+  .ledger {
+    border-top: 1px solid var(--rule-light-strong);
+  }
+
+  .ledger__row {
+    border-bottom: 1px solid var(--rule-light);
+    padding: 14px 0 16px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .ledger__n {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ocker-on-light);
+  }
+
+  .ledger__t {
+    font-size: 14.5px;
+    line-height: 1.56;
+  }
+</style>

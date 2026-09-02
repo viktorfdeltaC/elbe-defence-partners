@@ -1,0 +1,296 @@
+---
+/**
+ * ① Hero — full-bleed Dresden night shot, black wordmark bar top-left, nav and
+ * language switch top-right, headline set hard into the bottom-left corner.
+ *
+ * The wordmark bar is the design's own motif: it carries the brand and the file
+ * reference, and comes back inverted as the section marker further down.
+ */
+import { Image } from 'astro:assets';
+import hero from '../assets/hero-dresden-nacht.webp';
+import { BRAND, DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+
+const nav = [
+  { href: '#herausforderung', ref: t.ref1, key: 'nav1' },
+  { href: '#standort', ref: t.ref2, key: 'nav2' },
+  { href: '#leistungen', ref: t.ref3, key: 'nav3' },
+  { href: '#kontakt', ref: t.ref4, key: 'nav4' },
+  { href: '#kapital', ref: t.refCap, key: 'navCap' },
+] as const;
+---
+
+<section class="hero">
+  <Image
+    class="hero__img"
+    src={hero}
+    alt=""
+    widths={[900, 1200]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__top">
+    <span class="wordmark">
+      <span class="wordmark__name">{BRAND}</span>
+      <span class="wordmark__ref">{t.docRef}</span>
+    </span>
+
+    <nav class="hero__nav" aria-label="Hauptnavigation">
+      {
+        nav.map((item) => (
+          <a href={item.href}>
+            {item.ref} <span data-i18n={item.key}>{t[item.key]}</span>
+          </a>
+        ))
+      }
+      <span class="langswitch">
+        <button type="button" data-lang="de" aria-pressed="true">DE</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </span>
+    </nav>
+  </div>
+
+  <div class="hero__foot">
+    <div class="hero__block">
+      <h1 class="hero__title">
+        <span><span data-i18n="heroTitle">{t.heroTitle}</span></span>
+      </h1>
+      <p class="hero__lead" data-i18n="heroLead">{t.heroLead}</p>
+      <div class="hero__ctas">
+        <a class="btn btn--solid" href="#kontakt" data-i18n="cta1">{t.cta1}</a>
+        <a class="btn btn--ghost" href="#kontakt" data-i18n="cta2">{t.cta2}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: 92vh;
+    min-height: 620px;
+    overflow: hidden;
+    background: var(--dark-well);
+  }
+
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(12, 14, 15, 0.62) 0%,
+      rgba(12, 14, 15, 0.26) 42%,
+      rgba(12, 14, 15, 0.68) 100%
+    );
+  }
+
+  /* ── Top bar ─────────────────────────────────────────────────────────── */
+
+  .hero__top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 26px var(--gutter);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px 24px;
+  }
+
+  .wordmark {
+    background: var(--ink);
+    color: #fff;
+    padding: 13px 20px 14px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark__name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .wordmark__ref {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ocker);
+    white-space: nowrap;
+  }
+
+  .hero__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px 20px;
+    padding-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero__nav a {
+    color: rgba(255, 255, 255, 0.78);
+    white-space: nowrap;
+  }
+
+  .hero__nav a:hover {
+    color: #fff;
+  }
+
+  .langswitch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 4px;
+  }
+
+  .langswitch button {
+    background: none;
+    border: 0;
+    padding: 2px 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid transparent;
+  }
+
+  .langswitch button[aria-pressed='true'] {
+    color: #fff;
+    border-bottom-color: #fff;
+  }
+
+  /* ── Headline block ──────────────────────────────────────────────────── */
+
+  .hero__foot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 var(--gutter) 8vh;
+    /* Click-through, so the picture behind stays uninterrupted; the block
+       itself takes pointer events back. */
+    pointer-events: none;
+  }
+
+  .hero__block {
+    max-width: min(76vw, 1080px);
+    pointer-events: auto;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(40px, 5vw, 74px);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    color: #fff;
+    margin: 0 0 26px;
+    /* The measure hangs off the headline itself, not the viewport. */
+    max-width: 15em;
+    text-wrap: pretty;
+  }
+
+  /* Mask-up: the outer span clips, the inner one travels. */
+  .hero__title > span {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+
+  .hero__title > span > span {
+    display: block;
+    animation: edp-mask-up 1s var(--ease) 0.15s both;
+  }
+
+  .hero__lead {
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.86);
+    margin: 0 0 34px;
+    max-width: 30em;
+    text-wrap: pretty;
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 16px 28px;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .btn--solid {
+    background: #fff;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .btn--solid:hover {
+    background: var(--ocker);
+    color: #fff;
+  }
+
+  .btn--ghost {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+  }
+
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #fff;
+    color: #fff;
+  }
+
+  /* On a phone the 76vw measure leaves ~296px, and "Verteidigungsfähigkeit"
+     needs 260px at 40px type — the word ran past the edge and was clipped by
+     the hero's overflow. The block takes the full column here, and the headline
+     is allowed to hyphenate, which is ordinary practice for German compounds
+     and keeps the type at its designed size instead of shrinking it to 29px. */
+  @media (max-width: 640px) {
+    .hero__block {
+      max-width: 100%;
+    }
+
+    /* Below the design's range the headline scales with the viewport instead of
+       sitting at its 40px floor, so the longest word still fits once the soft
+       hyphen in the copy has broken it. `hyphens` is a bonus for the other
+       words — it does nothing without a hyphenation dictionary, which is why
+       the break point is in the copy rather than left to the browser. */
+    .hero__title {
+      font-size: clamp(28px, 10vw, 40px);
+      hyphens: auto;
+    }
+  }
+</style>

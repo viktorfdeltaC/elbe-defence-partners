@@ -1,0 +1,66 @@
+---
+/**
+ * The four-figure band directly under the rail. All four are publicly sourced
+ * market figures, deliberately not project figures — they carry no caveat and
+ * need none. Set in Archivo Narrow with tabular numerals so the digits line up
+ * across the columns; each counts up once on entry.
+ */
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<div class="band on-dark">
+  <div class="band__inner">
+    {
+      t.figures.map((f, i) => (
+        <div class="band__cell">
+          <div class="band__value" data-count data-i18n={`figures.${i}.v`}>
+            {f.v}
+          </div>
+          <div class="band__key" data-i18n={`figures.${i}.k`}>
+            {f.k}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .band {
+    background: var(--dark);
+    color: var(--paper);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .band__inner {
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  }
+
+  .band__cell {
+    padding: 26px 26px 28px 0;
+  }
+
+  .band__value {
+    font-family: var(--font-figure);
+    font-weight: 600;
+    font-size: clamp(30px, 3vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.015em;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 12px;
+  }
+
+  .band__key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-dark-2);
+    line-height: 1.6;
+    max-width: 20em;
+  }
+</style>

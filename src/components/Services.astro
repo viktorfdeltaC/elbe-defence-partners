@@ -1,0 +1,120 @@
+---
+/**
+ * ④ B-01 Leistungen — Ankommen / Betreiben / Wachsen.
+ *
+ * Each block pairs a lead (which carries the reason the firm can claim it —
+ * 20 years of construction projects, military and regulatory background, two
+ * decades in financial markets) with the concrete list on the right. The lead
+ * is the point of the block, so it gets the display face and the width.
+ */
+import SectionRules from './SectionRules.astro';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<section id="leistungen" class="section">
+  <SectionRules />
+  <div class="section__inner">
+    <span class="marker" data-marker>
+      <span class="marker__ref">{t.ref3}</span>
+      <span data-i18n="nav3">{t.nav3}</span>
+    </span>
+
+    <h2 class="h2 services__title" data-i18n="s4Title">{t.s4Title}</h2>
+
+    <div data-reveal>
+      {
+        t.blocks.map((b, i) => (
+          <div class="block">
+            <div class="block__lead">
+              <div class="block__n">{b.n}</div>
+              <h3 class="block__title" data-i18n={`blocks.${i}.title`}>
+                {b.title}
+              </h3>
+              <p class="block__body" data-i18n={`blocks.${i}.body`}>
+                {b.body}
+              </p>
+            </div>
+            <ul class="block__items">
+              {b.items.map((item, j) => (
+                <li data-i18n={`blocks.${i}.items.${j}`}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__title {
+    margin-bottom: 56px;
+    max-width: 20em;
+  }
+
+  .block {
+    border-top: 1px solid var(--rule-light-strong);
+    padding: 34px 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 0;
+    align-items: flex-start;
+    transition: border-color 0.25s ease;
+  }
+
+  /* The only hover state in the reading sections: the top edge picks up ocker. */
+  .block:hover {
+    border-top-color: var(--ocker);
+  }
+
+  .block__lead {
+    flex: 1 1 38%;
+    min-width: 270px;
+    padding-right: 48px;
+  }
+
+  .block__n {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ocker-on-light);
+    margin-bottom: 14px;
+  }
+
+  .block__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 2.4vw, 34px);
+    letter-spacing: -0.035em;
+    margin: 0 0 16px;
+  }
+
+  .block__body {
+    font-size: 15px;
+    line-height: 1.66;
+    color: var(--muted-light);
+    margin: 0;
+    max-width: 26em;
+  }
+
+  .block__items {
+    flex: 1 1 45%;
+    min-width: 290px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    align-content: start;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .block__items li {
+    border-bottom: 1px solid var(--rule-light);
+    padding: 12px 0 14px;
+    font-size: 14.5px;
+    line-height: 1.56;
+    color: var(--ink);
+  }
+</style>

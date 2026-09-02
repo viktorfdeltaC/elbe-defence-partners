@@ -1,0 +1,281 @@
+---
+/**
+ * ⑤ C-01 Nächster Schritt — the 30-minute assessment, the form, and the two
+ * people carrying the mandate.
+ *
+ * The form is markup only: fields, labels, validation attributes and states are
+ * all in place, but nothing is wired to a backend yet — `action` and the submit
+ * handler are the two things to add when the endpoint exists.
+ */
+import SectionRules from './SectionRules.astro';
+import CroppedImage from './CroppedImage.astro';
+import viktorFink from '../assets/portrait-viktor-fink.webp';
+import dennisArians from '../assets/portrait-dennis-arians.webp';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+
+/**
+ * Portraits, with the framing the design tool stored for each one
+ * (.image-slots.state.json). Viktor Fink's shot is pushed in and down so the
+ * 4:5 frame sits on the face rather than the ceiling.
+ */
+const portraits = {
+  viktorFink: {
+    src: viktorFink,
+    view: { s: 1.3655015625, x: 0.9371875, y: 20.742375 },
+  },
+  dennisArians: {
+    src: dennisArians,
+    view: { s: 1, x: 0, y: 0 },
+  },
+} as const;
+
+const fields = [
+  { key: 'fName', name: 'name', type: 'text', autocomplete: 'name' },
+  { key: 'fCompany', name: 'company', type: 'text', autocomplete: 'organization' },
+  { key: 'fMail', name: 'email', type: 'email', autocomplete: 'email' },
+] as const;
+---
+
+<section id="kontakt" class="section section--dark contact on-dark">
+  <SectionRules />
+  <div class="section__inner">
+    <span class="marker marker--invert" data-marker>
+      <span class="marker__ref">{t.ref4}</span>
+      <span data-i18n="nav4">{t.nav4}</span>
+    </span>
+
+    <div class="contact__grid">
+      <div>
+        <h2 class="h2 contact__title" data-i18n="s5Title">{t.s5Title}</h2>
+        <p class="contact__lead" data-i18n="s5Lead">{t.s5Lead}</p>
+        <p class="contact__scarcity" data-i18n="s5Scarcity">{t.s5Scarcity}</p>
+        <div class="contact__reach">
+          <div>{t.addr2}</div>
+          <div><a href="mailto:kontakt@example.com">kontakt@example.com</a></div>
+        </div>
+      </div>
+
+      {/* TODO(backend): set `action`/`method` (or attach a submit handler) once
+          the receiving endpoint exists. Until then the form does not submit. */}
+      <form class="form" novalidate>
+        {
+          fields.map((f) => (
+            <label>
+              <span class="form__label" data-i18n={f.key}>
+                {t[f.key]}
+              </span>
+              <input type={f.type} name={f.name} autocomplete={f.autocomplete} required />
+            </label>
+          ))
+        }
+        <label>
+          <span class="form__label" data-i18n="fMsg">{t.fMsg}</span>
+          <textarea name="message" rows="3"></textarea>
+        </label>
+        <button type="submit" data-i18n="fSend">{t.fSend}</button>
+      </form>
+    </div>
+
+    <div class="people" data-reveal>
+      {
+        t.people.map((p, i) => (
+          <div>
+            <CroppedImage
+              src={portraits[p.photo].src}
+              view={portraits[p.photo].view}
+              alt={p.name}
+              aspect={4 / 5}
+              widths={[200, 400]}
+              sizes="200px"
+              maxWidth={200}
+            />
+            <h3 class="people__name">{p.name}</h3>
+            <div class="people__role" data-i18n={`people.${i}.role`}>
+              {p.role}
+            </div>
+            <p class="people__bio" data-i18n={`people.${i}.bio`}>
+              {p.bio}
+            </p>
+            <div class="people__reach">
+              <div>{p.phone}</div>
+              <div>
+                <a href={`mailto:${p.mail}`}>{p.mail}</a>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-bottom: 96px;
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr));
+    gap: 48px 64px;
+    margin-bottom: 80px;
+  }
+
+  .contact__title {
+    margin-bottom: 20px;
+    max-width: 18em;
+  }
+
+  .contact__lead {
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.6;
+    color: var(--muted-dark);
+    margin: 0 0 24px;
+    max-width: 28em;
+  }
+
+  .contact__scarcity {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ocker);
+    margin: 0 0 28px;
+  }
+
+  .contact__reach {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted-dark);
+    line-height: 2.1;
+    border-top: 1px solid var(--rule-dark);
+    padding-top: 18px;
+  }
+
+  .contact__reach a {
+    color: var(--ocker);
+  }
+
+  .contact__reach a:hover {
+    color: #fff;
+  }
+
+  /* ── Form ────────────────────────────────────────────────────────────── */
+
+  .form {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .form label {
+    display: grid;
+    gap: 8px;
+  }
+
+  .form__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-dark-2);
+  }
+
+  .form input,
+  .form textarea {
+    background: var(--dark-field);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 18px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--paper);
+    border-radius: 0;
+  }
+
+  .form textarea {
+    resize: vertical;
+  }
+
+  .form input:focus,
+  .form textarea:focus {
+    border-color: var(--ocker);
+    outline: none;
+  }
+
+  /* Keyboard users still get a visible ring; the border alone is too quiet. */
+  .form input:focus-visible,
+  .form textarea:focus-visible {
+    outline: 2px solid var(--paper);
+    outline-offset: 2px;
+  }
+
+  .form button {
+    justify-self: start;
+    background: var(--paper);
+    color: var(--ink);
+    border: 0;
+    padding: 15px 30px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .form button:hover {
+    background: var(--ocker);
+    color: #fff;
+  }
+
+  /* ── People ──────────────────────────────────────────────────────────── */
+
+  .people {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 40px 48px;
+    max-width: 980px;
+  }
+
+  .people__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    margin: 18px 0 8px;
+  }
+
+  .people__role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ocker);
+    margin-bottom: 12px;
+  }
+
+  .people__bio {
+    font-size: 14.5px;
+    line-height: 1.66;
+    color: var(--muted-dark);
+    margin: 0 0 14px;
+  }
+
+  .people__reach {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted-dark-2);
+    line-height: 1.9;
+  }
+
+  .people__reach a {
+    color: #d8dcde;
+  }
+
+  .people__reach a:hover {
+    color: #fff;
+  }
+</style>

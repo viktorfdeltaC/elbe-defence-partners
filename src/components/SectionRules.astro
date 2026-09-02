@@ -1,0 +1,18 @@
+---
+/**
+ * The hairline frame behind a section: a full-height rule down each gutter
+ * edge plus 26px tick marks on the 17% and 55% column lines.
+ *
+ * These four rules are the page's grid made visible — the section content is
+ * laid out against the same 0 / 17 / 55 / 100 % positions, which is what stops
+ * the sections reading as unsorted. Colours flip with the section ground; see
+ * `.rules` in global.css. Each rule grows downwards on entry, staggered.
+ */
+---
+
+<div class="rules" aria-hidden="true" data-rules>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>

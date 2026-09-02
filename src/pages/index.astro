@@ -1,0 +1,42 @@
+---
+/**
+ * The one-pager. Order is the argument:
+ *
+ *   Hero            — what the firm is for
+ *   Rail + figures  — where you are, and the market that frames it
+ *   A-01            — the problem the reader actually has
+ *   A-02            — why Dresden answers it, and what the firm does about it
+ *   B-01            — the services, each with the reason they can claim it
+ *   Band            — a breath before the ask
+ *   C-01            — the ask, and the two people behind it
+ *   D-01            — the second audience, reached by one route only
+ */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProgressRail from '../components/ProgressRail.astro';
+import FigureBand from '../components/FigureBand.astro';
+import Challenge from '../components/Challenge.astro';
+import WhySaxony from '../components/WhySaxony.astro';
+import Services from '../components/Services.astro';
+import VideoBand from '../components/VideoBand.astro';
+import Contact from '../components/Contact.astro';
+import Capital from '../components/Capital.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<Base>
+  <Hero />
+  <ProgressRail />
+  <FigureBand />
+  <Challenge />
+  <WhySaxony />
+  <Services />
+  <VideoBand />
+  <Contact />
+  <Capital />
+  <SiteFooter />
+</Base>
+
+<script>
+  import '../scripts/page';
+</script>

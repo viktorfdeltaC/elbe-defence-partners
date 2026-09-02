@@ -1,0 +1,103 @@
+---
+/**
+ * ② A-01 Herausforderung — the numbered list of what actually decides series
+ * production, an explanatory column beside it, and the pull quote that turns
+ * the section into a location argument.
+ */
+import SectionRules from './SectionRules.astro';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<section id="herausforderung" class="section">
+  <SectionRules />
+  <div class="section__inner">
+    <span class="marker" data-marker>
+      <span class="marker__ref">{t.ref1}</span>
+      <span data-i18n="nav1">{t.nav1}</span>
+    </span>
+
+    <h2 class="h2 challenge__title" data-i18n="s2Title">{t.s2Title}</h2>
+
+    <div class="challenge__grid" data-reveal>
+      <div class="ledger">
+        {
+          t.constraints.map((c, i) => (
+            <div class="ledger__row">
+              <span class="ledger__n">{c.n}</span>
+              <span class="ledger__t" data-i18n={`constraints.${i}.t`}>
+                {c.t}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="challenge__body" data-i18n="s2Body">{t.s2Body}</p>
+    </div>
+
+    <p class="challenge__pull" data-reveal data-i18n="s2Pull">{t.s2Pull}</p>
+  </div>
+</section>
+
+<style>
+  .challenge__title {
+    font-size: clamp(30px, 3.9vw, 56px);
+    margin-bottom: 48px;
+    max-width: 22em;
+  }
+
+  .challenge__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 24px 56px;
+    margin-bottom: 56px;
+  }
+
+  .challenge__body {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--muted-light);
+    margin: 0;
+    padding-top: 15px;
+    max-width: 30em;
+  }
+
+  /* The numbered-row pattern, shared with the capital section's list. */
+  .ledger {
+    border-top: 1px solid var(--rule-light-strong);
+  }
+
+  .ledger__row {
+    border-bottom: 1px solid var(--rule-light);
+    padding: 15px 0 17px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .ledger__n {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ocker-on-light);
+  }
+
+  .ledger__t {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .challenge__pull {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(20px, 2.1vw, 30px);
+    line-height: 1.24;
+    letter-spacing: -0.03em;
+    margin: 0;
+    max-width: 26em;
+    text-wrap: pretty;
+  }
+</style>

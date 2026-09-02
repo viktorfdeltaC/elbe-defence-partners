@@ -1,0 +1,213 @@
+---
+/**
+ * ③ A-02 Warum Sachsen — four arguments, one lead figure each, then the
+ * paragraph about what the firm itself does, and the claim band that closes the
+ * section.
+ *
+ * The lead figures are set differently from the ones in the band above on
+ * purpose: those are market values, these are the argument itself, so they sit
+ * inside the text block in ocker rather than in a data row.
+ */
+import SectionRules from './SectionRules.astro';
+import CroppedImage from './CroppedImage.astro';
+import dresden from '../assets/dresden-mikroelektronik.webp';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<section id="standort" class="section section--dark saxony on-dark">
+  <SectionRules />
+  <div class="section__inner">
+    <span class="marker marker--invert" data-marker>
+      <span class="marker__ref">{t.ref2}</span>
+      <span data-i18n="nav2">{t.nav2}</span>
+    </span>
+
+    <h2 class="h2 saxony__title" data-i18n="s3Title">{t.s3Title}</h2>
+    <p class="saxony__lead" data-i18n="s3Lead">{t.s3Lead}</p>
+
+    <div class="axes" data-reveal>
+      {
+        t.axes.map((ax, i) => (
+          <div class="axis">
+            <div class="axis__head">
+              {ax.n} <span data-i18n={`axes.${i}.t`}>{ax.t}</span>
+            </div>
+            <div class="axis__fig" data-i18n={`axes.${i}.fig`}>
+              {ax.fig}
+            </div>
+            <div class="axis__figlabel" data-i18n={`axes.${i}.figLabel`}>
+              {ax.figLabel}
+            </div>
+            <p class="axis__body" data-i18n={`axes.${i}.d`}>
+              {ax.d}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="saxony__role" data-reveal>
+      <div>
+        <h3 class="saxony__roleTitle" data-i18n="s3bTitle">{t.s3bTitle}</h3>
+        <p class="saxony__roleBody" data-i18n="s3bBody">{t.s3bBody}</p>
+        <p class="saxony__roleNote" data-i18n="s3bNote">{t.s3bNote}</p>
+      </div>
+      <div>
+        <CroppedImage
+          src={dresden}
+          alt={t.imgAlt}
+          altKey="imgAlt"
+          aspect={4 / 3}
+          widths={[600, 900, 1200, 1800]}
+          sizes="(max-width: 800px) 90vw, 45vw"
+        />
+        <div class="saxony__caption">
+          <span data-i18n="imgCap">{t.imgCap}</span>
+          <span>{t.ref2}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="claim">
+    <p data-i18n="s3Claim">{t.s3Claim}</p>
+  </div>
+</section>
+
+<style>
+  .saxony {
+    padding-bottom: 0;
+  }
+
+  .saxony__title {
+    margin-bottom: 20px;
+    max-width: 22em;
+  }
+
+  .saxony__lead {
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.56;
+    color: var(--muted-dark);
+    margin: 0 0 56px;
+    max-width: 30em;
+    text-wrap: pretty;
+  }
+
+  /* Hairline separators come from the 1px grid gap showing the ground through. */
+  .axes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 1px;
+    background: var(--rule-dark);
+    margin-bottom: 88px;
+  }
+
+  .axis {
+    background: var(--dark);
+    padding: 28px 28px 32px;
+  }
+
+  .axis__head {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-dark-3);
+    margin-bottom: 20px;
+  }
+
+  .axis__fig {
+    font-family: var(--font-figure);
+    font-weight: 600;
+    font-size: clamp(34px, 3.4vw, 50px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ocker);
+    margin-bottom: 10px;
+  }
+
+  .axis__figlabel {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--bright-dark);
+    margin-bottom: 16px;
+    max-width: 20em;
+  }
+
+  .axis__body {
+    font-size: 14px;
+    line-height: 1.68;
+    color: var(--muted-dark-2);
+    margin: 0;
+  }
+
+  .saxony__role {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 40px 56px;
+    padding-bottom: 88px;
+  }
+
+  .saxony__roleTitle {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 2.3vw, 32px);
+    line-height: 1.14;
+    letter-spacing: -0.035em;
+    margin: 0 0 20px;
+    max-width: 20em;
+    text-wrap: pretty;
+  }
+
+  .saxony__roleBody {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--muted-dark);
+    margin: 0 0 18px;
+    max-width: 30em;
+  }
+
+  .saxony__roleNote {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--muted-dark-2);
+    margin: 0;
+    max-width: 30em;
+  }
+
+  .saxony__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-dark-3);
+  }
+
+  /* Full-bleed out of the section's 5% gutter: the inner box is 90% of the
+     viewport, so 5/90 of it is exactly one gutter on each side. */
+  .claim {
+    position: relative;
+    background: var(--ocker);
+    color: var(--ink);
+    margin-inline: calc(-100% * 5 / 90);
+    padding-block: 24px;
+    padding-inline: calc(100% * 5 / 90);
+  }
+
+  .claim p {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(18px, 1.9vw, 26px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+</style>

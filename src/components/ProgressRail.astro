@@ -1,0 +1,77 @@
+---
+/**
+ * The station band under the hero. It sticks to the top of the viewport and
+ * shows where in the document the reader is — by station name, not percentage:
+ * A-01 Herausforderung → … → C-01 Kontakt. Stations passed take on the light
+ * ocker tint; the 2px line underneath fills with scroll progress.
+ */
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
+
+const t = dictionaries[DEFAULT_LANG];
+---
+
+<div class="rail on-dark">
+  <div class="rail__inner">
+    <div class="rail__stops">
+      {t.railStops.map((stop, i) => <span data-rail-stop data-i18n={`railStops.${i}`}>{stop}</span>)}
+    </div>
+    <div class="rail__track" aria-hidden="true">
+      <div class="rail__fill" data-rail-fill></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rail {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--dark);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .rail__inner {
+    position: relative;
+    padding: 0 var(--gutter);
+  }
+
+  .rail__stops {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 18px;
+    min-height: 40px;
+    padding: 9px 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .rail__stops span {
+    color: var(--muted-dark-3);
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+
+  .rail__stops span.is-reached {
+    color: var(--ocker-rail);
+  }
+
+  .rail__track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .rail__fill {
+    height: 2px;
+    width: 0%;
+    background: var(--ocker);
+    transition: width 0.12s linear;
+  }
+</style>

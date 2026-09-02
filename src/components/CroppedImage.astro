@@ -1,0 +1,94 @@
+---
+/**
+ * An image framed exactly the way the design tool's <image-slot> framed it.
+ *
+ * The bundle stores each dropped image with a view — `{ s, x, y }` in
+ * .image-slots.state.json — where the tool renders the image at
+ * `cover-baseline × s` and centres it at `(50 + x)% , (50 + y)%` of the frame.
+ * That framing is a design decision (which part of the portrait is in shot), so
+ * it is reproduced here rather than re-cropped by eye.
+ *
+ * The maths only needs the image's intrinsic size and the frame's aspect ratio,
+ * both known at build time, so it resolves to static percentages — no
+ * client-side measurement, and the crop survives any responsive resize because
+ * every value is relative to the frame.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Dot path into `Copy` if the alt text should follow the language switch. */
+  altKey?: string;
+  /** Frame aspect ratio as width / height, e.g. 4 / 5. */
+  aspect: number;
+  /** Stored view from .image-slots.state.json. Defaults to an untouched cover. */
+  view?: { s: number; x: number; y: number };
+  /** Rendered width hint for the responsive srcset. */
+  widths?: number[];
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  /**
+   * Cap on the frame's rendered width, in px. Passed as an inline style rather
+   * than left to a class from the calling component: Astro scopes styles per
+   * component, so a class handed down here would never match this element.
+   */
+  maxWidth?: number;
+}
+
+const {
+  src,
+  alt,
+  altKey,
+  aspect,
+  view = { s: 1, x: 0, y: 0 },
+  widths,
+  sizes,
+  loading = 'lazy',
+  maxWidth,
+} = Astro.props;
+
+// Frame of aspect `aspect`, taken as width = aspect, height = 1.
+const base = Math.max(aspect / src.width, 1 / src.height); // cover
+const k = base * view.s;
+
+const style = [
+  `width:${((src.width * k) / aspect) * 100}%`,
+  `height:${src.height * k * 100}%`,
+  `left:${50 + view.x}%`,
+  `top:${50 + view.y}%`,
+].join(';');
+---
+
+<div
+  class="crop"
+  style={`aspect-ratio:${aspect}${maxWidth ? `;max-width:${maxWidth}px` : ''}`}
+  data-imgreveal
+>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    loading={loading}
+    style={style}
+    data-i18n-attr={altKey ? `alt:${altKey}` : undefined}
+  />
+</div>
+
+<style>
+  .crop {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--dark-well);
+  }
+
+  .crop :global(img) {
+    position: absolute;
+    max-width: none;
+    /* left/top place the image's centre; the translate makes them mean that. */
+    transform: translate(-50%, -50%);
+  }
+</style>
