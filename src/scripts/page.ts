@@ -124,9 +124,16 @@ const countUp = (el: HTMLElement) => {
     n.toLocaleString(locale(), { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) +
     suffix;
 
-  const t0 = performance.now();
+  // The start time comes from the first frame's own timestamp, not from a
+  // performance.now() taken beforehand: requestAnimationFrame hands the
+  // callback the timestamp of the frame it runs in, which can predate the call
+  // that scheduled it. That made the first delta negative, and since the easing
+  // is only clamped at the top the figure rendered far below zero for a frame —
+  // "-999 Mrd. €" instead of "739 Mrd. €". k is clamped at both ends now.
+  let t0: number | null = null;
   const step = (now: number) => {
-    const k = Math.min(1, (now - t0) / 750);
+    if (t0 === null) t0 = now;
+    const k = Math.min(1, Math.max(0, (now - t0) / 750));
     el.textContent = format(value * (1 - Math.pow(1 - k, 3)));
     if (k < 1) requestAnimationFrame(step);
   };
