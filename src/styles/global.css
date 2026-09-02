@@ -175,8 +175,16 @@ video {
   background: var(--rule-dark-tick);
 }
 
-/* Section marker: the black bar carrying the file reference. It sticks in the
-   gutter while its section scrolls past, under the progress rail. */
+/* The heading area of a section: the marker plus the heading it belongs to.
+   It exists to bound the marker's stickiness — `position: sticky` is clipped by
+   its parent's box, so putting the marker in here makes it release at the end
+   of the heading instead of riding over the body copy for the whole section. */
+.section__head {
+  position: relative;
+}
+
+/* Section marker: the black bar carrying the file reference. It sticks while
+   the heading it labels is passing, under the progress rail. */
 .marker {
   position: sticky;
   top: 52px;
