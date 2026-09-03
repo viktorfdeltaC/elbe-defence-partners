@@ -23,11 +23,15 @@
     poster="/media/band-poster.webp"
     muted
     playsinline
-    preload="none"
+    preload="metadata"
     tabindex="-1"
     disablepictureinpicture>
-    <source src="/media/band.webm" type="video/webm" />
-    <source src="/media/band.mp4" type="video/mp4" />
+    {/* The codecs parameter is what makes the fallback work. With a bare
+        "video/webm" a browser accepts the source, then fails to decode it, and
+        never reaches the mp4 — which is exactly how a 10-bit VP9 encode left
+        the band dead in every browser. Named codecs let it skip instead. */}
+    <source src="/media/band.webm" type='video/webm; codecs="vp9"' />
+    <source src="/media/band.mp4" type='video/mp4; codecs="avc1.640028"' />
   </video>
   <img class="videoband__still" data-bandstill src="/media/band-last.webp" alt="" hidden />
   <span class="videoband__scrim"></span>

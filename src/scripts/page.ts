@@ -291,16 +291,19 @@ for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo
 
   const GESTURES = ['pointerdown', 'keydown', 'touchstart'] as const;
   let started = false;
-  let giveUp = 0;
 
   const attempt = () => {
     if (started || video.ended) return;
     // Safari will not play an element that is not on screen, so the clip has to
-    // be visible before the attempt — and goes back under the still if the
-    // attempt is refused.
+    // be visible before the attempt — and goes back under the still only if the
+    // attempt is actually refused.
     const hadStill = !!still && !still.hidden;
     showVideo();
     void video.play().catch(() => {
+      // A refusal is the only thing that puts the still up before the end.
+      // Nothing here may act on a guess about how long loading "should" take:
+      // an earlier version gave up after 2.5s and covered a clip that was
+      // merely still buffering.
       if (hadStill) showStill();
     });
   };
@@ -309,36 +312,45 @@ for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo
     for (const ev of GESTURES) document.removeEventListener(ev, attempt);
   };
 
-  video.addEventListener('playing', () => {
+  const running = () => {
+    if (started) return;
     started = true;
-    window.clearTimeout(giveUp);
     stopOffering();
     showVideo();
+  };
+
+  video.addEventListener('playing', running);
+  // `playing` does not fire in every browser for a muted, inline clip that
+  // starts from a cold buffer; the clock moving is the reliable proof.
+  video.addEventListener('timeupdate', () => {
+    if (video.currentTime > 0) running();
   });
 
   video.addEventListener('ended', showStill);
   // A clip the browser cannot decode must not leave a black rectangle either.
   video.addEventListener('error', showStill);
 
-  // preload is "none" in the markup, so nothing is fetched until the band is
-  // actually approaching — it sits far down the page.
+  // Start buffering while the band is still two screens away, so it is ready to
+  // run the moment it is reached rather than beginning to download then.
+  const warm = () => {
+    if (video.getBoundingClientRect().top > window.innerHeight * 2.5) return;
+    video.preload = 'auto';
+    window.removeEventListener('scroll', warm, true);
+  };
+  window.addEventListener('scroll', warm, { passive: true, capture: true });
+  warm();
+
   watch([video], () => {
     // Raising preload is enough to start the fetch; play() does the rest.
     // Calling load() here as well aborts the play request that follows it
-    // ("interrupted by a new load request") — which is exactly how the band
-    // ended up never playing at all in Safari.
+    // ("interrupted by a new load request") — which is how the band ended up
+    // never playing at all once before.
     video.preload = 'auto';
     attempt();
 
-    // Some browsers refuse the first attempt and allow a later one: Safari
-    // does exactly that when a visitor has set Auto-Play to "Never" for the
-    // site. Keep offering, on any real interaction, until it takes.
+    // Some browsers refuse the first attempt and allow a later one: Safari does
+    // exactly that when a visitor has set Auto-Play to "Never" for the site.
+    // Keep offering, on any real interaction, until it takes.
     for (const ev of GESTURES) document.addEventListener(ev, attempt, { passive: true });
-
-    // If it still has not started by then, it is genuinely blocked rather than
-    // slow, and the finished frame is better than a near-black poster.
-    giveUp = window.setTimeout(() => {
-      if (!started) showStill();
-    }, 2500);
   });
 }

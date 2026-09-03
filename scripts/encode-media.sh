@@ -31,9 +31,15 @@ command -v ffmpeg >/dev/null || { echo "ffmpeg not found" >&2; exit 1; }
 
 mkdir -p "$OUT"
 
-echo "→ ${OUT}/band.webm (VP9)"
-ffmpeg -v error -y -i "$SRC" -vf "scale=${WIDTH}:-2" \
-  -c:v libvpx-vp9 -crf 36 -b:v 0 -row-mt 1 -deadline good -cpu-used 2 -an \
+# -profile:v 0 with an explicit 8-bit pixel format is not optional. The source
+# clips are 10-bit, and libvpx-vp9 keeps that depth unless told otherwise —
+# which produces VP9 Profile 2, a format most browsers cannot decode. Worse,
+# they accept the source and only then fail, so they never fall through to the
+# mp4: the band goes dead everywhere.
+echo "→ ${OUT}/band.webm (VP9, 8-bit)"
+ffmpeg -v error -y -i "$SRC" -vf "scale=${WIDTH}:-2,format=yuv420p" \
+  -c:v libvpx-vp9 -profile:v 0 -pix_fmt yuv420p -crf 36 -b:v 0 -row-mt 1 \
+  -deadline good -cpu-used 2 -an \
   "${OUT}/band.webm"
 
 echo "→ ${OUT}/band.mp4 (H.264, faststart)"
