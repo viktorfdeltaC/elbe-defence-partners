@@ -3,14 +3,20 @@
  * Footer. Imprint and privacy only — the capital section sits directly above,
  * so a link down to it here would point at what the reader just read.
  */
-import { BRAND, DEFAULT_LANG, dictionaries } from '../content/copy';
+import Wordmark from './Wordmark.astro';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer on-dark">
-  <span>© {year} {BRAND}</span>
+  {/* The mark carries the name, so the line beside it is only the year —
+      echoing the header, where the same mark sits next to the file reference. */}
+  <span class="footer__mark">
+    <Wordmark height={20} />
+    <span>© {year}</span>
+  </span>
   {/* TODO(legal): both pages still have to be written and linked. An Impressum
       is mandatory for a German commercial site (§5 DDG) and the privacy notice
       has to cover the contact form once it submits anywhere. Left as the design
@@ -33,6 +39,15 @@ const year = new Date().getFullYear();
     font-family: var(--font-mono);
     font-size: 11.5px;
     color: var(--muted-dark-2);
+  }
+
+  .footer__mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    /* A shade brighter than the footer text: the mark reads as the mark, the
+       small print stays small print. */
+    color: #b6bcbf;
   }
 
   .footer__links {
