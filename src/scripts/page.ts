@@ -5,7 +5,7 @@
  *   2. Count-up  — the four figures under the hero run up once.
  *   3. Rail      — scroll progress along the station band.
  *   4. Language  — the DE/EN switch rewrites the page from the dictionaries.
- *   5. Video     — the atmosphere band, forced silent.
+ *   5. Band      — the atmosphere clip: plays once, holds its last frame.
  *
  * Nothing here is load-bearing: with JavaScript off, the page renders complete
  * in German with everything already in its final visual state. Reveals only arm
@@ -247,9 +247,18 @@ try {
   /* storage unavailable — stay with the rendered language */
 }
 
-/* ── 5. Video ────────────────────────────────────────────────────────────── */
+/* ── 5. Atmosphere band ──────────────────────────────────────────────────────
+ *
+ * Plays once, when the reader reaches it, then holds its last frame. The hold
+ * is a real <img>, not a paused <video>: a paused video invites the browser to
+ * draw a play control over it, and the same image is the fallback for every
+ * path where the clip does not run — autoplay refused by the browser or by a
+ * per-site setting, a codec nothing can decode, or reduced motion.
+ */
 
-for (const video of document.querySelectorAll<HTMLVideoElement>('[data-loopvideo]')) {
+for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo]')) {
+  const still = video.parentElement?.querySelector<HTMLImageElement>('[data-bandstill]');
+
   const hush = () => {
     video.muted = true;
     video.defaultMuted = true;
@@ -261,14 +270,49 @@ for (const video of document.querySelectorAll<HTMLVideoElement>('[data-loopvideo
     video.addEventListener(ev, hush);
   }
 
+  /** Swap the clip for its final frame. Idempotent. */
+  const holdLastFrame = () => {
+    if (!still || !still.hidden) return;
+    still.hidden = false;
+    video.hidden = true;
+  };
+
   if (calm) {
-    video.pause();
-    video.removeAttribute('autoplay');
+    holdLastFrame();
     continue;
   }
 
-  const play = () => void video.play().catch(() => {});
-  video.loop = true;
-  play();
-  video.addEventListener('loadeddata', play, { once: true });
+  video.loop = false;
+  video.addEventListener('ended', holdLastFrame);
+  // A clip the browser cannot decode must not leave a black rectangle either.
+  video.addEventListener('error', holdLastFrame);
+
+  // preload="none" in the markup, so nothing is fetched until the band is
+  // actually approaching — it sits far down the page.
+  watch([video], () => {
+    video.preload = 'auto';
+    video.load();
+
+    video.play().catch(() => {
+      // Blocked. Safari refuses even a muted play when a visitor has set
+      // Auto-Play to "Never" for the site, and that is exactly when it paints
+      // the play button the design cannot afford. Try once more on the first
+      // real interaction, and show the still meanwhile so the band is never a
+      // near-black box with a control in it.
+      holdLastFrame();
+      const retry = () => {
+        if (!still || still.hidden) return;
+        video.play().then(
+          () => {
+            still.hidden = true;
+            video.hidden = false;
+          },
+          () => {}
+        );
+      };
+      for (const ev of ['pointerdown', 'keydown', 'touchstart']) {
+        window.addEventListener(ev, retry, { once: true, passive: true });
+      }
+    });
+  });
 }

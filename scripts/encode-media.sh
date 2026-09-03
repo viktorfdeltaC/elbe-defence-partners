@@ -46,4 +46,12 @@ echo "→ ${OUT}/band-poster.webp (first frame)"
 ffmpeg -v error -y -i "$SRC" -vf "scale=${WIDTH}:-2" -frames:v 1 -q:v 80 \
   "${OUT}/band-poster.webp"
 
+# The band plays once and then holds its last frame. This is that frame as a
+# still: it stands in whenever the clip does not play at all — autoplay refused
+# by the browser, or prefers-reduced-motion — so the band is never an empty
+# rectangle behind a play button.
+echo "→ ${OUT}/band-last.webp (final frame)"
+ffmpeg -v error -y -sseof -0.1 -i "${OUT}/band.mp4" -vf "scale=${WIDTH}:-2" -frames:v 1 -q:v 82 \
+  "${OUT}/band-last.webp"
+
 ls -lh "${OUT}"

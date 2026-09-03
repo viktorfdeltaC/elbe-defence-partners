@@ -1,33 +1,35 @@
 ---
 /**
- * The 21:8 atmosphere band between the services and the contact section.
+ * The atmosphere band between the services and the contact section.
  *
- * Silent, looping, decorative — it carries no information, so it is hidden from
- * assistive technology and stopped entirely under prefers-reduced-motion. The
- * sound is forced off in markup *and* in script: an unexpectedly audible video
- * on a page like this is worse than no video.
+ * It plays once, when the reader reaches it, and then holds its last frame —
+ * not a loop. The clip brightens from almost black to a fully drawn site plan,
+ * so the final frame is the strongest thing in it and stands on its own.
  *
- * The clip as delivered from the design bundle was HEVC Main 10 with its moov
- * atom at the end of the file — unplayable in Chrome and Firefox, and a 6 MB
- * download before the first frame anywhere else. It is re-encoded to VP9 and
- * H.264 (faststart) by scripts/encode-media.sh; the poster is its first frame,
- * so the band is never an empty rectangle while the video loads.
+ * The still is a real image rather than a paused <video>, for two reasons: a
+ * paused video invites the browser to draw a play button over it, and the same
+ * image is what the band falls back to whenever the clip does not run at all —
+ * autoplay refused, or prefers-reduced-motion. The reader never meets an empty
+ * black rectangle with a play control in the middle of it.
+ *
+ * Silent, decorative, hidden from assistive technology. The sound is forced off
+ * in markup and again in script.
  */
 ---
 
 <div class="videoband" aria-hidden="true" data-imgreveal>
   <video
-    data-loopvideo
+    data-bandvideo
     poster="/media/band-poster.webp"
     muted
-    loop
     playsinline
-    autoplay
-    preload="metadata"
-    tabindex="-1">
+    preload="none"
+    tabindex="-1"
+    disablepictureinpicture>
     <source src="/media/band.webm" type="video/webm" />
     <source src="/media/band.mp4" type="video/mp4" />
   </video>
+  <img class="videoband__still" data-bandstill src="/media/band-last.webp" alt="" hidden />
   <span class="videoband__scrim"></span>
 </div>
 
@@ -40,7 +42,8 @@
     overflow: hidden;
   }
 
-  .videoband video {
+  .videoband video,
+  .videoband__still {
     position: absolute;
     inset: 0;
     width: 100%;
