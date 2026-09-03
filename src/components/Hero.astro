@@ -294,6 +294,41 @@ const nav = [
      is allowed to hyphenate, which is ordinary practice for German compounds
      and keeps the type at its designed size instead of shrinking it to 29px. */
   @media (max-width: 640px) {
+    /* svh, not vh: on iOS `vh` measures the viewport with the browser chrome
+       hidden, so a 92vh hero is taller than what the reader actually sees on
+       arrival and the CTAs sit below the fold. */
+    .hero {
+      height: 78vh;
+      height: 78svh;
+      min-height: 540px;
+    }
+
+    /* The photo is a landscape panorama inside a portrait frame. `cover` scales
+       it to fill the width, which means its FULL height is always shown — and
+       the top half of this photograph is empty sky, so a third of the hero was
+       dead space with the HUD marks from the render floating in it. Standing
+       the image taller than the frame and anchoring it to the bottom clips that
+       sky away and puts the skyline where the eye goes. */
+    .hero__img {
+      top: auto;
+      /* Overhanging at both ends: the sky goes at the top, and the render's
+         baked-in HUD marks ("62.12", "55.23") go with the strips at either
+         edge — on a phone they sat right in the reading area. */
+      bottom: -7%;
+      height: 128%;
+    }
+
+    /* Two buttons of different widths read as ragged at this size, and a
+       full-width target is easier to hit. */
+    .hero__ctas {
+      display: grid;
+      gap: 10px;
+    }
+
+    .btn {
+      text-align: center;
+    }
+
     /* The five nav links wrapped to three ragged rows and repeated the sticky
        station band almost verbatim — two navigations for one page. The band
        carries navigation on a phone (its stations are links); here only the
