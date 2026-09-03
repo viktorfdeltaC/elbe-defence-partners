@@ -1,0 +1,79 @@
+---
+/**
+ * A full-bleed statement between two sections.
+ *
+ * There are two of these and they are deliberately unequal. The ocker one is
+ * the page's single exclamation mark — ocker is a code here (file references,
+ * lead figures), so a second ocker field would turn the signal into a habit and
+ * neither would carry. The second band is monochrome: same weight of sentence,
+ * quieter voice.
+ *
+ * It lives at the top level of the page rather than inside a section, so it
+ * spans the viewport without having to negate a section's gutter.
+ */
+import { DEFAULT_LANG, dictionaries, type Copy } from '../content/copy';
+
+interface Props {
+  /** 'ocker' — the signature band. 'invert' — the monochrome one. */
+  tone: 'ocker' | 'invert';
+  /** Key into the copy dictionaries. */
+  textKey: keyof Copy;
+}
+
+const { tone, textKey } = Astro.props;
+const t = dictionaries[DEFAULT_LANG];
+const text = t[textKey];
+---
+
+<div class:list={['claim', `claim--${tone}`]}>
+  <p data-i18n={textKey}>{text}</p>
+</div>
+
+<style>
+  .claim {
+    position: relative;
+    padding: 24px var(--gutter);
+  }
+
+  .claim p {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(18px, 1.9vw, 26px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .claim--ocker {
+    background: var(--ocker);
+    color: var(--ink);
+  }
+
+  /* Follows the dark A-02, so a near-black ground alone would read as more of
+     that section rather than as a band. The hairline above and the deeper
+     padding give it its own edges. */
+  .claim--invert {
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-block: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .claim {
+      padding-block: 20px;
+      /* Matches the inner padding the sections get on a phone so the statement
+         starts on the same left edge as the copy above and below it. */
+      padding-inline: calc(var(--gutter) + 12px);
+    }
+
+    .claim--invert {
+      padding-block: 30px;
+    }
+
+    .claim p {
+      font-size: 19px;
+    }
+  }
+</style>

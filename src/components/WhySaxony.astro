@@ -72,10 +72,6 @@ const t = dictionaries[DEFAULT_LANG];
       </div>
     </div>
   </div>
-
-  <div class="claim">
-    <p data-i18n="s3Claim">{t.s3Claim}</p>
-  </div>
 </section>
 
 <style>
@@ -193,23 +189,4 @@ const t = dictionaries[DEFAULT_LANG];
     color: var(--muted-dark-3);
   }
 
-  /* Full-bleed out of the section's 5% gutter: the inner box is 90% of the
-     viewport, so 5/90 of it is exactly one gutter on each side. */
-  .claim {
-    position: relative;
-    background: var(--ocker);
-    color: var(--ink);
-    margin-inline: calc(-100% * 5 / 90);
-    padding-block: 24px;
-    padding-inline: calc(100% * 5 / 90);
-  }
-
-  .claim p {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(18px, 1.9vw, 26px);
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-    margin: 0;
-  }
 </style>

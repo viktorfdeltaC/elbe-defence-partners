@@ -5,7 +5,9 @@
  *   Hero            — what the firm is for
  *   Rail + figures  — where you are, and the market that frames it
  *   A-01            — the problem the reader actually has
+ *   Claim           — answers the line A-01 ends on; the page's hinge
  *   A-02            — why Dresden answers it, and what the firm does about it
+ *   Pivot           — closes the evidence, opens the services
  *   B-01            — the services, each with the reason they can claim it
  *   Band            — a breath before the ask
  *   C-01            — the ask, and the two people behind it
@@ -16,6 +18,7 @@ import Hero from '../components/Hero.astro';
 import ProgressRail from '../components/ProgressRail.astro';
 import FigureBand from '../components/FigureBand.astro';
 import Challenge from '../components/Challenge.astro';
+import ClaimBand from '../components/ClaimBand.astro';
 import WhySaxony from '../components/WhySaxony.astro';
 import Services from '../components/Services.astro';
 import VideoBand from '../components/VideoBand.astro';
@@ -29,7 +32,9 @@ import SiteFooter from '../components/SiteFooter.astro';
   <ProgressRail />
   <FigureBand />
   <Challenge />
+  <ClaimBand tone="ocker" textKey="s3Claim" />
   <WhySaxony />
+  <ClaimBand tone="invert" textKey="s3Pivot" />
   <Services />
   <VideoBand />
   <Contact />
