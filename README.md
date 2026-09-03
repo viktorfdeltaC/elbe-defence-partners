@@ -1,4 +1,4 @@
-# Elbe Defence Partners — landing page
+# Saktum Defence Partners — landing page
 
 Bilingual (DE/EN) one-pager. Astro, static output, no client framework.
 

@@ -1,5 +1,5 @@
 /**
- * Bilingual copy for the Elbe Defence Partners one-pager.
+ * Bilingual copy for the Saktum Defence Partners one-pager.
  *
  * Both dictionaries share one shape (`Copy`), so every string rendered on the
  * page can be addressed by the same dot path in either language — that is what
@@ -114,11 +114,11 @@ export interface Copy {
 }
 
 export const de: Copy = {
-  htmlTitle: 'Elbe Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
+  htmlTitle: 'Saktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
 
-  docRef: 'EDP/DD/2026-01',
+  docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
   ref2: 'A-02',
   ref3: 'B-01',
@@ -301,11 +301,11 @@ export const de: Copy = {
 };
 
 export const en: Copy = {
-  htmlTitle: 'Elbe Defence Partners — Where technology becomes defence capability',
+  htmlTitle: 'Saktum Defence Partners — Where technology becomes defence capability',
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
-  docRef: 'EDP/DD/2026-01',
+  docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
   ref2: 'A-02',
   ref3: 'B-01',
@@ -489,4 +489,4 @@ export const dictionaries: Record<Lang, Copy> = { de, en };
 export const DEFAULT_LANG: Lang = 'de';
 
 /** Brand name is a placeholder by design — one edit swaps it everywhere. */
-export const BRAND = 'Elbe Defence Partners';
+export const BRAND = 'Saktum Defence Partners';
