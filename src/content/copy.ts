@@ -80,7 +80,6 @@ export interface Copy {
   s3bBody: string;
   s3bNote: string;
   s3Claim: string;
-  s3Pivot: string;
   imgCap: string;
   imgAlt: string;
 
@@ -154,7 +153,6 @@ export const de: Copy = {
   s3bNote:
     'Vor jedem Mandat prüfen wir Flächen, Genehmigungslage und realistische Fristen für Ihr Vorhaben.',
   s3Claim: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
-  s3Pivot: 'Bis hierher sind es Argumente. Ab hier ist es Arbeit.',
   imgCap: 'Dresden — Mikroelektronik-Cluster',
   imgAlt: 'Dresden bei Nacht, Blick über die Elbe auf die Altstadt',
 
@@ -338,7 +336,6 @@ export const en: Copy = {
   s3bNote:
     'Before every mandate we review sites, permitting status and realistic timelines for your project.',
   s3Claim: 'The location is the strategy. We are the execution.',
-  s3Pivot: 'Up to this point it is argument. From here it is work.',
   imgCap: 'Dresden — microelectronics cluster',
   imgAlt: 'Dresden at night, looking across the Elbe towards the old town',
 
