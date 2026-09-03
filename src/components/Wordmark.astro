@@ -1,0 +1,51 @@
+---
+/**
+ * The Sanktum Defence Partners wordmark.
+ *
+ * Outlined, inline, and sized by CSS height — the aspect ratio comes from the
+ * viewBox so a caller only ever sets one number.
+ *
+ * The paths in wordmark.svg are generated, not hand-kept: the logo was
+ * delivered as live <text> in Archivo (brand/sanktum-logo-weiss.svg), which
+ * would have made the company's mark depend on a webfont loading. Regenerate
+ * with `npm run wordmark` after any change to the delivered file.
+ *
+ * Colour: the lettering is currentColor, so the mark is white on the black bar
+ * and black wherever it sits on paper, from one file. The ocker rule is part of
+ * the mark and reads var(--ocker), so it cannot drift away from the accent the
+ * rest of the page uses.
+ */
+import { BRAND } from '../content/copy';
+import wordmark from './wordmark.svg?raw';
+
+interface Props {
+  /** Rendered height in px. Width follows the 4.687 : 1 ratio. */
+  height?: number;
+  class?: string;
+}
+
+const { height = 30, class: className } = Astro.props;
+
+// Tight box around the actual ink, measured by scripts/build-wordmark.py. The
+// delivered file had a wide transparent margin, which would have made the mark
+// render small inside an invisible box and thrown the bar's spacing off.
+const VIEW_BOX = '22 36.09 493 105.17';
+---
+
+<svg
+  class:list={['wordmark', className]}
+  viewBox={VIEW_BOX}
+  style={`height:${height}px`}
+  role="img"
+  aria-label={BRAND}
+  set:html={wordmark}
+/>
+
+<style>
+  .wordmark {
+    display: block;
+    width: auto;
+    /* The ratio is carried by the viewBox; height alone drives the size. */
+    flex: none;
+  }
+</style>

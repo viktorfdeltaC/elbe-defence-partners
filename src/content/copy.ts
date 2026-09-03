@@ -1,5 +1,5 @@
 /**
- * Bilingual copy for the Saktum Defence Partners one-pager.
+ * Bilingual copy for the Sanktum Defence Partners one-pager.
  *
  * Both dictionaries share one shape (`Copy`), so every string rendered on the
  * page can be addressed by the same dot path in either language — that is what
@@ -114,7 +114,7 @@ export interface Copy {
 }
 
 export const de: Copy = {
-  htmlTitle: 'Saktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
+  htmlTitle: 'Sanktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
 
@@ -301,7 +301,7 @@ export const de: Copy = {
 };
 
 export const en: Copy = {
-  htmlTitle: 'Saktum Defence Partners — Where technology becomes defence capability',
+  htmlTitle: 'Sanktum Defence Partners — Where technology becomes defence capability',
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
@@ -489,4 +489,4 @@ export const dictionaries: Record<Lang, Copy> = { de, en };
 export const DEFAULT_LANG: Lang = 'de';
 
 /** Brand name is a placeholder by design — one edit swaps it everywhere. */
-export const BRAND = 'Saktum Defence Partners';
+export const BRAND = 'Sanktum Defence Partners';

@@ -1,4 +1,4 @@
-# Saktum Defence Partners — landing page
+# Sanktum Defence Partners — landing page
 
 Bilingual (DE/EN) one-pager. Astro, static output, no client framework.
 
@@ -33,7 +33,36 @@ public/
 scripts/
   fetch-fonts.mjs       Regenerate the self-hosted fonts
   encode-media.sh       Re-encode the band video for the web
+  measure-wordmark.mjs  Step 1 of `npm run wordmark` — measure the logo layout
+  build-wordmark.py     Step 2 — outline it (writes src/components/wordmark.svg)
+brand/
+  sanktum-logo-weiss.svg  The logo as delivered. Source of truth, not shipped.
 ```
+
+## The wordmark
+
+`src/components/wordmark.svg` is **generated** — do not edit it by hand. The
+logo was delivered as live `<text>` in Archivo, which would have made the
+company's own mark depend on a webfont loading; without Archivo it would fall
+back to whatever sans-serif was at hand, stretched to the forced `textLength`.
+It is outlined instead.
+
+The layout is not recomputed from font metrics, because the browser applies the
+font's kerning and then `textLength`/`lengthAdjust` redistributes everything to
+hit the forced width — reproducing that by hand put the letters visibly off. So
+`measure-wordmark.mjs` asks a real browser where every glyph sits and
+`build-wordmark.py` supplies only the shapes. Verified against the delivered
+file by difference blend: identical ink bounding box, indistinguishable at any
+size the page uses.
+
+```bash
+npm run wordmark   # after any change to brand/sanktum-logo-weiss.svg
+```
+
+The lettering is `currentColor`, so one file serves the black bar and any light
+ground. The ocker rule is part of the mark and reads `var(--ocker)`, so it
+cannot drift away from the accent the rest of the page uses — the delivered file
+had `#d9a441`, the page uses `#c9873f`.
 
 ## The design in one paragraph
 

@@ -8,7 +8,8 @@
  */
 import { Image } from 'astro:assets';
 import hero from '../assets/hero-dresden-nacht.webp';
-import { BRAND, DEFAULT_LANG, dictionaries } from '../content/copy';
+import Wordmark from './Wordmark.astro';
+import { DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
 
@@ -35,7 +36,7 @@ const nav = [
 
   <div class="hero__top">
     <span class="wordmark">
-      <span class="wordmark__name">{BRAND}</span>
+      <Wordmark height={30} />
       <span class="wordmark__ref">{t.docRef}</span>
     </span>
 
@@ -115,19 +116,13 @@ const nav = [
   .wordmark {
     background: var(--ink);
     color: #fff;
-    padding: 13px 20px 14px;
+    padding: 12px 20px;
     display: inline-flex;
-    align-items: baseline;
-    gap: 14px;
+    /* The mark is a block, not a line of type, so the reference sits centred
+       against it rather than on a shared baseline. */
+    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
-  }
-
-  .wordmark__name {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
   }
 
   .wordmark__ref {
