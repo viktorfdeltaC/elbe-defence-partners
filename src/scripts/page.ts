@@ -144,11 +144,26 @@ watch(document.querySelectorAll<HTMLElement>('[data-count]'), (n) => countUp(n a
 
 /* ── 3. Station rail ─────────────────────────────────────────────────────── */
 
+const rail = document.querySelector<HTMLElement>('.rail');
 const fill = document.querySelector<HTMLElement>('[data-rail-fill]');
 const stops = Array.from(document.querySelectorAll<HTMLElement>('[data-rail-stop]'));
 
+/**
+ * The band's height drives two things that were hard-coded to 52px and broke as
+ * soon as it wrapped on a phone: where the sticky section markers come to rest,
+ * and how far an anchor jump has to stop short so the heading is not hidden
+ * underneath. Both read --rail-h, which is measured here and kept current.
+ */
+const measureRail = () => {
+  if (!rail) return;
+  document.documentElement.style.setProperty('--rail-h', `${Math.round(rail.getBoundingClientRect().height)}px`);
+};
+measureRail();
+if (rail && 'ResizeObserver' in window) new ResizeObserver(measureRail).observe(rail);
+
 const onScroll = () => {
   sweep();
+  measureRail();
   const max = document.documentElement.scrollHeight - window.innerHeight;
   const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
   if (fill) fill.style.width = `${(progress * 100).toFixed(2)}%`;

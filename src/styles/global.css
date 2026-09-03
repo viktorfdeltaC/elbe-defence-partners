@@ -112,6 +112,13 @@ video {
   padding: 104px var(--gutter) 112px;
 }
 
+/* Anchor jumps stop short of the sticky band, so the heading they target is
+   not sitting underneath it on arrival. */
+:target,
+section[id] {
+  scroll-margin-top: calc(var(--rail-h, 42px) + 12px);
+}
+
 .section--dark {
   background: var(--dark);
   color: var(--paper);
@@ -187,7 +194,9 @@ video {
    the heading it labels is passing, under the progress rail. */
 .marker {
   position: sticky;
-  top: 52px;
+  /* Rests just below the station band. --rail-h is measured at runtime because
+     the band is taller whenever it wraps; the fallback is its desktop height. */
+  top: calc(var(--rail-h, 42px) + 10px);
   z-index: 4;
   display: flex;
   width: fit-content;
@@ -290,6 +299,40 @@ video {
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/* ── Phones ──────────────────────────────────────────────────────────────────
+ *
+ * The design was drawn for a wide viewport. Three things do not survive the
+ * translation unchanged: the vertical rhythm (104/112px of section padding is a
+ * third of a phone screen), the column grid (the 17% and 55% tick marks label
+ * columns that no longer exist once everything is one column), and the gutter
+ * (content sat directly against the hairline rules, so text touched the line).
+ */
+@media (max-width: 640px) {
+  .section {
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  /* Clear the side rules instead of running into them. */
+  .section__inner {
+    padding-inline: 12px;
+  }
+
+  /* The inner ticks mark a two-column grid the phone layout does not have. */
+  .rules span:nth-child(3),
+  .rules span:nth-child(4) {
+    display: none;
+  }
+
+  .marker {
+    margin-bottom: 22px;
+  }
+
+  .h2 {
+    font-size: clamp(26px, 7.4vw, 34px);
   }
 }
 

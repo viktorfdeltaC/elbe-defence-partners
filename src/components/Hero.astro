@@ -267,6 +267,21 @@ const nav = [
     color: #fff;
   }
 
+  /* Tablets keep the full navigation, and a 14px link is no target for a
+     thumb. Scoped to coarse pointers so the mouse-driven header is untouched. */
+  @media (pointer: coarse) {
+    .hero__nav a,
+    .langswitch button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+
+    .hero__nav {
+      padding-top: 2px;
+    }
+  }
+
   .btn--ghost:hover {
     background: rgba(255, 255, 255, 0.14);
     border-color: #fff;
@@ -279,6 +294,30 @@ const nav = [
      is allowed to hyphenate, which is ordinary practice for German compounds
      and keeps the type at its designed size instead of shrinking it to 29px. */
   @media (max-width: 640px) {
+    /* The five nav links wrapped to three ragged rows and repeated the sticky
+       station band almost verbatim — two navigations for one page. The band
+       carries navigation on a phone (its stations are links); here only the
+       wordmark and the language switch remain. */
+    .hero__nav a {
+      display: none;
+    }
+
+    /* The wordmark bar is too wide to share a line with the switch, so the top
+       row wraps — and `space-between` then parks the lone switch on the left.
+       This keeps it in the corner it belongs to. */
+    .hero__nav {
+      padding-top: 8px;
+      margin-left: auto;
+    }
+
+    .langswitch button {
+      font-size: 12.5px;
+    }
+
+    .hero__foot {
+      padding-bottom: 6vh;
+    }
+
     .hero__block {
       max-width: 100%;
     }

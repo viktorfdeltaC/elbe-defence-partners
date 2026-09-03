@@ -102,4 +102,13 @@ const t = dictionaries[DEFAULT_LANG];
     max-width: 26em;
     text-wrap: pretty;
   }
+
+  @media (max-width: 640px) {
+    /* A 60px indent is a sixth of the screen; the numbers still read as a
+       column at 30px. */
+    .ledger__row {
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 12px;
+    }
+  }
 </style>

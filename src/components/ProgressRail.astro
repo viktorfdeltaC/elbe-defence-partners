@@ -4,17 +4,31 @@
  * shows where in the document the reader is — by station name, not percentage:
  * A-01 Herausforderung → … → C-01 Kontakt. Stations passed take on the light
  * ocker tint; the 2px line underneath fills with scroll progress.
+ *
+ * The stations are links, which is what carries navigation on a phone: there
+ * the hero's own nav is hidden (it wrapped to three ragged rows and repeated
+ * this band almost verbatim) and the band becomes one horizontally scrollable
+ * row instead of stacking.
  */
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
+
+/** One target per station; the three B-01.x stations share the services section. */
+const targets = ['#herausforderung', '#standort', '#leistungen', '#leistungen', '#leistungen', '#kontakt'];
 ---
 
 <div class="rail on-dark">
   <div class="rail__inner">
-    <div class="rail__stops">
-      {t.railStops.map((stop, i) => <span data-rail-stop data-i18n={`railStops.${i}`}>{stop}</span>)}
-    </div>
+    <nav class="rail__stops" aria-label="Sektionen">
+      {
+        t.railStops.map((stop, i) => (
+          <a href={targets[i]} data-rail-stop data-i18n={`railStops.${i}`}>
+            {stop}
+          </a>
+        ))
+      }
+    </nav>
     <div class="rail__track" aria-hidden="true">
       <div class="rail__fill" data-rail-fill></div>
     </div>
@@ -49,13 +63,17 @@ const t = dictionaries[DEFAULT_LANG];
     text-transform: uppercase;
   }
 
-  .rail__stops span {
+  .rail__stops a {
     color: var(--muted-dark-3);
     white-space: nowrap;
     transition: color 0.3s ease;
   }
 
-  .rail__stops span.is-reached {
+  .rail__stops a:hover {
+    color: var(--paper);
+  }
+
+  .rail__stops a.is-reached {
     color: var(--ocker-rail);
   }
 
@@ -73,5 +91,50 @@ const t = dictionaries[DEFAULT_LANG];
     width: 0%;
     background: var(--ocker);
     transition: width 0.12s linear;
+  }
+
+  /* One scrollable line instead of three stacked rows: the band stays 40px of
+     sticky chrome rather than 89px, and `space-between` stops tearing the
+     stations into a ragged two-column block. */
+  @media (max-width: 640px) {
+    .rail__stops {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 0 22px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      /* Full-bleed scroll area so stations do not clip at the gutter. */
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+    }
+
+    .rail__stops::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* The scrollbar is hidden, so the last station fades out at the edge to
+       show there is more band to the right. */
+    .rail__inner {
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+      mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    }
+
+  }
+
+  /* 44px of touch target wherever the pointer is a finger — a tablet keeps the
+     wrapped multi-row band but needs the same size. Paid for out of the band's
+     own padding, so the sticky chrome does not grow. */
+  @media (pointer: coarse) {
+    .rail__stops {
+      padding-block: 6px;
+      min-height: 0;
+    }
+
+    .rail__stops a {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 </style>

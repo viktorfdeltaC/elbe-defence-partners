@@ -59,4 +59,11 @@
       rgba(12, 14, 15, 0.5) 100%
     );
   }
+
+  @media (max-width: 640px) {
+    /* 21:8 collapses to a 149px sliver on a phone. */
+    .videoband {
+      aspect-ratio: 16 / 9;
+    }
+  }
 </style>
