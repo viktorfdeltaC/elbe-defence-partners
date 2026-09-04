@@ -83,29 +83,41 @@ const fields = [
     <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
       {
         t.people.map((p, i) => (
-          <div>
-            <CroppedImage
-              src={portraits[p.photo].src}
-              view={portraits[p.photo].view}
-              alt={p.name}
-              aspect={4 / 5}
-              widths={[200, 400]}
-              sizes="200px"
-              maxWidth={200}
-            />
-            <h3 class="people__name">{p.name}</h3>
+          <div class:list={['people__person', !p.photo && 'people__person--pending']}>
+            {p.photo ? (
+              <CroppedImage
+                src={portraits[p.photo].src}
+                view={portraits[p.photo].view}
+                alt={p.name}
+                aspect={4 / 5}
+                widths={[200, 400]}
+                sizes="200px"
+                maxWidth={200}
+              />
+            ) : (
+              /* An empty frame, not a stand-in face. Same 4:5 box, so the row
+                 keeps its rhythm while the seat is visibly still open. */
+              <div class="people__frame">
+                <span data-i18n="photoPending">{t.photoPending}</span>
+              </div>
+            )}
+            <h3 class="people__name" data-i18n={`people.${i}.name`}>
+              {p.name}
+            </h3>
             <div class="people__role" data-i18n={`people.${i}.role`}>
               {p.role}
             </div>
             <p class="people__bio" data-i18n={`people.${i}.bio`}>
               {p.bio}
             </p>
-            <div class="people__reach">
-              <div>{p.phone}</div>
-              <div>
-                <a href={`mailto:${p.mail}`}>{p.mail}</a>
+            {p.phone && p.mail && (
+              <div class="people__reach">
+                <div>{p.phone}</div>
+                <div>
+                  <a href={`mailto:${p.mail}`}>{p.mail}</a>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ))
       }
@@ -273,6 +285,28 @@ const fields = [
     .people--four {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+  }
+
+  /* The open seats: same frame, no face, and the whole card set back so it
+     reads as pending rather than as a person described in very few words. */
+  .people__frame {
+    aspect-ratio: 4 / 5;
+    max-width: 200px;
+    display: grid;
+    place-items: center;
+    background: var(--dark-well);
+    border: 1px solid var(--rule-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-dark-2);
+  }
+
+  .people__person--pending .people__name,
+  .people__person--pending .people__role,
+  .people__person--pending .people__bio {
+    color: var(--muted-dark-2);
   }
 
   .people__name {

@@ -40,11 +40,18 @@ export interface ServiceBlock {
 }
 
 export interface Person {
-  /** Key into the portrait image map in src/components/Contact.astro. */
-  photo: 'viktorFink' | 'dennisArians';
+  /**
+   * Key into the portrait image map in src/components/Contact.astro, or null
+   * for a person whose details are still open. A null photo renders an empty
+   * frame rather than someone else's face: the page is public, and a portrait
+   * standing in for a person who is not that person is a claim, not a
+   * placeholder.
+   */
+  photo: 'viktorFink' | 'dennisArians' | null;
   name: string;
   role: string;
   bio: string;
+  /** Empty on a placeholder — the contact block is left out entirely. */
   phone: string;
   mail: string;
 }
@@ -110,6 +117,8 @@ export interface Copy {
   axes: Axis[];
   blocks: ServiceBlock[];
   capItems: Constraint[];
+  /** Label inside the empty frame of a person who has no portrait yet. */
+  photoPending: string;
   people: Person[];
 }
 
@@ -280,6 +289,8 @@ export const de: Copy = {
     { n: '04', t: 'Strukturierung über Eigen-, Fremd- und Fördermittel' },
   ],
 
+  photoPending: 'Porträt folgt',
+
   people: [
     {
       photo: 'viktorFink',
@@ -296,6 +307,24 @@ export const de: Copy = {
       bio: 'Militärischer Hintergrund, Defence und IT.',
       phone: '+49 351 000 002',
       mail: 'name@example.com',
+    },
+    // TODO(inhalt): name, role, bio, phone, mail and a 4:5 portrait, then set
+    // `photo` to the new key in the portrait map in Contact.astro.
+    {
+      photo: null,
+      name: 'Name folgt',
+      role: 'Mandatsverantwortung',
+      bio: 'Schwerpunkt folgt.',
+      phone: '',
+      mail: '',
+    },
+    {
+      photo: null,
+      name: 'Name folgt',
+      role: 'Mandatsverantwortung',
+      bio: 'Schwerpunkt folgt.',
+      phone: '',
+      mail: '',
     },
   ],
 };
@@ -463,6 +492,8 @@ export const en: Copy = {
     { n: '04', t: 'Structuring across equity, debt and public funding' },
   ],
 
+  photoPending: 'Portrait to follow',
+
   people: [
     {
       photo: 'viktorFink',
@@ -479,6 +510,22 @@ export const en: Copy = {
       bio: 'Military background, defence and IT.',
       phone: '+49 351 000 002',
       mail: 'name@example.com',
+    },
+    {
+      photo: null,
+      name: 'Name to follow',
+      role: 'Mandate responsibility',
+      bio: 'Focus to follow.',
+      phone: '',
+      mail: '',
+    },
+    {
+      photo: null,
+      name: 'Name to follow',
+      role: 'Mandate responsibility',
+      bio: 'Focus to follow.',
+      phone: '',
+      mail: '',
     },
   ],
 };
