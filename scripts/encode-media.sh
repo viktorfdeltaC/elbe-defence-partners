@@ -31,6 +31,11 @@ command -v ffmpeg >/dev/null || { echo "ffmpeg not found" >&2; exit 1; }
 
 mkdir -p "$OUT"
 
+# The mp4 is the source the page offers first, and the one nearly every reader
+# gets: H.264 is the only video codec every browser has supported for over a
+# decade. The WebM is half the size and stays as a fallback, but it is not what
+# the page leads with — see the comment in src/components/VideoBand.astro.
+#
 # -profile:v 0 with an explicit 8-bit pixel format is not optional. The source
 # clips are 10-bit, and libvpx-vp9 keeps that depth unless told otherwise —
 # which produces VP9 Profile 2, a format most browsers cannot decode. Worse,

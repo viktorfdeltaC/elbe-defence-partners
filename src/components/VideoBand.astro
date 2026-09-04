@@ -26,12 +26,22 @@
     preload="metadata"
     tabindex="-1"
     disablepictureinpicture>
-    {/* The codecs parameter is what makes the fallback work. With a bare
-        "video/webm" a browser accepts the source, then fails to decode it, and
-        never reaches the mp4 — which is exactly how a 10-bit VP9 encode left
-        the band dead in every browser. Named codecs let it skip instead. */}
-    <source src="/media/band.webm" type='video/webm; codecs="vp9"' />
+    {/* H.264 first, deliberately. It is the one video codec every browser has
+        supported for over a decade, and a browser plays the first source it
+        claims to handle — so this is the one nearly every reader gets.
+
+        The WebM used to be first, because it is half the size. But a browser
+        that claims a format and then cannot decode it does not fall through:
+        source selection is over by then. Safari showed the still on every
+        visit while Chromium played the same file without complaint, and that
+        is the shape of a decode that fails after the source was chosen. A
+        megabyte is not worth a band that is dead for a whole engine.
+
+        The WebM stays as a fallback for anything without H.264. The codecs
+        parameter is what lets a browser skip a source it cannot decode instead
+        of committing to it — without it the fallback would not work at all. */}
     <source src="/media/band.mp4" type='video/mp4; codecs="avc1.640028"' />
+    <source src="/media/band.webm" type='video/webm; codecs="vp9"' />
   </video>
   <img class="videoband__still" data-bandstill src="/media/band-last.webp" alt="" hidden />
   <span class="videoband__scrim"></span>
