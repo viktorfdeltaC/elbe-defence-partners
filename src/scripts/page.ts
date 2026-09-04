@@ -340,7 +340,28 @@ for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo
   window.addEventListener('scroll', warm, { passive: true, capture: true });
   warm();
 
-  watch([video], () => {
+  // Start only once the band actually occupies the screen. The generic reveal
+  // sweep, which this used to hang off, fires as soon as an element's top edge
+  // clears the fold — and this band is half a screen tall. It began playing
+  // while it was still a strip at the bottom of the window with a whole section
+  // left to read above it; ten seconds later the reader arrives and finds it
+  // holding its last frame. Behaving exactly as designed, and indistinguishable
+  // from a clip that never ran.
+  const READY = 0.6;
+
+  const inView = () => {
+    const r = video.getBoundingClientRect();
+    const h = window.innerHeight || 800;
+    const visible = Math.min(r.bottom, h) - Math.max(r.top, 0);
+    // Measured against the band's height, or the window's where it is taller.
+    return visible / Math.max(1, Math.min(r.height, h)) >= READY;
+  };
+
+  const maybeStart = () => {
+    if (started || video.ended || !inView()) return;
+    window.removeEventListener('scroll', maybeStart, true);
+    window.removeEventListener('resize', maybeStart);
+
     // Raising preload is enough to start the fetch; play() does the rest.
     // Calling load() here as well aborts the play request that follows it
     // ("interrupted by a new load request") — which is how the band ended up
@@ -352,5 +373,9 @@ for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo
     // exactly that when a visitor has set Auto-Play to "Never" for the site.
     // Keep offering, on any real interaction, until it takes.
     for (const ev of GESTURES) document.addEventListener(ev, attempt, { passive: true });
-  });
+  };
+
+  window.addEventListener('scroll', maybeStart, { passive: true, capture: true });
+  window.addEventListener('resize', maybeStart);
+  maybeStart();
 }
