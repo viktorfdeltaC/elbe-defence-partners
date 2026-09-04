@@ -1,0 +1,267 @@
+---
+/**
+ * TEMPORÄR — Diagnose für das Atmosphärenband.
+ *
+ * Das Band zeigt in Safari nur das Standbild. Von hier aus lässt sich nicht
+ * feststellen, warum: Safari läuft nicht auf Linux, und die drei möglichen
+ * Ursachen sehen auf der Seite identisch aus.
+ *
+ *   1. Safari kann die WebM nicht dekodieren, meldet sie aber als abspielbar
+ *      und fällt deshalb nicht auf die MP4 zurück.
+ *   2. Safari verweigert das automatische Abspielen (Einstellung „Auto-Play"
+ *      pro Website).
+ *   3. Die Datei kommt gar nicht an.
+ *
+ * Diese Seite trennt die drei. Sie hängt an keiner Navigation und ist nach der
+ * Klärung wieder zu löschen — samt der Zeile in robots.txt braucht sie nichts.
+ */
+const tests = [
+  {
+    id: 'beide',
+    title: 'A — beide Quellen, so wie auf der Seite',
+    note: 'WebM zuerst, MP4 als Rückfall. Startet von selbst, stumm.',
+    sources: [
+      { src: '/media/band.webm', type: 'video/webm; codecs="vp9"' },
+      { src: '/media/band.mp4', type: 'video/mp4; codecs="avc1.640028"' },
+    ],
+  },
+  {
+    id: 'webm',
+    title: 'B — nur WebM',
+    note: 'Läuft dies nicht, kann Safari die WebM nicht abspielen.',
+    sources: [{ src: '/media/band.webm', type: 'video/webm; codecs="vp9"' }],
+  },
+  {
+    id: 'mp4',
+    title: 'C — nur MP4',
+    note: 'Läuft dies, ist die MP4 als alleinige Quelle die Lösung.',
+    sources: [{ src: '/media/band.mp4', type: 'video/mp4; codecs="avc1.640028"' }],
+  },
+];
+---
+
+<!-- Diagnoseseite: nicht indexieren, nicht verlinken. -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Videoprüfung</title>
+
+<main>
+  <h1>Videoprüfung</h1>
+  <p class="lead">
+    Diese Seite prüft, warum das Band nicht abspielt. Einfach nach unten scrollen
+    und danach einen Screenshot der ganzen Seite schicken.
+  </p>
+
+  <section>
+    <h2>Was der Browser über die Formate sagt</h2>
+    <table id="support"><tbody></tbody></table>
+    <p class="hint">
+      Leer heißt: kann er nicht. „maybe“ heißt: er weiß es erst beim Abspielen.
+    </p>
+  </section>
+
+  {
+    tests.map((t) => (
+      <section>
+        <h2>{t.title}</h2>
+        <p class="hint">{t.note}</p>
+        <video id={t.id} muted playsinline preload="auto" width="640">
+          {t.sources.map((s) => (
+            <source src={s.src} type={s.type} />
+          ))}
+        </video>
+        <div class="status" data-status={t.id}>—</div>
+        <button type="button" data-play={t.id}>Von Hand starten</button>
+        <pre data-log={t.id}></pre>
+      </section>
+    ))
+  }
+</main>
+
+<script>
+  const CHECKS: [string, string][] = [
+    ['WebM / VP9', 'video/webm; codecs="vp9"'],
+    ['WebM (ohne Codec-Angabe)', 'video/webm'],
+    ['MP4 / H.264 High 4.0', 'video/mp4; codecs="avc1.640028"'],
+    ['MP4 (ohne Codec-Angabe)', 'video/mp4'],
+  ];
+
+  const probe = document.createElement('video');
+  const body = document.querySelector('#support tbody')!;
+  for (const [label, type] of CHECKS) {
+    const answer = probe.canPlayType(type);
+    body.insertAdjacentHTML(
+      'beforeend',
+      `<tr><td>${label}</td><td class="${answer ? 'ok' : 'no'}">${answer || 'nein'}</td></tr>`
+    );
+  }
+
+  const EVENTS = [
+    'loadstart',
+    'loadedmetadata',
+    'loadeddata',
+    'canplay',
+    'play',
+    'playing',
+    'waiting',
+    'stalled',
+    'suspend',
+    'ended',
+    'error',
+  ];
+
+  const CODES: Record<number, string> = {
+    1: 'ABGEBROCHEN',
+    2: 'NETZWERKFEHLER',
+    3: 'DEKODIERFEHLER — Datei kommt an, kann aber nicht abgespielt werden',
+    4: 'QUELLE NICHT UNTERSTÜTZT — Format wird abgelehnt',
+  };
+
+  for (const video of document.querySelectorAll<HTMLVideoElement>('video[id]')) {
+    const id = video.id;
+    const log = document.querySelector<HTMLElement>(`[data-log="${id}"]`)!;
+    const status = document.querySelector<HTMLElement>(`[data-status="${id}"]`)!;
+    const line = (text: string) => {
+      log.textContent += `${(performance.now() / 1000).toFixed(2)}s  ${text}\n`;
+    };
+
+    const say = (text: string, kind: string) => {
+      status.textContent = text;
+      status.className = `status ${kind}`;
+    };
+
+    for (const ev of EVENTS) {
+      video.addEventListener(ev, () => line(`${ev}  (t=${video.currentTime.toFixed(2)})`));
+    }
+
+    video.addEventListener('playing', () => say('LÄUFT', 'ok'));
+    video.addEventListener('ended', () => say('DURCHGELAUFEN', 'ok'));
+    video.addEventListener('error', () => {
+      const code = video.error?.code ?? 0;
+      say(`FEHLER ${code}: ${CODES[code] ?? 'unbekannt'}`, 'no');
+      line(`error code=${code} ${video.error?.message ?? ''}`);
+    });
+
+    // Welche Quelle der Browser genommen hat, steht erst nach der Auswahl fest.
+    video.addEventListener('loadedmetadata', () => {
+      line(`gewählte Quelle: ${video.currentSrc.split('/').pop()}`);
+    });
+
+    video.play().then(
+      () => line('play() angenommen'),
+      (err) => {
+        line(`play() abgelehnt: ${err.name} — ${err.message}`);
+        say(`AUTOMATIK ABGELEHNT (${err.name})`, 'no');
+      }
+    );
+
+    document.querySelector<HTMLButtonElement>(`[data-play="${id}"]`)!.addEventListener(
+      'click',
+      () => {
+        line('Klick — zweiter Versuch');
+        video.play().then(
+          () => line('play() angenommen'),
+          (err) => line(`play() abgelehnt: ${err.name} — ${err.message}`)
+        );
+      }
+    );
+  }
+</script>
+
+<style is:global>
+  body {
+    margin: 0;
+    background: #111213;
+    color: #e8eaeb;
+    font: 15px/1.6 -apple-system, system-ui, sans-serif;
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 0 0 8px;
+  }
+
+  h2 {
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
+
+  .lead {
+    color: #9aa1a5;
+    margin: 0 0 8px;
+  }
+
+  section {
+    border-top: 1px solid #2b2e30;
+    margin-top: 32px;
+    padding-top: 20px;
+  }
+
+  .hint {
+    color: #9aa1a5;
+    font-size: 13px;
+    margin: 0 0 14px;
+  }
+
+  video {
+    width: 100%;
+    max-width: 640px;
+    background: #000;
+    display: block;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+
+  td {
+    border-bottom: 1px solid #2b2e30;
+    padding: 6px 20px 6px 0;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+  }
+
+  .status {
+    font-family: ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 12px 0;
+  }
+
+  .ok {
+    color: #6fcf7f;
+  }
+
+  .no {
+    color: #e2694f;
+  }
+
+  button {
+    background: #e8eaeb;
+    color: #111213;
+    border: 0;
+    padding: 10px 18px;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  pre {
+    background: #0b0c0d;
+    border: 1px solid #2b2e30;
+    padding: 12px;
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: #b6bcbf;
+    min-height: 2em;
+  }
+</style>
