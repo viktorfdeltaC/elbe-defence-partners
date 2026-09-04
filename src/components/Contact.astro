@@ -80,7 +80,7 @@ const fields = [
       </form>
     </div>
 
-    <div class="people" data-reveal>
+    <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
       {
         t.people.map((p, i) => (
           <div>
@@ -245,11 +245,34 @@ const fields = [
 
   /* ── People ──────────────────────────────────────────────────────────── */
 
+  /* Column counts are stated rather than left to auto-fit. With four people
+     auto-fit lands on three across for a wide band of widths, which orphans the
+     fourth on a row of its own next to a column of empty black. Going 1 → 2 → 4
+     keeps the rows full at every size.
+
+     The breakpoints are the widths at which the tracks actually fit: the
+     section is 5% gutter on each side, so the inner measure is 0.9vw, and four
+     200px portraits with three 48px gaps need 944px of it. */
   .people {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 40px 48px;
     max-width: 980px;
+  }
+
+  @media (min-width: 560px) {
+    .people {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Four across only when there are four to show. With two people the wider
+     two-up measure is the approved layout, and squeezing them into the outer
+     half of a four-track grid would leave the row looking half-finished. */
+  @media (min-width: 1060px) {
+    .people--four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 
   .people__name {
