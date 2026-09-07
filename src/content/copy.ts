@@ -142,7 +142,7 @@ export const de: Copy = {
   // auf dem Telefon, und mancher Dienst zeigt es als sichtbaren Bindestrich.
   ogTitle: 'Wo aus Technologie Verteidigungsfähigkeit wird.',
   ogDescription:
-    'Für Hersteller, die vom Prototyp in die Serie gehen. Flächen, Genehmigungsverfahren und Betrieb in Dresden. Erste Einschätzung in 30 Minuten.',
+    'Der Prototyp funktioniert. Die Serie ist eine Standortfrage, bevor sie eine Produktionsfrage ist.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
@@ -351,7 +351,7 @@ export const en: Copy = {
 
   ogTitle: 'Where technology becomes defence capability.',
   ogDescription:
-    'For manufacturers moving from prototype to series production. Sites, permitting and operations in Dresden. A first assessment in 30 minutes.',
+    'The prototype works. Series production is a question of location before it is a question of manufacturing.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
