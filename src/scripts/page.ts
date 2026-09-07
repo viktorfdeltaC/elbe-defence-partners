@@ -5,7 +5,9 @@
  *   2. Count-up  — the four figures under the hero run up once.
  *   3. Rail      — scroll progress along the station band.
  *   4. Language  — the DE/EN switch rewrites the page from the dictionaries.
- *   5. Band      — the atmosphere clip: plays once, holds its last frame.
+ *
+ * The atmosphere band needs nothing here: it is an autoplaying muted video that
+ * stops on its last frame by itself. See src/components/VideoBand.astro.
  *
  * Nothing here is load-bearing: with JavaScript off, the page renders complete
  * in German with everything already in its final visual state. Reveals only arm
@@ -245,137 +247,4 @@ try {
   if ((stored === 'en' || stored === 'de') && stored !== lang) applyLang(stored);
 } catch {
   /* storage unavailable — stay with the rendered language */
-}
-
-/* ── 5. Atmosphere band ──────────────────────────────────────────────────────
- *
- * Plays once, when the reader reaches it, then holds its last frame. The hold
- * is a real <img>, not a paused <video>: a paused video invites the browser to
- * draw a play control over it, and the same image is the fallback for every
- * path where the clip does not run — autoplay refused by the browser or by a
- * per-site setting, a codec nothing can decode, or reduced motion.
- */
-
-for (const video of document.querySelectorAll<HTMLVideoElement>('[data-bandvideo]')) {
-  const still = video.parentElement?.querySelector<HTMLImageElement>('[data-bandstill]');
-
-  const hush = () => {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.volume = 0;
-  };
-  hush();
-  // Belt and braces: anything that could unmute it puts it straight back.
-  for (const ev of ['play', 'playing', 'loadeddata', 'timeupdate', 'volumechange']) {
-    video.addEventListener(ev, hush);
-  }
-
-  const showStill = () => {
-    if (!still || !still.hidden) return;
-    still.hidden = false;
-    video.hidden = true;
-  };
-
-  const showVideo = () => {
-    if (!still || still.hidden) return;
-    still.hidden = true;
-    video.hidden = false;
-  };
-
-  if (calm) {
-    showStill();
-    continue;
-  }
-
-  video.loop = false;
-
-  const GESTURES = ['pointerdown', 'keydown', 'touchstart'] as const;
-  let started = false;
-
-  const attempt = () => {
-    if (started || video.ended) return;
-    // Safari will not play an element that is not on screen, so the clip has to
-    // be visible before the attempt — and goes back under the still only if the
-    // attempt is actually refused.
-    const hadStill = !!still && !still.hidden;
-    showVideo();
-    void video.play().catch(() => {
-      // A refusal is the only thing that puts the still up before the end.
-      // Nothing here may act on a guess about how long loading "should" take:
-      // an earlier version gave up after 2.5s and covered a clip that was
-      // merely still buffering.
-      if (hadStill) showStill();
-    });
-  };
-
-  const stopOffering = () => {
-    for (const ev of GESTURES) document.removeEventListener(ev, attempt);
-  };
-
-  const running = () => {
-    if (started) return;
-    started = true;
-    stopOffering();
-    showVideo();
-  };
-
-  video.addEventListener('playing', running);
-  // `playing` does not fire in every browser for a muted, inline clip that
-  // starts from a cold buffer; the clock moving is the reliable proof.
-  video.addEventListener('timeupdate', () => {
-    if (video.currentTime > 0) running();
-  });
-
-  video.addEventListener('ended', showStill);
-  // A clip the browser cannot decode must not leave a black rectangle either.
-  video.addEventListener('error', showStill);
-
-  // Start buffering while the band is still two screens away, so it is ready to
-  // run the moment it is reached rather than beginning to download then.
-  const warm = () => {
-    if (video.getBoundingClientRect().top > window.innerHeight * 2.5) return;
-    video.preload = 'auto';
-    window.removeEventListener('scroll', warm, true);
-  };
-  window.addEventListener('scroll', warm, { passive: true, capture: true });
-  warm();
-
-  // Start only once the band actually occupies the screen. The generic reveal
-  // sweep, which this used to hang off, fires as soon as an element's top edge
-  // clears the fold — and this band is half a screen tall. It began playing
-  // while it was still a strip at the bottom of the window with a whole section
-  // left to read above it; ten seconds later the reader arrives and finds it
-  // holding its last frame. Behaving exactly as designed, and indistinguishable
-  // from a clip that never ran.
-  const READY = 0.6;
-
-  const inView = () => {
-    const r = video.getBoundingClientRect();
-    const h = window.innerHeight || 800;
-    const visible = Math.min(r.bottom, h) - Math.max(r.top, 0);
-    // Measured against the band's height, or the window's where it is taller.
-    return visible / Math.max(1, Math.min(r.height, h)) >= READY;
-  };
-
-  const maybeStart = () => {
-    if (started || video.ended || !inView()) return;
-    window.removeEventListener('scroll', maybeStart, true);
-    window.removeEventListener('resize', maybeStart);
-
-    // Raising preload is enough to start the fetch; play() does the rest.
-    // Calling load() here as well aborts the play request that follows it
-    // ("interrupted by a new load request") — which is how the band ended up
-    // never playing at all once before.
-    video.preload = 'auto';
-    attempt();
-
-    // Some browsers refuse the first attempt and allow a later one: Safari does
-    // exactly that when a visitor has set Auto-Play to "Never" for the site.
-    // Keep offering, on any real interaction, until it takes.
-    for (const ev of GESTURES) document.addEventListener(ev, attempt, { passive: true });
-  };
-
-  window.addEventListener('scroll', maybeStart, { passive: true, capture: true });
-  window.addEventListener('resize', maybeStart);
-  maybeStart();
 }

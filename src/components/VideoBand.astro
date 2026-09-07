@@ -2,48 +2,33 @@
 /**
  * The atmosphere band between the services and the contact section.
  *
- * It plays once, when the reader reaches it, and then holds its last frame —
- * not a loop. The clip brightens from almost black to a fully drawn site plan,
- * so the final frame is the strongest thing in it and stands on its own.
+ * A plain autoplaying video: muted, inline, no loop, no controls, no script.
+ * Muted + playsinline + autoplay is the combination browsers are built to
+ * allow, and a video without `loop` stops on its last frame by itself — which
+ * is exactly what the band is meant to do.
  *
- * The still is a real image rather than a paused <video>, for two reasons: a
- * paused video invites the browser to draw a play button over it, and the same
- * image is what the band falls back to whenever the clip does not run at all —
- * autoplay refused, or prefers-reduced-motion. The reader never meets an empty
- * black rectangle with a play control in the middle of it.
+ * Everything that used to sit around this — a script that decided when to call
+ * play(), a still image swapped in on failure, a WebM offered first to save a
+ * megabyte — is gone. Each of those was an attempt to be clever about a case
+ * the browser already handles, and each of them is what broke it.
  *
- * Silent, decorative, hidden from assistive technology. The sound is forced off
- * in markup and again in script.
+ * H.264 only. It is the one video codec every browser has supported for over a
+ * decade. The poster is the clip's first frame, so if a browser does refuse to
+ * play, the band still shows the right picture instead of a black rectangle.
  */
 ---
 
-<div class="videoband" aria-hidden="true" data-imgreveal>
+<div class="videoband" aria-hidden="true">
   <video
-    data-bandvideo
+    src="/media/band.mp4"
     poster="/media/band-poster.webp"
+    autoplay
     muted
     playsinline
-    preload="metadata"
+    preload="auto"
     tabindex="-1"
     disablepictureinpicture>
-    {/* H.264 first, deliberately. It is the one video codec every browser has
-        supported for over a decade, and a browser plays the first source it
-        claims to handle — so this is the one nearly every reader gets.
-
-        The WebM used to be first, because it is half the size. But a browser
-        that claims a format and then cannot decode it does not fall through:
-        source selection is over by then. Safari showed the still on every
-        visit while Chromium played the same file without complaint, and that
-        is the shape of a decode that fails after the source was chosen. A
-        megabyte is not worth a band that is dead for a whole engine.
-
-        The WebM stays as a fallback for anything without H.264. The codecs
-        parameter is what lets a browser skip a source it cannot decode instead
-        of committing to it — without it the fallback would not work at all. */}
-    <source src="/media/band.mp4" type='video/mp4; codecs="avc1.640028"' />
-    <source src="/media/band.webm" type='video/webm; codecs="vp9"' />
   </video>
-  <img class="videoband__still" data-bandstill src="/media/band-last.webp" alt="" hidden />
   <span class="videoband__scrim"></span>
 </div>
 
@@ -56,8 +41,7 @@
     overflow: hidden;
   }
 
-  .videoband video,
-  .videoband__still {
+  .videoband video {
     position: absolute;
     inset: 0;
     width: 100%;
