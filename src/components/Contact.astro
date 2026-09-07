@@ -11,6 +11,8 @@ import SectionRules from './SectionRules.astro';
 import CroppedImage from './CroppedImage.astro';
 import viktorFink from '../assets/portrait-viktor-fink.webp';
 import dennisArians from '../assets/portrait-dennis-arians.webp';
+import erik from '../assets/portrait-erik.webp';
+import holger from '../assets/portrait-holger.webp';
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
@@ -27,6 +29,21 @@ const portraits = {
   },
   dennisArians: {
     src: dennisArians,
+    view: { s: 1, x: 0, y: 0 },
+  },
+  // These two were delivered as ordinary photographs and cropped to 4:5 on the
+  // way in, so there is nothing left for the view to do. Erik's was framed to
+  // match the two above: head a little over half the height, a hand's width of
+  // air above it.
+  erik: {
+    src: erik,
+    view: { s: 1, x: 0, y: 0 },
+  },
+  // TODO(bild): 205×256 is all the supplied file had. The slot wants 400×500 to
+  // stay sharp on a retina screen, and the crop is tighter than the other three
+  // because there was no room to pull back. Replace when the original turns up.
+  holger: {
+    src: holger,
     view: { s: 1, x: 0, y: 0 },
   },
 } as const;
@@ -83,7 +100,10 @@ const fields = [
     <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
       {
         t.people.map((p, i) => (
-          <div class:list={['people__person', !p.photo && 'people__person--pending']}>
+          {/* Pending is keyed on the contact details, not the portrait: a card
+              can already carry a face while the name and the line under it are
+              still open, and it should read as unfinished until they are. */}
+          <div class:list={['people__person', !p.phone && 'people__person--pending']}>
             {p.photo ? (
               <CroppedImage
                 src={portraits[p.photo].src}

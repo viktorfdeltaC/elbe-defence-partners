@@ -47,7 +47,7 @@ export interface Person {
    * standing in for a person who is not that person is a claim, not a
    * placeholder.
    */
-  photo: 'viktorFink' | 'dennisArians' | null;
+  photo: 'viktorFink' | 'dennisArians' | 'erik' | 'holger' | null;
   name: string;
   role: string;
   bio: string;
@@ -308,10 +308,10 @@ export const de: Copy = {
       phone: '+49 351 000 002',
       mail: 'name@example.com',
     },
-    // TODO(inhalt): name, role, bio, phone, mail and a 4:5 portrait, then set
-    // `photo` to the new key in the portrait map in Contact.astro.
+    // TODO(inhalt): the portraits are in; name, role, one line of focus, phone
+    // and mail are still open for these two.
     {
-      photo: null,
+      photo: 'erik',
       name: 'Name folgt',
       role: 'Mandatsverantwortung',
       bio: 'Schwerpunkt folgt.',
@@ -319,7 +319,7 @@ export const de: Copy = {
       mail: '',
     },
     {
-      photo: null,
+      photo: 'holger',
       name: 'Name folgt',
       role: 'Mandatsverantwortung',
       bio: 'Schwerpunkt folgt.',
@@ -512,7 +512,7 @@ export const en: Copy = {
       mail: 'name@example.com',
     },
     {
-      photo: null,
+      photo: 'erik',
       name: 'Name to follow',
       role: 'Mandate responsibility',
       bio: 'Focus to follow.',
@@ -520,7 +520,7 @@ export const en: Copy = {
       mail: '',
     },
     {
-      photo: null,
+      photo: 'holger',
       name: 'Name to follow',
       role: 'Mandate responsibility',
       bio: 'Focus to follow.',
