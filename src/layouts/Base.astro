@@ -1,9 +1,23 @@
 ---
 import '../styles/fonts.css';
 import '../styles/global.css';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { BRAND, DEFAULT_LANG, dictionaries } from '../content/copy';
 
 const t = dictionaries[DEFAULT_LANG];
+
+/**
+ * Link preview. The page is passed around as a link far more than it is found,
+ * and without this it arrives in WhatsApp, LinkedIn or Slack as a bare URL.
+ *
+ * German throughout, and deliberately not wired to the language toggle: a
+ * scraper reads the delivered HTML and runs no JavaScript, so what stands here
+ * is what everyone sees, whatever the visitor switches to afterwards.
+ *
+ * The absolute URLs come from `site` in astro.config.mjs — a scraper has no
+ * page to resolve a relative path against.
+ */
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const preview = new URL('/og.png', Astro.site);
 
 /**
  * Search engines are kept out while the page is a shareable draft: the contact
@@ -25,7 +39,26 @@ const INDEXABLE = false;
     <title data-i18n="htmlTitle">{t.htmlTitle}</title>
     <meta name="description" content={t.htmlDescription} data-i18n-attr="content:htmlDescription" />
     <meta name="robots" content={INDEXABLE ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonical.href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {/* Link preview. The card is the wordmark on the dark ground — a shrunken
+        screenshot of the page would be unreadable at this size, and the
+        scrapers render the title and description as text beside it anyway.
+        Regenerate the image with `npm run og`. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={BRAND} />
+    <meta property="og:title" content={t.htmlTitle} />
+    <meta property="og:description" content={t.htmlDescription} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:image" content={preview.href} />
+    {/* Stated, so a scraper can lay out the card before the image arrives. */}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={BRAND} />
+    <meta name="twitter:card" content="summary_large_image" />
     {/* The two display faces carry the hero; preloading them keeps the
         headline from reflowing after first paint. */}
     <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />

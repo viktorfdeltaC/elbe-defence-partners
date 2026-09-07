@@ -3,3 +3,4 @@ dist/
 .astro/
 .DS_Store
 scripts/.wordmark-layout.json
+scripts/.og.svg

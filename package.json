@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "wordmark": "node scripts/measure-wordmark.mjs && python3 scripts/build-wordmark.py"
+    "wordmark": "node scripts/measure-wordmark.mjs && python3 scripts/build-wordmark.py",
+    "og": "node scripts/build-og.mjs"
   },
   "dependencies": {
     "astro": "^5.18.2"
