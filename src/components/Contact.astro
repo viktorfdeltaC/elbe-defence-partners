@@ -322,6 +322,20 @@ const fields = [
     color: var(--muted-dark-2);
   }
 
+  /* The four focus lines run to different lengths, which left the four contact
+     blocks sitting at four different heights — noise on a page that otherwise
+     keeps everything on a rule. The cards stretch to the tallest in their row,
+     so pushing the contact block to the bottom puts the numbers back on one
+     line across the row. */
+  .people__person {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .people__reach {
+    margin-top: auto;
+  }
+
   .people__name {
     font-family: var(--font-display);
     font-weight: 600;
