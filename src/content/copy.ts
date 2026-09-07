@@ -138,7 +138,9 @@ export const de: Copy = {
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
 
-  ogTitle: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
+  // Ohne das weiche Trennzeichen aus heroTitle: das hilft nur beim Umbruch
+  // auf dem Telefon, und mancher Dienst zeigt es als sichtbaren Bindestrich.
+  ogTitle: 'Wo aus Technologie Verteidigungsfähigkeit wird.',
   ogDescription:
     'Für Hersteller, die vom Prototyp in die Serie gehen. Flächen, Genehmigungsverfahren und Betrieb in Dresden. Erste Einschätzung in 30 Minuten.',
 
@@ -347,7 +349,7 @@ export const en: Copy = {
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
-  ogTitle: 'The location is the strategy. We are the execution.',
+  ogTitle: 'Where technology becomes defence capability.',
   ogDescription:
     'For manufacturers moving from prototype to series production. Sites, permitting and operations in Dresden. A first assessment in 30 minutes.',
 
