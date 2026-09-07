@@ -47,7 +47,7 @@ export interface Person {
    * standing in for a person who is not that person is a claim, not a
    * placeholder.
    */
-  photo: 'viktorFink' | 'dennisArians' | 'erik' | 'holger' | null;
+  photo: 'viktorFink' | 'dennisArians' | 'erikEckert' | 'holgerWeller' | null;
   name: string;
   role: string;
   bio: string;
@@ -308,19 +308,19 @@ export const de: Copy = {
       phone: '+49 351 000 002',
       mail: 'name@example.com',
     },
-    // TODO(inhalt): the portraits are in; name, role, one line of focus, phone
-    // and mail are still open for these two.
+    // TODO(inhalt): portraits and names are in. Role, the one line of focus,
+    // phone and mail are still open for these two.
     {
-      photo: 'erik',
-      name: 'Name folgt',
+      photo: 'erikEckert',
+      name: 'Erik Eckert',
       role: 'Mandatsverantwortung',
       bio: 'Schwerpunkt folgt.',
       phone: '',
       mail: '',
     },
     {
-      photo: 'holger',
-      name: 'Name folgt',
+      photo: 'holgerWeller',
+      name: 'Holger Weller',
       role: 'Mandatsverantwortung',
       bio: 'Schwerpunkt folgt.',
       phone: '',
@@ -512,16 +512,16 @@ export const en: Copy = {
       mail: 'name@example.com',
     },
     {
-      photo: 'erik',
-      name: 'Name to follow',
+      photo: 'erikEckert',
+      name: 'Erik Eckert',
       role: 'Mandate responsibility',
       bio: 'Focus to follow.',
       phone: '',
       mail: '',
     },
     {
-      photo: 'holger',
-      name: 'Name to follow',
+      photo: 'holgerWeller',
+      name: 'Holger Weller',
       role: 'Mandate responsibility',
       bio: 'Focus to follow.',
       phone: '',
