@@ -60,6 +60,17 @@ export interface Copy {
   htmlTitle: string;
   htmlDescription: string;
 
+  /**
+   * The two lines of the link preview, separate from the ones above on purpose.
+   * htmlTitle leads with the company because a browser tab and a search result
+   * need to say whose page this is. The preview card does not: the wordmark is
+   * already the picture, so repeating the name there costs the one line that
+   * could carry the claim instead. Both are read by scrapers that run no
+   * JavaScript, and both get cut short — roughly 60 and 120 characters.
+   */
+  ogTitle: string;
+  ogDescription: string;
+
   docRef: string;
   ref1: string;
   ref2: string;
@@ -126,6 +137,10 @@ export const de: Copy = {
   htmlTitle: 'Sanktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
+
+  ogTitle: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
+  ogDescription:
+    'Für Hersteller, die vom Prototyp in die Serie gehen. Flächen, Genehmigungsverfahren und Betrieb in Dresden. Erste Einschätzung in 30 Minuten.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
@@ -331,6 +346,10 @@ export const en: Copy = {
   htmlTitle: 'Sanktum Defence Partners — Where technology becomes defence capability',
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
+
+  ogTitle: 'The location is the strategy. We are the execution.',
+  ogDescription:
+    'For manufacturers moving from prototype to series production. Sites, permitting and operations in Dresden. A first assessment in 30 minutes.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
