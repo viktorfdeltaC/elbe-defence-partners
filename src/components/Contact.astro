@@ -99,11 +99,8 @@ const fields = [
 
     <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
       {
-        // Pending is keyed on the contact details, not the portrait: a card can
-        // already carry a face while the name and the line under it are still
-        // open, and it should read as unfinished until they are.
         t.people.map((p, i) => (
-          <div class:list={['people__person', !p.phone && 'people__person--pending']}>
+          <div class="people__person">
             {p.photo ? (
               <CroppedImage
                 src={portraits[p.photo].src}
@@ -307,8 +304,10 @@ const fields = [
     }
   }
 
-  /* The open seats: same frame, no face, and the whole card set back so it
-     reads as pending rather than as a person described in very few words. */
+  /* A seat with no portrait yet: the same frame, empty. Only the picture is
+     held back — the card itself is not dimmed. A row where two people are a
+     shade quieter than the other two reads as a ranking, not as work in
+     progress, which is the wrong thing to say about the people on it. */
   .people__frame {
     aspect-ratio: 4 / 5;
     max-width: 200px;
@@ -320,12 +319,6 @@ const fields = [
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted-dark-2);
-  }
-
-  .people__person--pending .people__name,
-  .people__person--pending .people__role,
-  .people__person--pending .people__bio {
     color: var(--muted-dark-2);
   }
 
