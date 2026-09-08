@@ -141,8 +141,7 @@ export const de: Copy = {
   // Ohne das weiche Trennzeichen aus heroTitle: das hilft nur beim Umbruch
   // auf dem Telefon, und mancher Dienst zeigt es als sichtbaren Bindestrich.
   ogTitle: 'Wo aus Technologie Verteidigungsfähigkeit wird.',
-  ogDescription:
-    'Der Prototyp funktioniert. Die Serie ist eine Standortfrage, bevor sie eine Produktionsfrage ist.',
+  ogDescription: 'Souveränität lässt sich nicht beschließen. Wir schaffen die Bedingungen dafür.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
@@ -350,8 +349,7 @@ export const en: Copy = {
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
   ogTitle: 'Where technology becomes defence capability.',
-  ogDescription:
-    'The prototype works. Series production is a question of location before it is a question of manufacturing.',
+  ogDescription: 'Sovereignty cannot be decided. We build the conditions for it.',
 
   docRef: 'SDP/DD/2026-01',
   ref1: 'A-01',
