@@ -127,9 +127,10 @@ const fields = [
             <p class="people__bio" data-i18n={`people.${i}.bio`}>
               {p.bio}
             </p>
-            {p.phone && p.mail && (
+            {p.mail && (
               <div class="people__reach">
-                <div>{p.phone}</div>
+                {/* Telefonnummern ausgeblendet. Stehen weiter als phone in copy.ts. */}
+                {/* <div>{p.phone}</div> */}
                 <div>
                   <a href={`mailto:${p.mail}`}>{p.mail}</a>
                 </div>
