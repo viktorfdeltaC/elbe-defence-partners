@@ -168,7 +168,7 @@ export const de: Copy = {
   s2Body:
     'Der Prototyp beweist die Technologie. Zur Fähigkeit wird sie erst in der Serie. Dort ist die Technik nicht mehr der Engpass. Damit ist es eine Fähigkeitsfrage, keine Fertigungsfrage.',
   s2Pull:
-    'Nichts davon löst sich mit einer Halle. Es entscheidet sich am Standort und daran, wer ihn erschließt.',
+    'Der Ort entscheidet, ob aus Technologie Fähigkeit wird. Wer ihn erschließt, entscheidet wann.',
 
   s3Title: 'Der richtige Ort. Die richtigen Leute.',
   s3Lead: 'Dresden ist der Standort, an dem Defence-Produktion in Deutschland skaliert.',
@@ -373,7 +373,7 @@ export const en: Copy = {
   s2Body:
     'The prototype proves the technology. It becomes capability only in series. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
   s2Pull:
-    'None of this is solved by a building. It is decided by the location and by who opens it up.',
+    'The location decides whether technology becomes capability. Whoever opens it up decides when.',
 
   s3Title: 'The right place. The right people.',
   s3Lead: 'Dresden is where defence production scales in Germany.',
