@@ -174,7 +174,7 @@ export const de: Copy = {
   s3Lead: 'Dresden ist der Standort, an dem Defence-Produktion in Deutschland skaliert.',
   s3bTitle: 'Wir bringen Unternehmen dorthin und in Betrieb.',
   s3bBody:
-    'Standortzugang, Genehmigungsverfahren, Rüstungsvorschriften, digitale Verwaltung, Netzwerk in Wirtschaft und Politik.',
+    'Die Bauteile, von denen Ihr System abhängt, entstehen im selben Umkreis. Die Fachkräfte, die es in Serie bringen, sind schon hier. Und die Länder, die derzeit am meisten in ihre Verteidigung investieren, liegen in unmittelbarer Nachbarschaft. Dazwischen liegen Genehmigungen, Rüstungsvorschriften und eine Verwaltung, die niemand gern führt. Wir führen sie, und wir führen sie digital. Was daraus entsteht, ist nicht nur ein Standortvorteil, sondern ein strategischer Vorteil.',
   s3bNote:
     'Vor jedem Mandat prüfen wir Flächen, Genehmigungslage und realistische Fristen für Ihr Vorhaben.',
   s3Claim: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
@@ -379,7 +379,7 @@ export const en: Copy = {
   s3Lead: 'Dresden is where defence production scales in Germany.',
   s3bTitle: 'We bring companies there and into operation.',
   s3bBody:
-    'Site access, permitting procedures, defence regulations, digital administration, network across industry and politics.',
+    'The components your system depends on are built within the same radius. The specialists who take it into series production are already here. And the countries currently investing most in their defence are immediate neighbours. In between sit permits, defence regulations and an administration nobody enjoys running. We run it, and we run it digitally. What comes out of that is not just a location advantage, but a strategic one.',
   s3bNote:
     'Before every mandate we review sites, permitting status and realistic timelines for your project.',
   s3Claim: 'The location is the strategy. We are the execution.',
