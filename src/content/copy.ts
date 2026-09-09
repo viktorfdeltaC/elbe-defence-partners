@@ -226,6 +226,7 @@ export const de: Copy = {
     { n: '03', t: 'Personalkosten, die die Marge nicht auffressen' },
     { n: '04', t: 'Logistik, die den Hauptmarkt erreicht' },
     { n: '05', t: 'Nähe zu den Technologien, von denen das Produkt abhängt' },
+    { n: '06', t: 'Ein Partner mit eigener Erfahrung in Verteidigung und Sicherheit' },
   ],
 
   axes: [
@@ -430,6 +431,7 @@ export const en: Copy = {
     { n: '03', t: 'Labour costs that do not eat the margin' },
     { n: '04', t: 'Logistics that reach the main market' },
     { n: '05', t: 'Proximity to the technologies the product depends on' },
+    { n: '06', t: 'A partner with first-hand experience in defence and security' },
   ],
 
   axes: [
