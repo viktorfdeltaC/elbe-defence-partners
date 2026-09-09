@@ -166,7 +166,7 @@ export const de: Copy = {
 
   s2Title: 'Der Prototyp funktioniert. Die Serie ist eine andere Herausforderung.',
   s2Body:
-    'Was in der Serie zählt, entscheidet sich nicht im Entwicklungslabor, sondern an Fristen, Stückzahlen, Kostenstruktur und Zugriff auf Zulieferer. Damit ist es eine Standortfrage, bevor es eine Produktionsfrage ist.',
+    'Der Prototyp beweist die Technologie. Zur Fähigkeit wird sie erst in der Serie. Dort ist die Technik nicht mehr der Engpass. Damit ist es eine Fähigkeitsfrage, keine Fertigungsfrage.',
   s2Pull:
     'Nichts davon löst sich mit einer Halle. Es entscheidet sich am Standort und daran, wer ihn erschließt.',
 
@@ -370,7 +370,7 @@ export const en: Copy = {
 
   s2Title: 'The prototype works. Series production is a different challenge.',
   s2Body:
-    'What matters in series production is not decided in the development lab but by deadlines, volumes, cost structure and supplier access. That makes it a location question before it is a production question.',
+    'The prototype proves the technology. It becomes capability only in series. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
   s2Pull:
     'None of this is solved by a building. It is decided by the location and by who opens it up.',
 
