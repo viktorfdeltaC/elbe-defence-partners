@@ -234,7 +234,7 @@ export const de: Copy = {
       t: 'Chip-Nähe',
       fig: '1 von 3',
       figLabel:
-        'In der EU gefertigten Halbleiter kommt aus Dresden. Bei Leistungshalbleitern für die Automobilindustrie über die Hälfte.',
+        'In der EU gefertigten Halbleitern kommt aus Dresden. Bei Leistungshalbleitern für die Automobilindustrie über die Hälfte.',
       d: 'Über 16 Mrd. Euro Investitionsvolumen sind im Bau oder beschlossen: ESMC/TSMC rund 10 Mrd., Infineon rund 5 Mrd., GlobalFoundries rund 1,1 Mrd., dazu Bosch. Wer Sensorik, Drohnen oder Lenksysteme baut, produziert dort, wo die kritische Komponente herkommt.',
     },
     {
@@ -276,7 +276,7 @@ export const de: Copy = {
     {
       n: 'B-01.2',
       title: 'Betreiben',
-      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut von Leuten mit militärischem und regulatorischem Hintergrund — und der Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
+      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut aus militärischer und regulatorischer Erfahrung — und der Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
       items: [
         'Digitalisierte Verwaltungs- und Genehmigungsprozesse statt Papier und Mailketten',
         'Digitales Projektmanagement mit Reporting für Investoren und Behörden',
@@ -398,7 +398,7 @@ export const en: Copy = {
   fSend: 'Request assessment',
 
   capLabel: 'Capital & site development',
-  capTitle: 'Two worlds, one connector.',
+  capTitle: 'Two worlds, one bridge.',
   capBody:
     'On one side, manufacturers who need production capacity. On the other, family offices, municipal actors and state politics looking for site development and access to the manufacturer world. We stand between the two and execute.',
   capNote:
@@ -438,7 +438,7 @@ export const en: Copy = {
       t: 'Chip proximity',
       fig: '1 in 3',
       figLabel:
-        'Semiconductors manufactured in the EU come from Dresden. For automotive power semiconductors, more than half.',
+        'Of the semiconductors manufactured in the EU comes from Dresden. For automotive power semiconductors, more than half.',
       d: 'Over EUR 16bn of investment is under construction or committed: ESMC/TSMC around 10bn, Infineon around 5bn, GlobalFoundries around 1.1bn, plus Bosch. Anyone building sensors, drones or guidance systems produces where the critical component comes from.',
     },
     {
@@ -480,7 +480,7 @@ export const en: Copy = {
     {
       n: 'B-01.2',
       title: 'Operate',
-      body: 'Administration that runs without you watching. Built by people with military and regulatory backgrounds — and the ability to build processes digitally rather than merely administer them.',
+      body: 'Administration that runs without you watching. Built from military and regulatory experience — and the ability to build processes digitally rather than merely administer them.',
       items: [
         'Digitalised administrative and permitting processes instead of paper and mail chains',
         'Digital project management with reporting for investors and authorities',
@@ -494,7 +494,7 @@ export const en: Copy = {
       title: 'Grow',
       body: 'Network, capital, political access — grown over two decades in financial markets and defence.',
       items: [
-        'Network formats between the German defence hubs and Dresden',
+        'Networking events between the German defence hubs and Dresden',
         'Curated service provider network',
         'Strategic and geopolitical assessment for expansion decisions',
         'Access to family offices and political decision-makers',
