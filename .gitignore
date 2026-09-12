@@ -4,3 +4,10 @@ dist/
 .DS_Store
 scripts/.wordmark-layout.json
 scripts/.og.svg
+
+# Credentials for the contact form's mail server, and whatever
+# `vercel env pull` or `vercel link` write. Only the names are committed.
+.env
+.env.*
+!.env.example
+.vercel/
