@@ -112,6 +112,8 @@ export interface Copy {
   fMail: string;
   fMsg: string;
   fSend: string;
+  /** Note beside the disabled submit button while the form has no endpoint. */
+  fPending: string;
 
   capLabel: string;
   capTitle: string;
@@ -192,6 +194,7 @@ export const de: Copy = {
   fMail: 'E-Mail',
   fMsg: 'Vorhaben',
   fSend: 'Einschätzung anfragen',
+  fPending: 'Der Versand über das Formular wird gerade eingerichtet. Bis dahin erreichen Sie uns per E-Mail.',
 
   capLabel: 'Kapital & Standortentwicklung',
   capTitle: 'Zwei Welten, ein Bindeglied.',
@@ -397,6 +400,7 @@ export const en: Copy = {
   fMail: 'Email',
   fMsg: 'Project',
   fSend: 'Request assessment',
+  fPending: 'Sending through this form is still being set up. Until then, please reach us by email.',
 
   capLabel: 'Capital & site development',
   capTitle: 'Two worlds, one bridge.',

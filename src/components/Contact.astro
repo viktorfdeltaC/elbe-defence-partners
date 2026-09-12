@@ -1,11 +1,17 @@
 ---
 /**
- * ⑤ C-01 Nächster Schritt — the 30-minute assessment, the form, and the two
+ * ⑤ C-01 Nächster Schritt — the 30-minute assessment, the form, and the four
  * people carrying the mandate.
  *
- * The form is markup only: fields, labels, validation attributes and states are
- * all in place, but nothing is wired to a backend yet — `action` and the submit
- * handler are the two things to add when the endpoint exists.
+ * The form is switched off until its endpoint exists: the submit button is
+ * disabled, with a note beside it saying why. A disabled default button also
+ * stops the implicit submission on Enter, so this holds without JavaScript.
+ *
+ * It used to have neither `method` nor `action`, and a click sent every field
+ * as a GET query to the page's own address — name, company, email and the
+ * project itself into the address bar, the browser history and the host's
+ * request log, while the visitor believed the enquiry had gone out.
+ * `method="post"` stays as the second guard for the day the button comes back.
  */
 import SectionRules from './SectionRules.astro';
 import CroppedImage from './CroppedImage.astro';
@@ -76,9 +82,9 @@ const fields = [
         </div>
       </div>
 
-      {/* TODO(backend): set `action`/`method` (or attach a submit handler) once
-          the receiving endpoint exists. Until then the form does not submit. */}
-      <form class="form" novalidate>
+      {/* TODO(backend): add `action` and enable the button once the receiving
+          endpoint exists. */}
+      <form class="form" method="post" novalidate>
         {
           fields.map((f) => (
             <label>
@@ -93,7 +99,8 @@ const fields = [
           <span class="form__label" data-i18n="fMsg">{t.fMsg}</span>
           <textarea name="message" rows="3"></textarea>
         </label>
-        <button type="submit" data-i18n="fSend">{t.fSend}</button>
+        <button type="submit" disabled aria-describedby="form-pending" data-i18n="fSend">{t.fSend}</button>
+        <p class="form__pending" id="form-pending" data-i18n="fPending">{t.fPending}</p>
       </form>
     </div>
 
@@ -268,9 +275,22 @@ const fields = [
       color 0.2s ease;
   }
 
-  .form button:hover {
+  .form button:not(:disabled):hover {
     background: var(--ocker);
     color: #fff;
+  }
+
+  .form button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .form__pending {
+    margin: -6px 0 0;
+    max-width: 30em;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted-dark);
   }
 
   /* ── People ──────────────────────────────────────────────────────────── */

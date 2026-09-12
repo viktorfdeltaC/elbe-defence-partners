@@ -103,9 +103,12 @@ reveals only arm themselves once the script runs.
 
 ## Still open
 
-- **The contact form does not submit.** Markup, labels, validation attributes
-  and focus states are in place; `action`/`method` or a submit handler are the
-  two things to add. See the `TODO(backend)` in `src/components/Contact.astro`.
+- **The contact form is switched off.** The submit button is disabled, with a
+  note beside it, until the endpoint exists; adding `action` and enabling the
+  button is what is left. Before that the form had no `method` and quietly sent
+  every field as a GET query to the page itself — into the address bar, the
+  browser history and the host's request log. See the `TODO(backend)` in
+  `src/components/Contact.astro`.
 - **Impressum and Datenschutz** are not written and the footer links go nowhere,
   as in the design. An Impressum is mandatory for a German commercial site
   (§5 DDG), and the privacy notice has to cover the contact form once it submits
