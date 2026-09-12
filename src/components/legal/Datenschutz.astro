@@ -1,0 +1,285 @@
+---
+/**
+ * Datenschutzerklärung (Art. 13 GDPR), German and English.
+ *
+ * Written against what the site actually does, checked in the code and the
+ * build — not taken from a template. The Wertentwickler text this replaces as
+ * a model described Google Analytics, Google Fonts and a contact form that do
+ * not exist there, and left out the booking that does.
+ *
+ * So this has to change together with the site: the contact form, the booking
+ * and a move off Vercel each add or rewrite a section, in the same deploy that
+ * ships them. Both languages share a structure and a date; the English one is a
+ * translation and says so.
+ */
+import { COMPANY, DATA_PROTECTION_AUTHORITY as DPA, HOST, MAIL_PROVIDER } from '../../content/company';
+import { BRAND } from '../../content/copy';
+
+interface Props {
+  /** 2 on the page, under its h1; 3 in the dialog, under its h2. */
+  headingLevel?: 2 | 3;
+}
+
+const { headingLevel = 2 } = Astro.props;
+const H = `h${headingLevel}` as 'h2' | 'h3';
+const mail = `mailto:${COMPANY.email}`;
+---
+
+<div class="legal-prose" lang="de" data-lang-block="de">
+  <p class="legal-lead">
+    Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, misst keine Reichweite und lädt
+    nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür und wie lange, steht hier.
+  </p>
+
+  <H><span class="legal-n">01</span>Verantwortlicher</H>
+  <p>Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
+  <address>
+    {COMPANY.name}<br />
+    {COMPANY.street}<br />
+    {COMPANY.postcode} {COMPANY.city}<br />
+    {COMPANY.country}<br />
+    vertreten durch den Geschäftsführer {COMPANY.managingDirector}<br />
+    E-Mail: <a href={mail}>{COMPANY.email}</a>
+  </address>
+  <p>{BRAND} ist eine Marke der {COMPANY.name}.</p>
+
+  <H><span class="legal-n">02</span>Was diese Website nicht tut</H>
+  <p>
+    Wir setzen keine Cookies und keine Analyse-, Tracking- oder Werbewerkzeuge ein. Es sind keine
+    Inhalte fremder Anbieter eingebunden, also keine Karten, keine Social-Media-Plugins und keine
+    extern gehosteten Videos. Schriften, Bilder und das Video liefert unser Hosting selbst aus, nicht
+    Google Fonts oder ein anderer fremder Dienst. Beim Besuch entsteht deshalb keine Verbindung zu
+    Dritten außer zu unserem Hosting-Dienstleister.
+  </p>
+
+  <H><span class="legal-n">03</span>Hosting und Server-Protokolle</H>
+  <p>
+    Die Website wird bei der {HOST.name}, {HOST.address}, {HOST.country}, gehostet. Wenn Sie die
+    Seite aufrufen, verarbeitet {HOST.name} die dafür technisch nötigen Verbindungsdaten:
+  </p>
+  <ul>
+    <li>IP-Adresse</li>
+    <li>Datum und Uhrzeit des Abrufs</li>
+    <li>aufgerufene Adresse und übertragene Datenmenge</li>
+    <li>Adresse der zuvor besuchten Seite (Referrer)</li>
+    <li>Browser und Betriebssystem</li>
+  </ul>
+  <p>
+    Die Daten dienen der Auslieferung der Seite, der Fehlersuche und der Abwehr von Angriffen. Wir
+    führen sie nicht mit anderen Daten zusammen und werten sie nicht für Werbung oder Profile aus.
+    Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist eine sichere und
+    stabile Auslieferung der Website.
+  </p>
+  <p>
+    {HOST.name} verarbeitet die Daten in unserem Auftrag (Art. 28 DSGVO). Dabei können Daten in die
+    USA übermittelt werden. Grundlage dafür ist die Zertifizierung von {HOST.name} nach dem EU-US Data
+    Privacy Framework (Angemessenheitsbeschluss, Art. 45 DSGVO). Die Protokolle werden nicht
+    dauerhaft gespeichert, sondern nach Ablauf der Aufbewahrungsfristen des Anbieters automatisch
+    gelöscht.
+  </p>
+
+  <H><span class="legal-n">04</span>Verschlüsselte Übertragung</H>
+  <p>
+    Die Website wird ausschließlich verschlüsselt (TLS) ausgeliefert. Sie erkennen das an „https://“
+    in der Adresszeile Ihres Browsers.
+  </p>
+
+  <H><span class="legal-n">05</span>Ihre Sprachwahl</H>
+  <p>
+    Wählen Sie über den Umschalter DE/EN eine Sprache, speichert Ihr Browser diese Wahl im lokalen
+    Speicher (Local Storage) unter dem Eintrag „edp:lang“, mit dem Wert „de“ oder „en“ und sonst
+    nichts. So erscheint die Seite beim nächsten Besuch in derselben Sprache. Der Eintrag bleibt auf
+    Ihrem Gerät und wird nicht an uns übermittelt. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG: Die
+    Speicherung ist unbedingt erforderlich, damit die von Ihnen ausdrücklich gewählte Einstellung
+    erhalten bleibt. Sie können den Eintrag jederzeit über die Einstellungen Ihres Browsers löschen.
+  </p>
+
+  <H><span class="legal-n">06</span>Kontakt per E-Mail</H>
+  <p>
+    Schreiben Sie uns eine E-Mail, verarbeiten wir die Angaben daraus, in der Regel Name,
+    E-Mail-Adresse, Unternehmen und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten.
+    Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist die Beantwortung
+    geschäftlicher Anfragen. Zielt Ihre Anfrage auf einen Vertrag mit Ihnen selbst, ist
+    Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO.
+  </p>
+  <p>
+    Unsere Postfächer betreibt die {MAIL_PROVIDER.name}, {MAIL_PROVIDER.address},
+    {MAIL_PROVIDER.country} (Google Workspace), in unserem Auftrag (Art. 28 DSGVO). Eine Übermittlung
+    an die Google LLC in den USA ist dabei nicht ausgeschlossen; Google ist nach dem EU-US Data
+    Privacy Framework zertifiziert.
+  </p>
+  <p>
+    Wir löschen Ihre Anfrage, sobald sie abschließend bearbeitet ist und keine gesetzlichen
+    Aufbewahrungspflichten entgegenstehen. Entsteht daraus eine Zusammenarbeit, bewahren wir die
+    geschäftliche Korrespondenz so lange auf, wie es das Handels- und Steuerrecht verlangt, in der
+    Regel sechs Jahre (§ 257 HGB, § 147 AO).
+  </p>
+
+  <H><span class="legal-n">07</span>Ihre Rechte</H>
+  <p>
+    Sie haben das Recht auf Auskunft über die bei uns gespeicherten Daten (Art. 15 DSGVO), auf
+    Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und
+    Datenübertragbarkeit (Art. 20). Eine formlose Nachricht an <a href={mail}>{COMPANY.email}</a>
+    genügt.
+  </p>
+  <p class="legal-objection">
+    <strong>Widerspruchsrecht nach Art. 21 DSGVO:</strong> Verarbeiten wir Daten auf Grundlage von
+    Art. 6 Abs. 1 lit. f DSGVO, können Sie dem jederzeit aus Gründen widersprechen, die sich aus Ihrer
+    besonderen Situation ergeben. Wir verarbeiten die Daten dann nicht mehr, es sei denn, wir weisen
+    zwingende schutzwürdige Gründe nach, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder
+    die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
+  </p>
+
+  <H><span class="legal-n">08</span>Beschwerderecht</H>
+  <p>
+    Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Zuständig für
+    uns ist:
+  </p>
+  <address>
+    {DPA.name}<br />
+    {DPA.street}<br />
+    {DPA.city}<br />
+    <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
+  </address>
+
+  <H><span class="legal-n">09</span>Keine Pflicht, keine automatisierten Entscheidungen</H>
+  <p>
+    Sie sind weder gesetzlich noch vertraglich verpflichtet, uns Daten bereitzustellen. Ohne die
+    technisch nötigen Verbindungsdaten lässt sich die Website allerdings nicht ausliefern. Eine
+    automatisierte Entscheidungsfindung einschließlich Profiling (Art. 22 DSGVO) findet nicht statt.
+  </p>
+
+  <H><span class="legal-n">10</span>Änderungen</H>
+  <p>
+    Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die Rechtslage ändert. Es
+    gilt die jeweils hier veröffentlichte Fassung.
+  </p>
+  <p class="legal-meta">Stand: September 2026</p>
+</div>
+
+<div class="legal-prose" lang="en" data-lang-block="en">
+  <p class="legal-note">This is a translation. In case of doubt, the German version applies.</p>
+  <p class="legal-lead">
+    This website presents {BRAND}. It sets no cookies, measures no reach and loads nothing from third
+    parties. What data is processed nonetheless, for what purpose and for how long, is set out here.
+  </p>
+
+  <H><span class="legal-n">01</span>Controller</H>
+  <p>The controller within the meaning of the General Data Protection Regulation (GDPR) is:</p>
+  <address>
+    {COMPANY.name}<br />
+    {COMPANY.street}<br />
+    {COMPANY.postcode} {COMPANY.city}<br />
+    {COMPANY.countryEn}<br />
+    represented by its managing director {COMPANY.managingDirector}<br />
+    Email: <a href={mail}>{COMPANY.email}</a>
+  </address>
+  <p>{BRAND} is a brand of {COMPANY.name}.</p>
+
+  <H><span class="legal-n">02</span>What this website does not do</H>
+  <p>
+    We use no cookies and no analytics, tracking or advertising tools. No third-party content is
+    embedded: no maps, no social media plugins, no externally hosted videos. Fonts, images and the
+    video are delivered by our own hosting, not by Google Fonts or any other third-party service.
+    Visiting the site therefore creates no connection to third parties other than our hosting
+    provider.
+  </p>
+
+  <H><span class="legal-n">03</span>Hosting and server logs</H>
+  <p>
+    The website is hosted by {HOST.name}, {HOST.address}, {HOST.country}. When you open the site,
+    {HOST.name} processes the connection data this technically requires:
+  </p>
+  <ul>
+    <li>IP address</li>
+    <li>date and time of the request</li>
+    <li>requested address and amount of data transferred</li>
+    <li>address of the previously visited page (referrer)</li>
+    <li>browser and operating system</li>
+  </ul>
+  <p>
+    This data is used to deliver the site, to find errors and to fend off attacks. We do not combine
+    it with other data and do not use it for advertising or profiling. The legal basis is Art. 6(1)(f)
+    GDPR; our legitimate interest is the secure and stable delivery of the website.
+  </p>
+  <p>
+    {HOST.name} processes the data on our behalf (Art. 28 GDPR). Data may be transferred to the USA in
+    the process, on the basis of {HOST.name}'s certification under the EU-U.S. Data Privacy Framework
+    (adequacy decision, Art. 45 GDPR). The logs are not kept permanently but deleted automatically once
+    the provider's retention periods have expired.
+  </p>
+
+  <H><span class="legal-n">04</span>Encrypted transmission</H>
+  <p>
+    The website is delivered exclusively over an encrypted connection (TLS). You can tell by the
+    “https://” in your browser's address bar.
+  </p>
+
+  <H><span class="legal-n">05</span>Your language choice</H>
+  <p>
+    If you choose a language with the DE/EN switch, your browser saves that choice in its local storage
+    under the entry “edp:lang”, with the value “de” or “en” and nothing else, so the site appears in
+    the same language on your next visit. The entry stays on your device and is not transmitted to us.
+    The legal basis is Section 25(2) no. 2 of the German Telecommunications Digital Services Data
+    Protection Act (TDDDG): storing it is strictly necessary to keep the setting you expressly chose.
+    You can delete the entry at any time in your browser settings.
+  </p>
+
+  <H><span class="legal-n">06</span>Contact by email</H>
+  <p>
+    If you email us, we process the details it contains, usually name, email address, company and the
+    content of your message, to answer your enquiry. The legal basis is Art. 6(1)(f) GDPR; our
+    legitimate interest is answering business enquiries. Where your enquiry aims at a contract with
+    you personally, the legal basis is Art. 6(1)(b) GDPR.
+  </p>
+  <p>
+    Our mailboxes are operated on our behalf (Art. 28 GDPR) by {MAIL_PROVIDER.name},
+    {MAIL_PROVIDER.address}, {MAIL_PROVIDER.countryEn} (Google Workspace). A transfer to Google LLC in
+    the USA cannot be ruled out; Google is certified under the EU-U.S. Data Privacy Framework.
+  </p>
+  <p>
+    We delete your enquiry once it has been dealt with, unless statutory retention obligations apply.
+    If it leads to a working relationship, we keep the business correspondence for as long as
+    commercial and tax law require, usually six years (Section 257 HGB, Section 147 AO).
+  </p>
+
+  <H><span class="legal-n">07</span>Your rights</H>
+  <p>
+    You have the right of access to the data we hold about you (Art. 15 GDPR), to rectification
+    (Art. 16), erasure (Art. 17), restriction of processing (Art. 18) and data portability (Art. 20).
+    An informal message to <a href={mail}>{COMPANY.email}</a> is enough.
+  </p>
+  <p class="legal-objection">
+    <strong>Right to object under Art. 21 GDPR:</strong> Where we process data on the basis of
+    Art. 6(1)(f) GDPR, you may object at any time on grounds relating to your particular situation. We
+    will then no longer process the data unless we demonstrate compelling legitimate grounds that
+    override your interests, rights and freedoms, or the processing serves the establishment, exercise
+    or defence of legal claims.
+  </p>
+
+  <H><span class="legal-n">08</span>Right to lodge a complaint</H>
+  <p>
+    You may lodge a complaint with a data protection supervisory authority (Art. 77 GDPR). The
+    authority responsible for us is:
+  </p>
+  <address>
+    {DPA.nameEn}<br />
+    {DPA.street}<br />
+    {DPA.city}, {COMPANY.countryEn}<br />
+    <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
+  </address>
+
+  <H><span class="legal-n">09</span>No obligation, no automated decisions</H>
+  <p>
+    You are under no statutory or contractual obligation to provide us with data. Without the
+    technically necessary connection data, however, the website cannot be delivered. There is no
+    automated decision-making, including profiling (Art. 22 GDPR).
+  </p>
+
+  <H><span class="legal-n">10</span>Changes</H>
+  <p>
+    We update this privacy policy when the website or the law changes. The version published here
+    applies.
+  </p>
+  <p class="legal-meta">As of September 2026</p>
+</div>

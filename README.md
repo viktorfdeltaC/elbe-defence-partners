@@ -1,6 +1,7 @@
 # Sanktum Defence Partners — landing page
 
-Bilingual (DE/EN) one-pager. Astro, static output, no client framework.
+Bilingual (DE/EN) one-pager, with its imprint and privacy policy. Astro, static
+output, no client framework.
 
 Built from the `Richtung-D-Grid.dc.html` design handoff — the design files, the
 session transcript and the original media are kept outside this repository;
@@ -21,10 +22,14 @@ npm run check      # astro check (types + templates)
 ```
 src/
   content/copy.ts       All German and English copy, one typed shape (`Copy`)
+  content/company.ts    The company behind the brand, for the legal texts
   layouts/Base.astro    <head>, fonts, metadata
+  layouts/Legal.astro   Frame of the two legal pages
+  pages/                The one-pager, /impressum and /datenschutz
   components/           One per section, in page order
-  scripts/page.ts       Reveals, count-up, station rail, DE/EN switch, video
-  styles/global.css     Design tokens and the shared section chrome
+  components/legal/     Imprint and privacy policy
+  scripts/page.ts       Reveals, count-up, station rail, DE/EN switch
+  styles/global.css     Design tokens, the shared section chrome, legal text
   styles/fonts.css      Generated — see scripts/fetch-fonts.mjs
   assets/               Images (build-optimised by Astro)
 public/
@@ -84,6 +89,15 @@ page.
 
 **Brand name.** `BRAND` in the same file — it is a placeholder by design.
 
+**Legal texts.** `src/components/legal/` holds the imprint (German only) and the
+privacy policy (German and English, as two blocks switched by `<html lang>`) —
+the one kind of copy that does not live in `copy.ts`. Sanktum Defence Partners
+is a brand of realxtrade GmbH, so the texts name the company, and every fact
+about it comes from `src/content/company.ts`. The privacy policy describes what
+the site actually does, checked against the code rather than taken from a
+template: anything that processes data — the contact form, a booking, another
+host — ships in the same deploy as its section there.
+
 **Language.** The page is rendered in German and switched client-side, as the
 prototype did. Every translatable node carries `data-i18n` with a dot path into
 `Copy` (`axes.2.figLabel`), and the switch walks those paths; attributes use
@@ -109,10 +123,10 @@ reveals only arm themselves once the script runs.
   every field as a GET query to the page itself — into the address bar, the
   browser history and the host's request log. See the `TODO(backend)` in
   `src/components/Contact.astro`.
-- **Impressum and Datenschutz** are not written and the footer links go nowhere,
-  as in the design. An Impressum is mandatory for a German commercial site
-  (§5 DDG), and the privacy notice has to cover the contact form once it submits
-  anywhere.
+- **Impressum and Datenschutz** are written for the site as it is: hosted on
+  Vercel, no form, no booking. Both want a lawyer's review before `INDEXABLE`
+  goes to true, and the chamber named for the § 34c permit needs confirming
+  (`TODO(legal)` in `src/content/company.ts`).
 - **Placeholder contact details** — `kontakt@example.com`, `kapital@example.com`,
   `+49 351 000 00x`, and `name@example.com` for both people.
 - **Hero resolution.** The bundle's hero is 1200 × 675, the size the design tool

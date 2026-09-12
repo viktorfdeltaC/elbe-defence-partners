@@ -1,0 +1,83 @@
+---
+/**
+ * Impressum (§ 5 DDG).
+ *
+ * German only: it answers a German legal requirement, and a translation would
+ * be one more text to keep in step. In English mode a one-line note says so.
+ *
+ * Every fact about the company comes from src/content/company.ts. Left out on
+ * purpose, although the Wertentwickler imprint still has it: the link to the EU
+ * online dispute resolution platform, which was shut down in July 2025.
+ */
+import { BRAND } from '../../content/copy';
+import { COMPANY } from '../../content/company';
+
+interface Props {
+  /** 2 on the page, under its h1; 3 in the dialog, under its h2. */
+  headingLevel?: 2 | 3;
+}
+
+const { headingLevel = 2 } = Astro.props;
+const H = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<p class="legal-note" lang="en" data-lang-block="en">This legal notice is provided in German.</p>
+
+<div class="legal-prose" lang="de">
+  <H>Angaben gemäß § 5 DDG</H>
+  <address>
+    {COMPANY.name}<br />
+    {COMPANY.street}<br />
+    {COMPANY.postcode} {COMPANY.city}<br />
+    {COMPANY.country}
+  </address>
+  <p>{BRAND} ist eine Marke der {COMPANY.name}.</p>
+
+  <H>Vertreten durch</H>
+  <p>{COMPANY.managingDirector}, Geschäftsführer</p>
+
+  <H>Kontakt</H>
+  <p>E-Mail: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
+
+  <H>Registereintrag</H>
+  <p>Handelsregister: {COMPANY.registerCourt}, {COMPANY.registerNumber}</p>
+
+  <H>Umsatzsteuer-Identifikationsnummer</H>
+  <p>gemäß § 27a Umsatzsteuergesetz: {COMPANY.vatId}</p>
+
+  <H>Erlaubnis nach § 34c GewO</H>
+  <p>
+    Erlaubnis nach {COMPANY.permit34c.scope}<br />
+    Zuständige Aufsichtsbehörde: {COMPANY.permit34c.authority}
+  </p>
+
+  <H>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</H>
+  <p>{COMPANY.managingDirector}, Anschrift wie oben</p>
+
+  <H>Verbraucherstreitbeilegung</H>
+  <p>
+    Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
+    Verbraucherschlichtungsstelle teilzunehmen.
+  </p>
+
+  <H>Haftung für Inhalte</H>
+  <p>
+    Wir erstellen die Inhalte dieser Website mit Sorgfalt. Für eigene Inhalte sind wir nach
+    § 7 Abs. 1 DDG nach den allgemeinen Gesetzen verantwortlich. Werden uns Rechtsverletzungen
+    bekannt, entfernen wir die betreffenden Inhalte umgehend.
+  </p>
+
+  <H>Haftung für Links</H>
+  <p>
+    Verweise auf Websites Dritter prüfen wir beim Setzen auf erkennbare Rechtsverstöße. Für deren
+    Inhalte ist allein der jeweilige Anbieter verantwortlich. Werden uns Rechtsverletzungen bekannt,
+    entfernen wir den Verweis umgehend.
+  </p>
+
+  <H>Urheberrecht</H>
+  <p>
+    Texte, Bilder, Grafiken und Videos dieser Website sind urheberrechtlich geschützt.
+    Vervielfältigung, Bearbeitung, Verbreitung und jede andere Verwertung außerhalb der Grenzen des
+    Urheberrechts bedürfen der vorherigen schriftlichen Zustimmung des jeweiligen Rechteinhabers.
+  </p>
+</div>

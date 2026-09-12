@@ -1,4 +1,5 @@
-# The page is a shareable draft: placeholder contact details, no Impressum yet.
+# The page is a shareable draft: placeholder contact details, legal texts not
+# yet reviewed.
 # Crawlers are kept out until the copy is final — an indexed page outlives the
 # version that was indexed.
 #

@@ -1,8 +1,14 @@
 ---
 import '../styles/fonts.css';
 import '../styles/global.css';
-import { BRAND, DEFAULT_LANG, dictionaries } from '../content/copy';
+import { BRAND, DEFAULT_LANG, dictionaries, type TextKey } from '../content/copy';
 
+interface Props {
+  /** Dictionary key for <title>. The legal pages name themselves; everything else is the one-pager. */
+  titleKey?: TextKey;
+}
+
+const { titleKey = 'htmlTitle' } = Astro.props;
 const t = dictionaries[DEFAULT_LANG];
 
 /**
@@ -21,11 +27,11 @@ const preview = new URL('/og.png', Astro.site);
 
 /**
  * Search engines are kept out while the page is a shareable draft: the contact
- * details are still placeholders and there is no Impressum yet, and an indexed
- * page outlives the version that was indexed.
+ * details are still placeholders and the legal texts have not been reviewed,
+ * and an indexed page outlives the version that was indexed.
  *
  * Flip to true — together with public/robots.txt — when the copy is final and
- * the legal pages exist. Nothing else has to change.
+ * the legal texts are signed off. Nothing else has to change.
  */
 const INDEXABLE = false;
 ---
@@ -36,7 +42,7 @@ const INDEXABLE = false;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <title data-i18n="htmlTitle">{t.htmlTitle}</title>
+    <title data-i18n={titleKey}>{t[titleKey]}</title>
     <meta name="description" content={t.htmlDescription} data-i18n-attr="content:htmlDescription" />
     <meta name="robots" content={INDEXABLE ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="canonical" href={canonical.href} />

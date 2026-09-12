@@ -17,13 +17,12 @@ const year = new Date().getFullYear();
     <Wordmark height={20} />
     <span>© {year}</span>
   </span>
-  {/* TODO(legal): both pages still have to be written and linked. An Impressum
-      is mandatory for a German commercial site (§5 DDG) and the privacy notice
-      has to cover the contact form once it submits anywhere. Left as the design
-      had them until there is real content to point at. */}
+  {/* Real pages, so the imprint is reachable without JavaScript and from any
+      link to it. The privacy policy has to grow with the contact form and the
+      booking — see src/components/legal/Datenschutz.astro. */}
   <span class="footer__links">
-    <a href="#" data-i18n="imprint">{t.imprint}</a>
-    <a href="#" data-i18n="privacy">{t.privacy}</a>
+    <a href="/impressum" data-i18n="imprint">{t.imprint}</a>
+    <a href="/datenschutz" data-i18n="privacy">{t.privacy}</a>
   </span>
 </footer>
 

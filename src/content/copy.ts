@@ -123,6 +123,17 @@ export interface Copy {
 
   imprint: string;
   privacy: string;
+  /** Heading of the privacy policy; the footer link says the shorter `privacy`. */
+  privacyTitle: string;
+  /** <title> of the two legal pages. */
+  htmlTitleImprint: string;
+  htmlTitlePrivacy: string;
+  /** Marker label above the legal pages' headings. */
+  legalLabel: string;
+  /** Link from a legal page back to the one-pager. */
+  legalBack: string;
+  /** Accessible name of the close button in the legal dialogs. */
+  legalClose: string;
 
   railStops: string[];
   figures: Figure[];
@@ -206,6 +217,12 @@ export const de: Copy = {
 
   imprint: 'Impressum',
   privacy: 'Datenschutz',
+  privacyTitle: 'Datenschutzerklärung',
+  htmlTitleImprint: 'Impressum — Sanktum Defence Partners',
+  htmlTitlePrivacy: 'Datenschutzerklärung — Sanktum Defence Partners',
+  legalLabel: 'Rechtliches',
+  legalBack: 'Zur Startseite',
+  legalClose: 'Schließen',
 
   railStops: [
     'A-01 Herausforderung',
@@ -412,6 +429,12 @@ export const en: Copy = {
 
   imprint: 'Imprint',
   privacy: 'Privacy',
+  privacyTitle: 'Privacy policy',
+  htmlTitleImprint: 'Imprint — Sanktum Defence Partners',
+  htmlTitlePrivacy: 'Privacy policy — Sanktum Defence Partners',
+  legalLabel: 'Legal',
+  legalBack: 'Home page',
+  legalClose: 'Close',
 
   railStops: [
     'A-01 Challenge',
@@ -554,6 +577,9 @@ export const en: Copy = {
 };
 
 export const dictionaries: Record<Lang, Copy> = { de, en };
+
+/** Keys of `Copy` that hold a single string — the ones a node can name directly in data-i18n. */
+export type TextKey = { [K in keyof Copy]: Copy[K] extends string ? K : never }[keyof Copy];
 
 /** Language rendered at build time; the client toggle starts from here. */
 export const DEFAULT_LANG: Lang = 'de';
