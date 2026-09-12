@@ -18,11 +18,13 @@ const year = new Date().getFullYear();
     <span>© {year}</span>
   </span>
   {/* Real pages, so the imprint is reachable without JavaScript and from any
-      link to it. The privacy policy has to grow with the contact form and the
-      booking — see src/components/legal/Datenschutz.astro. */}
+      link to it. On the one-pager a plain click opens the same text as a
+      dialog instead (data-legal-open, src/scripts/legal.ts). The privacy
+      policy has to grow with the contact form and the booking — see
+      src/components/legal/Datenschutz.astro. */}
   <span class="footer__links">
-    <a href="/impressum" data-i18n="imprint">{t.imprint}</a>
-    <a href="/datenschutz" data-i18n="privacy">{t.privacy}</a>
+    <a href="/impressum" data-legal-open="impressum" data-i18n="imprint">{t.imprint}</a>
+    <a href="/datenschutz" data-legal-open="datenschutz" data-i18n="privacy">{t.privacy}</a>
   </span>
 </footer>
 

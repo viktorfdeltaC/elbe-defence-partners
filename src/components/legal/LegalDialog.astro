@@ -1,0 +1,193 @@
+---
+/**
+ * The imprint or the privacy policy as a dialog over the one-pager.
+ *
+ * The footer links point at the real pages; src/scripts/legal.ts turns a plain
+ * click into showModal() on one of these instead. A native <dialog> in the top
+ * layer brings most of the mechanics along: it sits above the sticky rail
+ * without a z-index, makes the page behind it inert (no focus trap to keep),
+ * closes on Escape and hands focus back to the link that opened it.
+ *
+ * Rendered as a direct child of <body>, not inside the footer where its links
+ * are: the footer sets mono type and the on-dark focus ring, and the dialog
+ * would inherit both. On a phone it rises from the bottom edge, as a sheet.
+ */
+import { DEFAULT_LANG, dictionaries, type TextKey } from '../../content/copy';
+
+interface Props {
+  id: 'impressum' | 'datenschutz';
+  titleKey: TextKey;
+}
+
+const { id, titleKey } = Astro.props;
+const t = dictionaries[DEFAULT_LANG];
+const titleId = `legal-${id}-title`;
+---
+
+<dialog class="legal-dialog" data-legal-dialog={id} aria-labelledby={titleId}>
+  <div class="legal-dialog__head">
+    <div>
+      <span class="legal-dialog__ref">{t.docRef}</span>
+      <h2 class="legal-dialog__title" id={titleId} data-i18n={titleKey}>{t[titleKey]}</h2>
+    </div>
+    <button
+      type="button"
+      class="legal-dialog__close"
+      data-legal-close
+      aria-label={t.legalClose}
+      data-i18n-attr="aria-label:legalClose"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 5l14 14M19 5L5 19" />
+      </svg>
+    </button>
+  </div>
+  {/* The body takes the initial focus rather than the close button: a screen
+      reader starts at the top of the text, and the arrow keys scroll it. */}
+  <div class="legal-dialog__body" tabindex="0" role="region" aria-labelledby={titleId} autofocus>
+    <slot />
+  </div>
+</dialog>
+
+<style>
+  /* The page behind stays put while a text is open. `scrollbar-gutter` keeps
+     the layout from shifting sideways where the scrollbar takes up room. */
+  :global(html) {
+    scrollbar-gutter: stable;
+  }
+
+  :global(html:has(dialog.legal-dialog[open])) {
+    overflow: hidden;
+  }
+
+  .legal-dialog {
+    width: min(46rem, calc(100vw - 32px));
+    max-width: none;
+    max-height: min(88vh, 60rem);
+    padding: 0;
+    border: 0;
+    background: var(--paper);
+    color: var(--ink);
+    overflow: hidden;
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .legal-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Entry is native. The exit is driven by legal.ts, which sets .is-closing and
+     calls close() once the fade has run — Firefox and Safari take a dialog out
+     of the top layer the moment close() is called, so a pure-CSS exit would
+     play underneath the rail. */
+  @starting-style {
+    .legal-dialog[open] {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  .legal-dialog.is-closing {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .legal-dialog::backdrop {
+    background-color: rgb(10 11 12 / 0.74);
+    transition: background-color 0.2s ease;
+  }
+
+  @starting-style {
+    .legal-dialog[open]::backdrop {
+      background-color: rgb(10 11 12 / 0);
+    }
+  }
+
+  .legal-dialog.is-closing::backdrop {
+    background-color: rgb(10 11 12 / 0);
+  }
+
+  .legal-dialog__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 14px 18px 28px;
+    border-bottom: 1px solid var(--rule-light-strong);
+  }
+
+  .legal-dialog__ref {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ocker-on-light);
+  }
+
+  .legal-dialog__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 2.2vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+
+  .legal-dialog__close {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .legal-dialog__close:hover {
+    background: var(--rule-light);
+  }
+
+  .legal-dialog__close svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .legal-dialog__body {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 26px 28px 40px;
+  }
+
+  /* The ring sits inside the box: outside, the dialog's own overflow cuts it. */
+  .legal-dialog__body:focus-visible {
+    outline-offset: -2px;
+  }
+
+  @media (max-width: 640px) {
+    .legal-dialog {
+      width: 100%;
+      max-height: 92dvh;
+      margin: auto 0 0;
+    }
+
+    .legal-dialog__head {
+      padding: 16px 6px 14px 20px;
+    }
+
+    .legal-dialog__body {
+      padding: 22px 20px calc(32px + env(safe-area-inset-bottom));
+    }
+  }
+</style>

@@ -9,8 +9,11 @@
  *   A-02            — why Dresden answers it, and what the firm does about it
  *   B-01            — the services, each with the reason they can claim it
  *   Band            — a breath before the ask
- *   C-01            — the ask, and the two people behind it
+ *   C-01            — the ask, and the four people behind it
  *   D-01            — the second audience, reached by one route only
+ *
+ * After the footer, the imprint and the privacy policy as dialogs — direct
+ * children of <body>, opened from the footer links.
  */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
@@ -24,6 +27,9 @@ import VideoBand from '../components/VideoBand.astro';
 import Contact from '../components/Contact.astro';
 import Capital from '../components/Capital.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import LegalDialog from '../components/legal/LegalDialog.astro';
+import Impressum from '../components/legal/Impressum.astro';
+import Datenschutz from '../components/legal/Datenschutz.astro';
 ---
 
 <Base>
@@ -38,8 +44,15 @@ import SiteFooter from '../components/SiteFooter.astro';
   <Contact />
   <Capital />
   <SiteFooter />
+  <LegalDialog id="impressum" titleKey="imprint">
+    <Impressum headingLevel={3} />
+  </LegalDialog>
+  <LegalDialog id="datenschutz" titleKey="privacyTitle">
+    <Datenschutz headingLevel={3} />
+  </LegalDialog>
 </Base>
 
 <script>
   import '../scripts/page';
+  import '../scripts/legal';
 </script>

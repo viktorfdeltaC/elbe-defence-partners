@@ -29,6 +29,7 @@ src/
   components/           One per section, in page order
   components/legal/     Imprint and privacy policy
   scripts/page.ts       Reveals, count-up, station rail, DE/EN switch
+  scripts/legal.ts      Imprint and privacy policy as dialogs on the one-pager
   styles/global.css     Design tokens, the shared section chrome, legal text
   styles/fonts.css      Generated — see scripts/fetch-fonts.mjs
   assets/               Images (build-optimised by Astro)
@@ -96,7 +97,10 @@ is a brand of realxtrade GmbH, so the texts name the company, and every fact
 about it comes from `src/content/company.ts`. The privacy policy describes what
 the site actually does, checked against the code rather than taken from a
 template: anything that processes data — the contact form, a booking, another
-host — ships in the same deploy as its section there.
+host — ships in the same deploy as its section there. Both texts are real pages
+(`/impressum`, `/datenschutz`) and, on the one-pager, native dialogs: a plain
+click on a link with `data-legal-open` opens the dialog, a click with a
+modifier key still opens the page.
 
 **Language.** The page is rendered in German and switched client-side, as the
 prototype did. Every translatable node carries `data-i18n` with a dot path into

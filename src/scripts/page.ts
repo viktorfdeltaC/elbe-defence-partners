@@ -1,5 +1,7 @@
 /**
- * Everything the page does at runtime. One module, no framework.
+ * Everything the page does at runtime. One module, no framework — apart from
+ * the legal dialogs on the one-pager, which live in src/scripts/legal.ts. The
+ * legal pages load this module too, for the language switch.
  *
  *   1. Reveals   — content, rules, markers and images land as you reach them.
  *   2. Count-up  — the four figures under the hero run up once.
@@ -163,7 +165,10 @@ const measureRail = () => {
 measureRail();
 if (rail && 'ResizeObserver' in window) new ResizeObserver(measureRail).observe(rail);
 
-const onScroll = () => {
+const onScroll = (event?: Event) => {
+  // Scrolling inside a dialog — the legal texts — says nothing about where the
+  // reader is on the page, and would run the sweep and the rail for nothing.
+  if (event?.target instanceof Element && event.target.closest('dialog')) return;
   sweep();
   measureRail();
   const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -184,7 +189,7 @@ const timer = window.setInterval(() => {
   if (pending.length === 0) window.clearInterval(timer);
 }, 250);
 
-requestAnimationFrame(onScroll);
+requestAnimationFrame(() => onScroll());
 onScroll();
 
 /* ── 4. Language switch ──────────────────────────────────────────────────────
