@@ -10,9 +10,9 @@
  * this band almost verbatim) and the band becomes one horizontally scrollable
  * row instead of stacking.
  */
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 
 /** One target per station; the three B-01.x stations share the services section. */
 const targets = ['#herausforderung', '#standort', '#leistungen', '#leistungen', '#leistungen', '#kontakt', '#kapital'];
@@ -23,7 +23,7 @@ const targets = ['#herausforderung', '#standort', '#leistungen', '#leistungen', 
     <nav class="rail__stops" aria-label="Sektionen">
       {
         t.railStops.map((stop, i) => (
-          <a href={targets[i]} data-rail-stop data-i18n={`railStops.${i}`}>
+          <a href={targets[i]} data-rail-stop>
             {stop}
           </a>
         ))

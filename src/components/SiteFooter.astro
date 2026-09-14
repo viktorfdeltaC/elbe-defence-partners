@@ -4,9 +4,9 @@
  * so a link down to it here would point at what the reader just read.
  */
 import Wordmark from './Wordmark.astro';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 const year = new Date().getFullYear();
 ---
 
@@ -22,8 +22,8 @@ const year = new Date().getFullYear();
       has to cover the contact form once it submits anywhere. Left as the design
       had them until there is real content to point at. */}
   <span class="footer__links">
-    <a href="#" data-i18n="imprint">{t.imprint}</a>
-    <a href="#" data-i18n="privacy">{t.privacy}</a>
+    <a href="#">{t.imprint}</a>
+    <a href="#">{t.privacy}</a>
   </span>
 </footer>
 

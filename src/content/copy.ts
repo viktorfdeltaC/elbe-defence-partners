@@ -1,9 +1,9 @@
 /**
  * Bilingual copy for the Sanktum Defence Partners one-pager.
  *
- * Both dictionaries share one shape (`Copy`), so every string rendered on the
- * page can be addressed by the same dot path in either language — that is what
- * the client-side DE/EN toggle walks (see src/scripts/page.ts).
+ * Both dictionaries share one shape (`Copy`), so a missing translation is a
+ * type error rather than a blank on the page. Which one is rendered follows
+ * from the route: `/` is German, `/en/` is English (see astro.config.mjs).
  *
  * Text is carried over verbatim from Richtung-D-Grid.dc.html; the figures in
  * `axes` and `figures` are the researched, publicly sourced values the user
@@ -562,8 +562,16 @@ export const en: Copy = {
 
 export const dictionaries: Record<Lang, Copy> = { de, en };
 
-/** Language rendered at build time; the client toggle starts from here. */
+/** The language served from the unprefixed route, `/`. */
 export const DEFAULT_LANG: Lang = 'de';
+
+/**
+ * Narrows what Astro derived from the URL to a language we actually carry.
+ * `Astro.currentLocale` is typed as a plain string and is undefined outside a
+ * configured locale, so every component goes through here rather than casting.
+ */
+export const langFrom = (locale: string | undefined): Lang =>
+  locale === 'en' || locale === 'de' ? locale : DEFAULT_LANG;
 
 /** Brand name is a placeholder by design — one edit swaps it everywhere. */
 export const BRAND = 'Sanktum Defence Partners';

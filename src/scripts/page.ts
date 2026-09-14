@@ -4,16 +4,16 @@
  *   1. Reveals   — content, rules, markers and images land as you reach them.
  *   2. Count-up  — the four figures under the hero run up once.
  *   3. Rail      — scroll progress along the station band.
- *   4. Language  — the DE/EN switch rewrites the page from the dictionaries.
  *
  * The atmosphere band needs nothing here: it is an autoplaying muted video that
  * stops on its last frame by itself. See src/components/VideoBand.astro.
  *
  * Nothing here is load-bearing: with JavaScript off, the page renders complete
- * in German with everything already in its final visual state. Reveals only arm
- * themselves once this module runs, so a failure cannot leave content hidden.
+ * in the language of its route, everything already in its final visual state.
+ * Reveals only arm themselves once this module runs, so a failure cannot leave
+ * content hidden.
  */
-import { dictionaries, type Copy, type Lang } from '../content/copy';
+import { type Lang } from '../content/copy';
 
 const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -86,7 +86,7 @@ watch(arm('[data-imgreveal]'), (n) => n.classList.add('is-revealed'));
 
 /* ── 2. Count-up ─────────────────────────────────────────────────────────── */
 
-let lang: Lang = (document.documentElement.lang as Lang) || 'de';
+const lang: Lang = (document.documentElement.lang as Lang) || 'de';
 const locale = () => (lang === 'de' ? 'de-DE' : 'en-US');
 
 /**
@@ -186,65 +186,3 @@ const timer = window.setInterval(() => {
 
 requestAnimationFrame(onScroll);
 onScroll();
-
-/* ── 4. Language switch ──────────────────────────────────────────────────────
- *
- * The page ships rendered in German; both dictionaries travel with this module.
- * Every translatable node carries `data-i18n` with a dot path into `Copy`, so
- * switching is one walk over the document. Choice is remembered per visitor.
- */
-
-const STORAGE_KEY = 'edp:lang';
-
-const resolve = (dict: Copy, path: string): unknown =>
-  path.split('.').reduce<unknown>((acc, key) => {
-    if (acc && typeof acc === 'object') return (acc as Record<string, unknown>)[key];
-    return undefined;
-  }, dict);
-
-const applyLang = (next: Lang) => {
-  const dict = dictionaries[next];
-  lang = next;
-  document.documentElement.lang = next;
-
-  for (const el of document.querySelectorAll<HTMLElement>('[data-i18n]')) {
-    const value = resolve(dict, el.dataset.i18n!);
-    if (typeof value === 'string') el.textContent = value;
-  }
-
-  // A handful of nodes translate an attribute rather than their text.
-  for (const el of document.querySelectorAll<HTMLElement>('[data-i18n-attr]')) {
-    for (const pair of el.dataset.i18nAttr!.split(',')) {
-      const [attr, path] = pair.split(':');
-      const value = resolve(dict, path.trim());
-      if (typeof value === 'string') el.setAttribute(attr.trim(), value);
-    }
-  }
-
-  for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-lang]')) {
-    btn.setAttribute('aria-pressed', String(btn.dataset.lang === next));
-  }
-
-  onScroll();
-};
-
-for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-lang]')) {
-  btn.addEventListener('click', () => {
-    const next = btn.dataset.lang as Lang;
-    applyLang(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* private mode, blocked storage — the switch still works for this visit */
-    }
-  });
-}
-
-// A returning visitor keeps the language they chose. First visits stay on the
-// rendered German — the switch is the reader's to make, not the browser's.
-try {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if ((stored === 'en' || stored === 'de') && stored !== lang) applyLang(stored);
-} catch {
-  /* storage unavailable — stay with the rendered language */
-}

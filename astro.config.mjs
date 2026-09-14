@@ -13,6 +13,18 @@ export default defineConfig({
    */
   site: 'https://elbe-defence-partners.vercel.app',
 
+  /**
+   * Two crawlable routes instead of one page that swaps its text in the
+   * browser: `/` is German, `/en/` is English. `prefixDefaultLocale: false`
+   * keeps the German page exactly where it has always been, so every link
+   * already sent out still resolves.
+   */
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
+
   // Fully static output — the page has no server-side behaviour.
   output: 'static',
   build: { inlineStylesheets: 'auto' },

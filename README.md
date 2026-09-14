@@ -21,9 +21,11 @@ npm run check      # astro check (types + templates)
 ```
 src/
   content/copy.ts       All German and English copy, one typed shape (`Copy`)
-  layouts/Base.astro    <head>, fonts, metadata
+  pages/index.astro     The German route; pages/en/index.astro is its twin
+  components/Page.astro The page both routes render
+  layouts/Base.astro    <head>, fonts, metadata, hreflang
   components/           One per section, in page order
-  scripts/page.ts       Reveals, count-up, station rail, DE/EN switch, video
+  scripts/page.ts       Reveals, count-up, station rail, video
   styles/global.css     Design tokens and the shared section chrome
   styles/fonts.css      Generated — see scripts/fetch-fonts.mjs
   assets/               Images (build-optimised by Astro)
@@ -84,12 +86,16 @@ page.
 
 **Brand name.** `BRAND` in the same file — it is a placeholder by design.
 
-**Language.** The page is rendered in German and switched client-side, as the
-prototype did. Every translatable node carries `data-i18n` with a dot path into
-`Copy` (`axes.2.figLabel`), and the switch walks those paths; attributes use
-`data-i18n-attr="alt:imgAlt"`. A returning visitor keeps the language they
-chose. If the two languages should ever become separate crawlable URLs, this is
-the part to replace.
+**Language.** Two routes, both rendered at build time: `/` is German, `/en/` is
+English (`i18n` in `astro.config.mjs`, `prefixDefaultLocale: false`, so the
+German page stays at the root it has always had). Every section reads its own
+language from the URL with `dictionaries[langFrom(Astro.currentLocale)]`, and
+`Base.astro` emits the matching `<html lang>`, canonical and `hreflang` set. The
+DE/EN control in the hero is two links, not a script.
+
+The prototype instead swapped the text in the browser from both dictionaries,
+which meant one URL, one set of metadata, and an English version no crawler
+could ever see.
 
 **Images.** Drop a replacement into `src/assets/` and update the import. The
 portraits are framed by `CroppedImage`, which reproduces the crop the design

@@ -5,9 +5,9 @@
  * the section into a location argument.
  */
 import SectionRules from './SectionRules.astro';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
 
 <section id="herausforderung" class="section">
@@ -16,29 +16,29 @@ const t = dictionaries[DEFAULT_LANG];
     <div class="section__head">
       <span class="marker" data-marker>
         <span class="marker__ref">{t.ref1}</span>
-        <span data-i18n="nav1">{t.nav1}</span>
+        <span>{t.nav1}</span>
       </span>
 
-      <h2 class="h2 challenge__title" data-i18n="s2Title">{t.s2Title}</h2>
+      <h2 class="h2 challenge__title">{t.s2Title}</h2>
     </div>
 
     <div class="challenge__grid" data-reveal>
       <div class="ledger">
         {
-          t.constraints.map((c, i) => (
+          t.constraints.map((c) => (
             <div class="ledger__row">
               <span class="ledger__n">{c.n}</span>
-              <span class="ledger__t" data-i18n={`constraints.${i}.t`}>
+              <span class="ledger__t">
                 {c.t}
               </span>
             </div>
           ))
         }
       </div>
-      <p class="challenge__body" data-i18n="s2Body">{t.s2Body}</p>
+      <p class="challenge__body">{t.s2Body}</p>
     </div>
 
-    <p class="challenge__pull" data-reveal data-i18n="s2Pull">{t.s2Pull}</p>
+    <p class="challenge__pull" data-reveal>{t.s2Pull}</p>
   </div>
 </section>
 

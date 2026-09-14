@@ -9,7 +9,7 @@
  * It lives at the top level of the page rather than inside a section, so it
  * spans the viewport without having to negate a section's gutter.
  */
-import { DEFAULT_LANG, dictionaries, type Copy } from '../content/copy';
+import { dictionaries, langFrom, type Copy } from '../content/copy';
 
 interface Props {
   /** Key into the copy dictionaries. */
@@ -17,12 +17,12 @@ interface Props {
 }
 
 const { textKey } = Astro.props;
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 const text = t[textKey];
 ---
 
 <div class="claim">
-  <p data-i18n={textKey}>{text}</p>
+  <p>{text}</p>
 </div>
 
 <style>

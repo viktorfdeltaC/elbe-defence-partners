@@ -11,9 +11,9 @@
 import SectionRules from './SectionRules.astro';
 import CroppedImage from './CroppedImage.astro';
 import dresden from '../assets/dresden-mikroelektronik.webp';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
 
 <section id="standort" class="section section--dark saxony on-dark">
@@ -22,27 +22,27 @@ const t = dictionaries[DEFAULT_LANG];
     <div class="section__head">
       <span class="marker marker--invert" data-marker>
         <span class="marker__ref">{t.ref2}</span>
-        <span data-i18n="nav2">{t.nav2}</span>
+        <span>{t.nav2}</span>
       </span>
 
-      <h2 class="h2 saxony__title" data-i18n="s3Title">{t.s3Title}</h2>
-      <p class="saxony__lead" data-i18n="s3Lead">{t.s3Lead}</p>
+      <h2 class="h2 saxony__title">{t.s3Title}</h2>
+      <p class="saxony__lead">{t.s3Lead}</p>
     </div>
 
     <div class="axes" data-reveal>
       {
-        t.axes.map((ax, i) => (
+        t.axes.map((ax) => (
           <div class="axis">
             <div class="axis__head">
-              {ax.n} <span data-i18n={`axes.${i}.t`}>{ax.t}</span>
+              {ax.n} <span>{ax.t}</span>
             </div>
-            <div class="axis__fig" data-i18n={`axes.${i}.fig`}>
+            <div class="axis__fig">
               {ax.fig}
             </div>
-            <div class="axis__figlabel" data-i18n={`axes.${i}.figLabel`}>
+            <div class="axis__figlabel">
               {ax.figLabel}
             </div>
-            <p class="axis__body" data-i18n={`axes.${i}.d`}>
+            <p class="axis__body">
               {ax.d}
             </p>
           </div>
@@ -52,21 +52,20 @@ const t = dictionaries[DEFAULT_LANG];
 
     <div class="saxony__role" data-reveal>
       <div>
-        <h3 class="saxony__roleTitle" data-i18n="s3bTitle">{t.s3bTitle}</h3>
-        <p class="saxony__roleBody" data-i18n="s3bBody">{t.s3bBody}</p>
-        <p class="saxony__roleNote" data-i18n="s3bNote">{t.s3bNote}</p>
+        <h3 class="saxony__roleTitle">{t.s3bTitle}</h3>
+        <p class="saxony__roleBody">{t.s3bBody}</p>
+        <p class="saxony__roleNote">{t.s3bNote}</p>
       </div>
       <div>
         <CroppedImage
           src={dresden}
           alt={t.imgAlt}
-          altKey="imgAlt"
           aspect={4 / 3}
           widths={[600, 900, 1200, 1800]}
           sizes="(max-width: 800px) 90vw, 45vw"
         />
         <div class="saxony__caption">
-          <span data-i18n="imgCap">{t.imgCap}</span>
+          <span>{t.imgCap}</span>
           <span>{t.ref2}</span>
         </div>
       </div>

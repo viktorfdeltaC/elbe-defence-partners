@@ -8,32 +8,32 @@
  * the 2px black edge above mark it as a separate address, not a further
  * chapter — hence the marker here does not stick.
  */
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
 
 <section id="kapital" class="capital">
   <div class="section__inner">
     <span class="marker marker--static" data-marker>
       <span class="marker__ref">{t.refCap}</span>
-      <span data-i18n="capLabel">{t.capLabel}</span>
+      <span>{t.capLabel}</span>
     </span>
 
     <div class="capital__grid">
       <div>
-        <h2 class="capital__title" data-i18n="capTitle">{t.capTitle}</h2>
-        <p class="capital__body" data-i18n="capBody">{t.capBody}</p>
-        <p class="capital__note" data-i18n="capNote">{t.capNote}</p>
-        <a class="capital__cta" href="mailto:kapital@example.com" data-i18n="capCta">{t.capCta}</a>
+        <h2 class="capital__title">{t.capTitle}</h2>
+        <p class="capital__body">{t.capBody}</p>
+        <p class="capital__note">{t.capNote}</p>
+        <a class="capital__cta" href="mailto:kapital@example.com">{t.capCta}</a>
       </div>
 
       <div class="ledger">
         {
-          t.capItems.map((ci, i) => (
+          t.capItems.map((ci) => (
             <div class="ledger__row">
               <span class="ledger__n">{ci.n}</span>
-              <span class="ledger__t" data-i18n={`capItems.${i}.t`}>
+              <span class="ledger__t">
                 {ci.t}
               </span>
             </div>

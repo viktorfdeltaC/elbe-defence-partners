@@ -1,0 +1,49 @@
+---
+/**
+ * The one-pager itself. Order is the argument:
+ *
+ *   Hero            — what the firm is for
+ *   Rail + figures  — where you are, and the market that frames it
+ *   A-01            — the problem the reader actually has
+ *   Claim           — answers the line A-01 ends on; the page's hinge
+ *   A-02            — why Dresden answers it, and what the firm does about it
+ *   B-01            — the services, each with the reason they can claim it
+ *   Band            — a breath before the ask
+ *   C-01            — the ask, and the two people behind it
+ *   D-01            — the second audience, reached by one route only
+ *
+ * It lives in a component rather than in the page file because two routes
+ * render it: `/` in German and `/en/` in English. Which one a section speaks
+ * is read from the URL inside each section, not passed down from here.
+ */
+import Base from '../layouts/Base.astro';
+import Hero from './Hero.astro';
+import ProgressRail from './ProgressRail.astro';
+import FigureBand from './FigureBand.astro';
+import Challenge from './Challenge.astro';
+import ClaimBand from './ClaimBand.astro';
+import WhySaxony from './WhySaxony.astro';
+import Services from './Services.astro';
+import VideoBand from './VideoBand.astro';
+import Contact from './Contact.astro';
+import Capital from './Capital.astro';
+import SiteFooter from './SiteFooter.astro';
+---
+
+<Base>
+  <Hero />
+  <ProgressRail />
+  <FigureBand />
+  <Challenge />
+  <ClaimBand textKey="s3Claim" />
+  <WhySaxony />
+  <Services />
+  <VideoBand />
+  <Contact />
+  <Capital />
+  <SiteFooter />
+</Base>
+
+<script>
+  import '../scripts/page';
+</script>

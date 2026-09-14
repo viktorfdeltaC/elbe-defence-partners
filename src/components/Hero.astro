@@ -9,9 +9,10 @@
 import { Image } from 'astro:assets';
 import hero from '../assets/hero-dresden-nacht.webp';
 import Wordmark from './Wordmark.astro';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
 
 const nav = [
   { href: '#herausforderung', ref: t.ref1, key: 'nav1' },
@@ -44,13 +45,16 @@ const nav = [
       {
         nav.map((item) => (
           <a href={item.href}>
-            {item.ref} <span data-i18n={item.key}>{t[item.key]}</span>
+            {item.ref} <span>{t[item.key]}</span>
           </a>
         ))
       }
+      {/* Two routes, so the switch is navigation rather than a script that
+          rewrites the document: /en/ is a page of its own that a crawler can
+          reach and index. */}
       <span class="langswitch">
-        <button type="button" data-lang="de" aria-pressed="true">DE</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <a href="/" aria-current={lang === 'de' ? 'page' : undefined}>DE</a>
+        <a href="/en/" aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
       </span>
     </nav>
   </div>
@@ -58,13 +62,13 @@ const nav = [
   <div class="hero__foot">
     <div class="hero__block">
       <h1 class="hero__title">
-        <span><span data-i18n="heroTitle">{t.heroTitle}</span></span>
+        <span><span>{t.heroTitle}</span></span>
       </h1>
-      <p class="hero__lead" data-i18n="heroLead">{t.heroLead}</p>
+      <p class="hero__lead">{t.heroLead}</p>
       <div class="hero__ctas">
-        <a class="btn btn--solid" href="#kontakt" data-i18n="cta1">{t.cta1}</a>
+        <a class="btn btn--solid" href="#kontakt">{t.cta1}</a>
         {/* Ausgeblendet, bis das Dossier vorliegt. Text steht als cta2 in copy.ts. */}
-        {/* <a class="btn btn--ghost" href="#kontakt" data-i18n="cta2">{t.cta2}</a> */}
+        {/* <a class="btn btn--ghost" href="#kontakt">{t.cta2}</a> */}
       </div>
     </div>
   </div>
@@ -163,19 +167,15 @@ const nav = [
     padding-left: 4px;
   }
 
-  .langswitch button {
-    background: none;
-    border: 0;
+  .langswitch a {
     padding: 2px 0;
-    cursor: pointer;
-    font-family: var(--font-mono);
     font-size: 11.5px;
     letter-spacing: 0.08em;
     color: rgba(255, 255, 255, 0.55);
     border-bottom: 1px solid transparent;
   }
 
-  .langswitch button[aria-pressed='true'] {
+  .langswitch a[aria-current] {
     color: #fff;
     border-bottom-color: #fff;
   }
@@ -266,8 +266,7 @@ const nav = [
   /* Tablets keep the full navigation, and a 14px link is no target for a
      thumb. Scoped to coarse pointers so the mouse-driven header is untouched. */
   @media (pointer: coarse) {
-    .hero__nav a,
-    .langswitch button {
+    .hero__nav a {
       display: inline-flex;
       align-items: center;
       min-height: 44px;
