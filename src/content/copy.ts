@@ -185,7 +185,7 @@ export const de: Copy = {
 
   s5Title: 'Erste Einschätzung in 30 Minuten.',
   s5Lead: 'Wo Sie heute stehen, was in Dresden möglich wäre, was es realistisch braucht.',
-  s5Scarcity: 'Wir arbeiten mit einer begrenzten Zahl von Unternehmen pro Jahr.',
+  s5Scarcity: 'Gespräche werden vertraulich geführt, auf Wunsch unter NDA.',
   addr2: '+49 351 000 000',
   fName: 'Name',
   fCompany: 'Unternehmen',
@@ -198,7 +198,7 @@ export const de: Copy = {
   capBody:
     'Die Hersteller, die hierherkommen, brauchen Flächen, Zulieferer, Dienstleister und Kapital. Vergeben wird davon nichts an den, der die Anforderungen der Branche nicht kennt. Wir kennen sie, und wir kennen die Hersteller.',
   capNote:
-    'Dieser Zugang ist kein Beratungsmandat und kein Fondsvehikel. Gespräche werden vertraulich geführt, auf Wunsch unter NDA.',
+    'Dieser Zugang ist kein Beratungsmandat und kein Fondsvehikel.',
   capCta: 'Vertrauliches Gespräch anfragen',
 
   imprint: 'Impressum',
@@ -394,7 +394,7 @@ export const en: Copy = {
 
   s5Title: 'An initial assessment in 30 minutes.',
   s5Lead: 'Where you stand today, what would be possible in Dresden, what it realistically takes.',
-  s5Scarcity: 'We work with a limited number of companies per year.',
+  s5Scarcity: 'Conversations are confidential, under NDA on request.',
   addr2: '+49 351 000 000',
   fName: 'Name',
   fCompany: 'Company',
@@ -407,7 +407,7 @@ export const en: Copy = {
   capBody:
     'The manufacturers arriving here need sites, suppliers, service providers and capital. None of it goes to anyone who does not know what the sector requires. We know those requirements, and we know the manufacturers.',
   capNote:
-    'This is neither an advisory mandate nor a fund vehicle. Conversations are confidential, under NDA on request.',
+    'This is neither an advisory mandate nor a fund vehicle.',
   capCta: 'Request a confidential conversation',
 
   imprint: 'Legal notice',
