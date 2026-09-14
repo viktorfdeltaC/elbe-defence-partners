@@ -246,7 +246,7 @@ export const de: Copy = {
   fBackToForm: 'Zurück zum Formular',
   htmlTitleSent: 'Anfrage gesendet | Sanktum',
   htmlTitleFailed: 'Anfrage nicht gesendet | Sanktum',
-  fPrivacy: 'Wir verwenden Ihre Angaben nur, um Ihre Anfrage zu beantworten. Mehr in der',
+  fPrivacy: 'Wir verwenden Ihre Angaben, um Ihre Anfrage zu beantworten und das Formular vor Missbrauch zu schützen. Mehr in der',
   fPrivacyLink: 'Datenschutzerklärung',
 
   capLabel: 'Kapital & Standortentwicklung',
@@ -482,7 +482,7 @@ export const en: Copy = {
   fBackToForm: 'Back to the form',
   htmlTitleSent: 'Enquiry sent | Sanktum',
   htmlTitleFailed: 'Enquiry not sent | Sanktum',
-  fPrivacy: 'We use your details only to answer your enquiry. More in our',
+  fPrivacy: 'We use your details to answer your enquiry and to protect the form from misuse. More in our',
   fPrivacyLink: 'privacy policy',
 
   capLabel: 'Capital & site development',

@@ -49,8 +49,7 @@ class SlidingWindow {
 }
 
 // Expired entries go every minute, so nothing outlives its window by more than
-// that — the privacy policy promises a day at most. unref(): the timer alone
-// does not keep the process alive.
+// that. unref(): the timer alone does not keep the process alive.
 setInterval(() => {
   const now = Date.now();
   for (const w of windows) w.prune(now);
@@ -63,8 +62,11 @@ export const perIp = new SlidingWindow(6, 10 * MINUTE);
  * Confirmations to one address. The address is not verified — anyone can type
  * someone else's — so it gets one confirmation a day at most. The team still
  * receives every enquiry.
+ *
+ * A minute short of a day, so that with the minute-by-minute clean-up the hash
+ * is gone within the day the privacy policy promises.
  */
-export const perRecipient = new SlidingWindow(1, 24 * HOUR);
+export const perRecipient = new SlidingWindow(1, 24 * HOUR - MINUTE);
 
 /** Confirmations in total, to keep the mailbox's sending quota out of reach. */
 export const allConfirmations = new SlidingWindow(30, HOUR);

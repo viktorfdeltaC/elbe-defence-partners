@@ -33,8 +33,8 @@ const mail = `mailto:${COMPANY.email}`;
 {lang === 'de' && (
 <div class="legal-prose" lang="de">
   <p class="legal-lead">
-    Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, speichert nichts in Ihrem Browser,
-    misst keine Reichweite und lädt nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür
+    Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, legt nichts im lokalen Speicher Ihres
+    Browsers ab, misst keine Reichweite und lädt nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür
     und wie lange, steht hier.
   </p>
 
@@ -52,11 +52,13 @@ const mail = `mailto:${COMPANY.email}`;
 
   <H><span class="legal-n">02</span>Was diese Website nicht tut</H>
   <p>
-    Wir setzen keine Cookies, legen auch sonst nichts in Ihrem Browser ab und verwenden keine
+    Wir setzen keine Cookies, legen nichts im lokalen Speicher Ihres Browsers ab und verwenden keine
     Analyse-, Tracking- oder Werbewerkzeuge. Es sind keine Inhalte fremder Anbieter eingebunden,
     also keine Karten, keine Social-Media-Plugins und keine extern gehosteten Videos. Schriften,
     Bilder und das Video kommen nicht von Google Fonts oder einem anderen fremden Dienst: Alles, was
-    Ihr Browser beim Besuch lädt, kommt von unserem eigenen Server.
+    Ihr Browser beim Besuch lädt, kommt von unserem eigenen Server. Schriften, Bilder und Skripte hält Ihr
+    Browser, wie bei jeder Website, in seinem gewöhnlichen Zwischenspeicher (Cache), damit er sie
+    nicht bei jedem Aufruf neu laden muss.
   </p>
 
   <H><span class="legal-n">03</span>Hosting und Server-Protokolle</H>
@@ -123,14 +125,14 @@ const mail = `mailto:${COMPANY.email}`;
   <p>
     Unser Server leitet die Angaben als E-Mail an unser Postfach {COMPANY.email} weiter und speichert
     sie selbst nicht. An die angegebene Adresse geht eine kurze Eingangsbestätigung, die nichts aus dem
-    Formular enthält. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist
+    Formular enthält, an dieselbe Adresse höchstens eine am Tag. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist
     die Beantwortung geschäftlicher Anfragen. Zielt Ihre Anfrage auf einen Vertrag mit Ihnen selbst,
     ist Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO. Für die E-Mails gilt, was unter 05 steht: Sie
     liegen in unserem Postfach bei Google Workspace und werden nach denselben Fristen gelöscht.
   </p>
   <p>
-    Gegen Missbrauch begrenzt der Server, wie oft das Formular von einer IP-Adresse aus und an eine
-    E-Mail-Adresse gesendet werden kann. Dafür hält er beide bis zu einem Tag als nicht umkehrbare
+    Gegen Missbrauch begrenzt der Server, wie oft das Formular von einer IP-Adresse aus gesendet
+    werden kann und wie oft eine Bestätigung an dieselbe E-Mail-Adresse geht. Dafür hält er beide bis zu einem Tag als nicht umkehrbare
     Kennung (Hash) im Arbeitsspeicher, schreibt sie nicht auf Datenträger und verknüpft sie mit nichts
     anderem. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist der
     Schutz des Formulars und unseres Postfachs vor massenhaftem Missbrauch.
@@ -184,8 +186,8 @@ const mail = `mailto:${COMPANY.email}`;
 <div class="legal-prose" lang="en">
   <p class="legal-note">This is a translation. In case of doubt, the German version applies.</p>
   <p class="legal-lead">
-    This website presents {BRAND}. It sets no cookies, stores nothing in your browser, measures no
-    reach and loads nothing from third parties. What data is processed nonetheless, for what purpose
+    This website presents {BRAND}. It sets no cookies, puts nothing in your browser's local storage,
+    measures no reach and loads nothing from third parties. What data is processed nonetheless, for what purpose
     and for how long, is set out here.
   </p>
 
@@ -203,11 +205,12 @@ const mail = `mailto:${COMPANY.email}`;
 
   <H><span class="legal-n">02</span>What this website does not do</H>
   <p>
-    We set no cookies, store nothing else in your browser and use no analytics, tracking or
+    We set no cookies, put nothing in your browser's local storage and use no analytics, tracking or
     advertising tools. No third-party content is
     embedded: no maps, no social media plugins, no externally hosted videos. Fonts, images and the
     video do not come from Google Fonts or any other third-party service: everything your browser
-    loads on a visit comes from our own server.
+    loads on a visit comes from our own server. Like any website's fonts, images and scripts, they are
+    kept in your browser's ordinary cache so they need not be loaded again on every visit.
   </p>
 
   <H><span class="legal-n">03</span>Hosting and server logs</H>
@@ -268,14 +271,14 @@ const mail = `mailto:${COMPANY.email}`;
   <p>
     Our server forwards these details as an email to our mailbox {COMPANY.email} and does not store
     them itself. A short confirmation of receipt, containing nothing from the form, goes to the address
-    you gave. The legal basis is Art. 6(1)(f) GDPR; our legitimate interest is answering business
+    you gave, no more than one a day to the same address. The legal basis is Art. 6(1)(f) GDPR; our legitimate interest is answering business
     enquiries. Where your enquiry aims at a contract with you personally, the legal basis is Art. 6(1)(b)
     GDPR. The emails are then treated as set out under 05: they are kept in our mailbox with Google
     Workspace and deleted on the same terms.
   </p>
   <p>
-    To prevent misuse, the server limits how often the form can be sent from one IP address and to one
-    email address. For this it keeps both for up to one day as an irreversible identifier (hash) in
+    To prevent misuse, the server limits how often the form can be sent from one IP address and how
+    often a confirmation goes to the same email address. For this it keeps both for up to one day as an irreversible identifier (hash) in
     memory only; it does not write them to disk or link them to anything else. The legal basis is
     Art. 6(1)(f) GDPR; our legitimate interest is protecting the form and our mailbox from mass misuse.
   </p>

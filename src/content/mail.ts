@@ -11,11 +11,12 @@
  * unsolicited advertising (BGH, 15.12.2015, VI ZR 134/15). Its footer carries
  * what every business letter of a GmbH has to (§ 35a GmbHG).
  */
-import { BRAND, type Lang } from './copy';
+import { BRAND, pathIn, type Lang } from './copy';
 import { COMPANY } from './company';
 import type { Enquiry } from '../server/enquiry';
 
-const privacyUrl = new URL('/datenschutz', import.meta.env.SITE).href;
+/** The privacy policy in the mail's own language — /datenschutz/ or /en/datenschutz/. */
+const privacyUrl = (lang: Lang) => new URL(pathIn(lang, '/datenschutz/'), import.meta.env.SITE).href;
 
 const confirmations: Record<Lang, { subject: string; body: string[]; footer: string[] }> = {
   de: {
@@ -24,7 +25,7 @@ const confirmations: Record<Lang, { subject: string; body: string[]; footer: str
     footer: [
       `${BRAND} ist eine Marke der ${COMPANY.name}.`,
       `${COMPANY.name} · Sitz: ${COMPANY.city} · ${COMPANY.registerCourt}, ${COMPANY.registerNumber} · Geschäftsführer: ${COMPANY.managingDirector}`,
-      `Datenschutz: ${privacyUrl}`,
+      `Datenschutz: ${privacyUrl('de')}`,
       '',
       'Diese E-Mail ging an Sie, weil über das Kontaktformular auf sanktum.de eine Anfrage mit dieser Adresse gesendet wurde. Waren Sie das nicht, können Sie sie ignorieren.',
     ],
@@ -35,7 +36,7 @@ const confirmations: Record<Lang, { subject: string; body: string[]; footer: str
     footer: [
       `${BRAND} is a brand of ${COMPANY.name}.`,
       `${COMPANY.name} · Registered office: ${COMPANY.city} · ${COMPANY.registerCourt}, ${COMPANY.registerNumber} · Managing director: ${COMPANY.managingDirector}`,
-      `Privacy: ${privacyUrl}`,
+      `Privacy: ${privacyUrl('en')}`,
       '',
       'You are receiving this email because an enquiry was sent with this address through the contact form on sanktum.de. If that was not you, you can ignore it.',
     ],
