@@ -181,7 +181,7 @@ export const de: Copy = {
   imgCap: 'Dresden — Mikroelektronik-Cluster',
   imgAlt: 'Dresden bei Nacht, Blick über die Elbe auf die Altstadt',
 
-  s4Title: 'Leistungsspektrum',
+  s4Title: 'Was ein Vorhaben trägt, bis es läuft.',
 
   s5Title: 'Erste Einschätzung in 30 Minuten.',
   s5Lead: 'Wo Sie heute stehen, was in Dresden möglich wäre, was es realistisch braucht.',
@@ -269,7 +269,7 @@ export const de: Copy = {
       body: 'Standort, Genehmigung, Bau. Schlüsselfertig, aus 20 Jahren Immobilien- und Bauprojekten.',
       items: [
         'Immobilienzugang in Dresden und Umland, inklusive flughafennaher Assets',
-        'Standortanforderungen aus Rüstungsvorschriften von Anfang an mitgedacht — wir kennen sie aus der Anwendung, nicht aus dem Handbuch',
+        'Standortanforderungen aus Rüstungsvorschriften von Anfang an mitgedacht: Wir kennen sie aus der Anwendung, nicht aus dem Handbuch',
         'Antrags- und Genehmigungsverfahren vor Ort begleitet',
         'Vergabe und Koordination aller Gewerke, Baubegleitung nach §34c GewO',
       ],
@@ -277,7 +277,7 @@ export const de: Copy = {
     {
       n: 'B-01.2',
       title: 'Betreiben',
-      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut aus militärischer und regulatorischer Erfahrung — und der Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
+      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut aus militärischer und regulatorischer Erfahrung. Dazu die Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
       items: [
         'Digitalisierte Verwaltungs- und Genehmigungsprozesse statt Papier und Mailketten',
         'Digitales Projektmanagement mit Reporting für Investoren und Behörden',
@@ -289,12 +289,12 @@ export const de: Copy = {
     {
       n: 'B-01.3',
       title: 'Wachsen',
-      body: 'Netzwerk, Kapital, politischer Zugang — gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
+      body: 'Netzwerk, Kapital, politischer Zugang. Gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
       items: [
         'Netzwerkformate zwischen den Defence-Hubs im Bundesgebiet und Dresden',
         'Kuratiertes Dienstleisternetzwerk',
         'Strategische und geopolitische Einordnung für Expansionsentscheidungen',
-        'Zugang zu Family Offices und politischen Entscheidern',
+        'Ein Vorhaben, das bei Kapitalgebern und politischen Entscheidern eingeführt ist',
       ],
     },
   ],
@@ -386,7 +386,7 @@ export const en: Copy = {
   imgCap: 'Dresden — microelectronics cluster',
   imgAlt: 'Dresden at night, looking across the Elbe towards the old town',
 
-  s4Title: 'Services',
+  s4Title: 'What carries a project through to operation.',
 
   s5Title: 'An initial assessment in 30 minutes.',
   s5Lead: 'Where you stand today, what would be possible in Dresden, what it realistically takes.',
@@ -474,7 +474,7 @@ export const en: Copy = {
       body: 'Site, permitting, construction. Turnkey, from 20 years of real estate and construction projects.',
       items: [
         'Property access in Dresden and the surrounding region, including airport-adjacent assets',
-        'Site requirements from defence regulations considered from the start — we know them from application, not from the manual',
+        'Site requirements from defence regulations considered from the start: we know them from application, not from the manual',
         'Application and permitting procedures supported on the ground',
         'Tendering and coordination of all trades, construction supervision under §34c GewO',
       ],
@@ -482,7 +482,7 @@ export const en: Copy = {
     {
       n: 'B-01.2',
       title: 'Operate',
-      body: 'Administration that runs without you watching. Built from military and regulatory experience — and the ability to build processes digitally rather than merely administer them.',
+      body: 'Administration that runs without you watching. Built from military and regulatory experience. Plus the ability to build processes digitally rather than merely administer them.',
       items: [
         'Digitalised administrative and permitting processes instead of paper and mail chains',
         'Digital project management with reporting for investors and authorities',
@@ -494,12 +494,12 @@ export const en: Copy = {
     {
       n: 'B-01.3',
       title: 'Grow',
-      body: 'Network, capital, political access — grown over two decades in financial markets and defence.',
+      body: 'Network, capital, political access. Grown over two decades in financial markets and defence.',
       items: [
         'Networking events between the German defence hubs and Dresden',
         'Curated service provider network',
         'Strategic and geopolitical assessment for expansion decisions',
-        'Access to family offices and political decision-makers',
+        'A project already introduced to capital providers and political decision-makers',
       ],
     },
   ],
