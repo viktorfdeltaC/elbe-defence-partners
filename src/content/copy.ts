@@ -194,9 +194,9 @@ export const de: Copy = {
   fSend: 'Einschätzung anfragen',
 
   capLabel: 'Kapital & Standortentwicklung',
-  capTitle: 'Zwei Welten, ein Bindeglied.',
+  capTitle: 'Der Markt kommt hierher. Der Zugang zu ihm nicht.',
   capBody:
-    'Auf der einen Seite Hersteller, die Produktionskapazität brauchen. Auf der anderen Seite Family Offices, kommunale Akteure und Landespolitik, die Standortentwicklung und Anschluss an die Herstellerwelt suchen. Wir stehen zwischen beiden und führen aus.',
+    'Die Hersteller, die hierherkommen, brauchen Flächen, Zulieferer, Dienstleister und Kapital. Vergeben wird davon nichts an den, der die Anforderungen der Branche nicht kennt. Wir kennen sie, und wir kennen die Hersteller.',
   capNote:
     'Dieser Zugang ist kein Beratungsmandat und kein Fondsvehikel. Gespräche werden vertraulich geführt, auf Wunsch unter NDA.',
   capCta: 'Vertrauliches Gespräch anfragen',
@@ -211,6 +211,7 @@ export const de: Copy = {
     'B-01.2 Betreiben',
     'B-01.3 Wachsen',
     'C-01 Kontakt',
+    'D-01 Kapital',
   ],
 
   figures: [
@@ -402,9 +403,9 @@ export const en: Copy = {
   fSend: 'Request assessment',
 
   capLabel: 'Capital & site development',
-  capTitle: 'Two worlds, one bridge.',
+  capTitle: 'The market is coming here. Access to it is not.',
   capBody:
-    'On one side, manufacturers who need production capacity. On the other, family offices, municipal actors and state politics looking for site development and access to the manufacturer world. We stand between the two and execute.',
+    'The manufacturers arriving here need sites, suppliers, service providers and capital. None of it goes to anyone who does not know what the sector requires. We know those requirements, and we know the manufacturers.',
   capNote:
     'This is neither an advisory mandate nor a fund vehicle. Conversations are confidential, under NDA on request.',
   capCta: 'Request a confidential conversation',
@@ -419,6 +420,7 @@ export const en: Copy = {
     'B-01.2 Operate',
     'B-01.3 Grow',
     'C-01 Contact',
+    'D-01 Capital',
   ],
 
   figures: [
