@@ -183,9 +183,10 @@ for all of them.
 
 Before going live, send one test enquiry and check that it reaches
 info@sanktum.de and that the confirmation reaches the sender's inbox, not the
-spam folder. For that sanktum.de wants DKIM (Google Admin → Gmail → Authenticate
-email) beside the MX and SPF records that exist. The DMARC record sends its
-reports to info@sanctum.de — with a c — and should say sanktum.
+spam folder, with `dkim=pass` for sanktum.de in its headers. The DNS for that is
+in place at Cloudflare: MX and SPF for Google, the DKIM key at
+`google._domainkey` (signing switched on in Google Admin → Gmail → Authenticate
+email), and DMARC at `p=none` with its reports going to info@sanktum.de.
 
 ## Still open
 
