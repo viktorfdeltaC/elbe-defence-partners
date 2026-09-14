@@ -155,20 +155,31 @@ reveals only arm themselves once the script runs.
 ## Deploy
 
 Coolify, on the company's own server at STRATO, from the `Dockerfile`: a Node 24
-image that runs `dist/server/entry.mjs` on port 4321, with a healthcheck.
+image that runs `dist/server/entry.mjs` behind tini, on the port Coolify hands
+it in `PORT` (4321 by default), with a healthcheck that follows the same port.
 
 In Coolify:
 
-- **Build pack** Dockerfile, **exposed port** 4321.
-- **Domains** `https://sanktum.de` and `https://www.sanktum.de`, one redirecting
-  to the other. Both are in `security.allowedDomains`; `site` in
+- **Build pack** Dockerfile, **ports exposes** 4321. Coolify passes that value
+  on as `PORT`; do not add a `PORT` variable of your own.
+- **Domains** `https://sanktum.de` and `https://www.sanktum.de`, redirecting www
+  to the bare domain. Both are in `security.allowedDomains`; `site` in
   `astro.config.mjs` is `https://sanktum.de`.
-- **Environment**, as runtime variables — never build variables:
+- **Environment**, as runtime variables — never build variables. Newer Coolify
+  versions tick "Available at Buildtime" by default; untick it for these, or
+  the password ends up in the image's build history:
   `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=465`, `SMTP_USER=info@sanktum.de`, and
   `SMTP_PASS`, an app password of that account (Google requires 2-Step
   Verification on it). `SMTP_FROM` and `CONTACT_TO` are optional; see
   `.env.example`. Without the three required ones the form answers 503 and
   gives the address instead — it never pretends to have sent.
+- **Auto deploy** on push to `main`: the webhook URL from Coolify's "Webhooks"
+  tab goes into Gitea → repository settings → Webhooks as a push webhook.
+
+sanktum.de has an A record only. Should an AAAA record be added, Docker needs
+IPv6 on the Coolify network first; otherwise Traefik sees every IPv6 visitor as
+the network's gateway address, and the form's per-IP limit becomes one limit
+for all of them.
 
 Before going live, send one test enquiry and check that it reaches
 info@sanktum.de and that the confirmation reaches the sender's inbox, not the
