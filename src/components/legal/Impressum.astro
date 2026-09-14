@@ -30,7 +30,7 @@ const lang = langFrom(Astro.currentLocale);
   <address>
     {COMPANY.name}<br />
     {COMPANY.street}<br />
-    {COMPANY.postcode} {COMPANY.city}<br />
+    {`${COMPANY.postcode} ${COMPANY.city}`}<br />
     {COMPANY.country}
   </address>
   <p>{BRAND} ist eine Marke der {COMPANY.name}.</p>

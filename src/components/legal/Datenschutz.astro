@@ -43,7 +43,7 @@ const mail = `mailto:${COMPANY.email}`;
   <address>
     {COMPANY.name}<br />
     {COMPANY.street}<br />
-    {COMPANY.postcode} {COMPANY.city}<br />
+    {`${COMPANY.postcode} ${COMPANY.city}`}<br />
     {COMPANY.country}<br />
     vertreten durch den Geschäftsführer {COMPANY.managingDirector}<br />
     E-Mail: <a href={mail}>{COMPANY.email}</a>
@@ -194,7 +194,7 @@ const mail = `mailto:${COMPANY.email}`;
   <address>
     {COMPANY.name}<br />
     {COMPANY.street}<br />
-    {COMPANY.postcode} {COMPANY.city}<br />
+    {`${COMPANY.postcode} ${COMPANY.city}`}<br />
     {COMPANY.countryEn}<br />
     represented by its managing director {COMPANY.managingDirector}<br />
     Email: <a href={mail}>{COMPANY.email}</a>
