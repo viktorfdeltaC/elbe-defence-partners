@@ -7,9 +7,11 @@
  * a model described Google Analytics, Google Fonts and a contact form that do
  * not exist there, and left out the booking that does.
  *
- * So this has to change together with the site: section 07 describes the
+ * So this has to change together with the site: section 06 describes the
  * contact form as src/pages/api/kontakt.ts and src/server/ implement it, and
  * the booking, once there is one, adds its own section in the same deploy.
+ * The section on the stored language choice went when the language became a
+ * route (/en/) — nothing is kept in the browser any more.
  * Both languages share a structure and a date; the English one is a
  * translation and says so.
  */
@@ -28,8 +30,9 @@ const mail = `mailto:${COMPANY.email}`;
 
 <div class="legal-prose" lang="de" data-lang-block="de">
   <p class="legal-lead">
-    Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, misst keine Reichweite und lädt
-    nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür und wie lange, steht hier.
+    Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, speichert nichts in Ihrem Browser,
+    misst keine Reichweite und lädt nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür
+    und wie lange, steht hier.
   </p>
 
   <H><span class="legal-n">01</span>Verantwortlicher</H>
@@ -46,9 +49,9 @@ const mail = `mailto:${COMPANY.email}`;
 
   <H><span class="legal-n">02</span>Was diese Website nicht tut</H>
   <p>
-    Wir setzen keine Cookies und keine Analyse-, Tracking- oder Werbewerkzeuge ein. Es sind keine
-    Inhalte fremder Anbieter eingebunden, also keine Karten, keine Social-Media-Plugins und keine
-    extern gehosteten Videos. Schriften, Bilder und das Video kommen nicht von Google Fonts oder
+    Wir setzen keine Cookies, legen auch sonst nichts in Ihrem Browser ab und verwenden keine
+    Analyse-, Tracking- oder Werbewerkzeuge. Es sind keine Inhalte fremder Anbieter eingebunden,
+    also keine Karten, keine Social-Media-Plugins und keine extern gehosteten Videos. Schriften, Bilder und das Video kommen nicht von Google Fonts oder
     einem anderen fremden Dienst: Alles, was Ihr Browser beim Besuch lädt, kommt von unserem eigenen
     Server.
   </p>
@@ -86,17 +89,7 @@ const mail = `mailto:${COMPANY.email}`;
     in der Adresszeile Ihres Browsers.
   </p>
 
-  <H><span class="legal-n">05</span>Ihre Sprachwahl</H>
-  <p>
-    Wählen Sie über den Umschalter DE/EN eine Sprache, speichert Ihr Browser diese Wahl im lokalen
-    Speicher (Local Storage) unter dem Eintrag „edp:lang“, mit dem Wert „de“ oder „en“ und sonst
-    nichts. So erscheint die Seite beim nächsten Besuch in derselben Sprache. Der Eintrag bleibt auf
-    Ihrem Gerät und wird nicht an uns übermittelt. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG: Die
-    Speicherung ist unbedingt erforderlich, damit die von Ihnen ausdrücklich gewählte Einstellung
-    erhalten bleibt. Sie können den Eintrag jederzeit über die Einstellungen Ihres Browsers löschen.
-  </p>
-
-  <H><span class="legal-n">06</span>Kontakt per E-Mail</H>
+  <H><span class="legal-n">05</span>Kontakt per E-Mail</H>
   <p>
     Schreiben Sie uns eine E-Mail, verarbeiten wir die Angaben daraus, in der Regel Name,
     E-Mail-Adresse, Unternehmen und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten.
@@ -117,7 +110,7 @@ const mail = `mailto:${COMPANY.email}`;
     Regel sechs Jahre (§ 257 HGB, § 147 AO).
   </p>
 
-  <H><span class="legal-n">07</span>Kontaktformular</H>
+  <H><span class="legal-n">06</span>Kontaktformular</H>
   <p>
     Über das Kontaktformular senden Sie uns Name, Unternehmen und E-Mail-Adresse, auf Wunsch eine
     Beschreibung Ihres Vorhabens und dazu die Sprache, in der Sie die Seite lesen. Name, Unternehmen
@@ -129,7 +122,7 @@ const mail = `mailto:${COMPANY.email}`;
     sie selbst nicht. An die angegebene Adresse geht eine kurze Eingangsbestätigung, die nichts aus dem
     Formular enthält. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist
     die Beantwortung geschäftlicher Anfragen. Zielt Ihre Anfrage auf einen Vertrag mit Ihnen selbst,
-    ist Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO. Für die E-Mails gilt, was unter 06 steht: Sie
+    ist Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO. Für die E-Mails gilt, was unter 05 steht: Sie
     liegen in unserem Postfach bei Google Workspace und werden nach denselben Fristen gelöscht.
   </p>
   <p>
@@ -140,7 +133,7 @@ const mail = `mailto:${COMPANY.email}`;
     Schutz des Formulars und unseres Postfachs vor massenhaftem Missbrauch.
   </p>
 
-  <H><span class="legal-n">08</span>Ihre Rechte</H>
+  <H><span class="legal-n">07</span>Ihre Rechte</H>
   <p>
     Sie haben das Recht auf Auskunft über die bei uns gespeicherten Daten (Art. 15 DSGVO), auf
     Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und
@@ -155,7 +148,7 @@ const mail = `mailto:${COMPANY.email}`;
     die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
   </p>
 
-  <H><span class="legal-n">09</span>Beschwerderecht</H>
+  <H><span class="legal-n">08</span>Beschwerderecht</H>
   <p>
     Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Zuständig für
     uns ist:
@@ -167,7 +160,7 @@ const mail = `mailto:${COMPANY.email}`;
     <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
   </address>
 
-  <H><span class="legal-n">10</span>Keine Pflicht, keine automatisierten Entscheidungen</H>
+  <H><span class="legal-n">09</span>Keine Pflicht, keine automatisierten Entscheidungen</H>
   <p>
     Sie sind weder gesetzlich noch vertraglich verpflichtet, uns Daten bereitzustellen. Ohne die
     technisch nötigen Verbindungsdaten lässt sich die Website allerdings nicht ausliefern, und ohne
@@ -175,7 +168,7 @@ const mail = `mailto:${COMPANY.email}`;
     automatisierte Entscheidungsfindung einschließlich Profiling (Art. 22 DSGVO) findet nicht statt.
   </p>
 
-  <H><span class="legal-n">11</span>Änderungen</H>
+  <H><span class="legal-n">10</span>Änderungen</H>
   <p>
     Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die Rechtslage ändert. Es
     gilt die jeweils hier veröffentlichte Fassung.
@@ -186,8 +179,9 @@ const mail = `mailto:${COMPANY.email}`;
 <div class="legal-prose" lang="en" data-lang-block="en">
   <p class="legal-note">This is a translation. In case of doubt, the German version applies.</p>
   <p class="legal-lead">
-    This website presents {BRAND}. It sets no cookies, measures no reach and loads nothing from third
-    parties. What data is processed nonetheless, for what purpose and for how long, is set out here.
+    This website presents {BRAND}. It sets no cookies, stores nothing in your browser, measures no
+    reach and loads nothing from third parties. What data is processed nonetheless, for what purpose
+    and for how long, is set out here.
   </p>
 
   <H><span class="legal-n">01</span>Controller</H>
@@ -204,7 +198,8 @@ const mail = `mailto:${COMPANY.email}`;
 
   <H><span class="legal-n">02</span>What this website does not do</H>
   <p>
-    We use no cookies and no analytics, tracking or advertising tools. No third-party content is
+    We set no cookies, store nothing else in your browser and use no analytics, tracking or
+    advertising tools. No third-party content is
     embedded: no maps, no social media plugins, no externally hosted videos. Fonts, images and the
     video do not come from Google Fonts or any other third-party service: everything your browser
     loads on a visit comes from our own server.
@@ -241,17 +236,7 @@ const mail = `mailto:${COMPANY.email}`;
     “https://” in your browser's address bar.
   </p>
 
-  <H><span class="legal-n">05</span>Your language choice</H>
-  <p>
-    If you choose a language with the DE/EN switch, your browser saves that choice in its local storage
-    under the entry “edp:lang”, with the value “de” or “en” and nothing else, so the site appears in
-    the same language on your next visit. The entry stays on your device and is not transmitted to us.
-    The legal basis is Section 25(2) no. 2 of the German Telecommunications Digital Services Data
-    Protection Act (TDDDG): storing it is strictly necessary to keep the setting you expressly chose.
-    You can delete the entry at any time in your browser settings.
-  </p>
-
-  <H><span class="legal-n">06</span>Contact by email</H>
+  <H><span class="legal-n">05</span>Contact by email</H>
   <p>
     If you email us, we process the details it contains, usually name, email address, company and the
     content of your message, to answer your enquiry. The legal basis is Art. 6(1)(f) GDPR; our
@@ -269,7 +254,7 @@ const mail = `mailto:${COMPANY.email}`;
     commercial and tax law require, usually six years (Section 257 HGB, Section 147 AO).
   </p>
 
-  <H><span class="legal-n">07</span>Contact form</H>
+  <H><span class="legal-n">06</span>Contact form</H>
   <p>
     Through the contact form you send us your name, company and email address, a description of your
     project if you wish, and the language you are reading the site in. We need your name, company and
@@ -280,7 +265,7 @@ const mail = `mailto:${COMPANY.email}`;
     them itself. A short confirmation of receipt, containing nothing from the form, goes to the address
     you gave. The legal basis is Art. 6(1)(f) GDPR; our legitimate interest is answering business
     enquiries. Where your enquiry aims at a contract with you personally, the legal basis is Art. 6(1)(b)
-    GDPR. The emails are then treated as set out under 06: they are kept in our mailbox with Google
+    GDPR. The emails are then treated as set out under 05: they are kept in our mailbox with Google
     Workspace and deleted on the same terms.
   </p>
   <p>
@@ -290,7 +275,7 @@ const mail = `mailto:${COMPANY.email}`;
     Art. 6(1)(f) GDPR; our legitimate interest is protecting the form and our mailbox from mass misuse.
   </p>
 
-  <H><span class="legal-n">08</span>Your rights</H>
+  <H><span class="legal-n">07</span>Your rights</H>
   <p>
     You have the right of access to the data we hold about you (Art. 15 GDPR), to rectification
     (Art. 16), erasure (Art. 17), restriction of processing (Art. 18) and data portability (Art. 20).
@@ -304,7 +289,7 @@ const mail = `mailto:${COMPANY.email}`;
     or defence of legal claims.
   </p>
 
-  <H><span class="legal-n">09</span>Right to lodge a complaint</H>
+  <H><span class="legal-n">08</span>Right to lodge a complaint</H>
   <p>
     You may lodge a complaint with a data protection supervisory authority (Art. 77 GDPR). The
     authority responsible for us is:
@@ -316,7 +301,7 @@ const mail = `mailto:${COMPANY.email}`;
     <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
   </address>
 
-  <H><span class="legal-n">10</span>No obligation, no automated decisions</H>
+  <H><span class="legal-n">09</span>No obligation, no automated decisions</H>
   <p>
     You are under no statutory or contractual obligation to provide us with data. Without the
     technically necessary connection data, however, the website cannot be delivered, and without a
@@ -324,7 +309,7 @@ const mail = `mailto:${COMPANY.email}`;
     automated decision-making, including profiling (Art. 22 GDPR).
   </p>
 
-  <H><span class="legal-n">11</span>Changes</H>
+  <H><span class="legal-n">10</span>Changes</H>
   <p>
     We update this privacy policy when the website or the law changes. The version published here
     applies.
