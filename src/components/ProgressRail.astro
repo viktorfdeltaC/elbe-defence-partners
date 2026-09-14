@@ -20,7 +20,7 @@ const targets = ['#herausforderung', '#standort', '#leistungen', '#leistungen', 
 
 <div class="rail on-dark">
   <div class="rail__inner">
-    <nav class="rail__stops" aria-label="Sektionen">
+    <nav class="rail__stops" aria-label={t.railLabel}>
       {
         t.railStops.map((stop, i) => (
           <a href={targets[i]} data-rail-stop>

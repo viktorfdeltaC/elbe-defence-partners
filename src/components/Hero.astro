@@ -41,7 +41,7 @@ const nav = [
       <span class="wordmark__ref">{t.docRef}</span>
     </span>
 
-    <nav class="hero__nav" aria-label="Hauptnavigation">
+    <nav class="hero__nav" aria-label={t.navLabel}>
       {
         nav.map((item) => (
           <a href={item.href}>
@@ -327,8 +327,10 @@ const nav = [
     /* The five nav links wrapped to three ragged rows and repeated the sticky
        station band almost verbatim — two navigations for one page. The band
        carries navigation on a phone (its stations are links); here only the
-       wordmark and the language switch remain. */
-    .hero__nav a {
+       wordmark and the language switch remain. Direct children only: since the
+       switch became two links, a plain `.hero__nav a` hid it too, and a phone
+       had no way to the other language. */
+    .hero__nav > a {
       display: none;
     }
 
@@ -340,7 +342,7 @@ const nav = [
       margin-left: auto;
     }
 
-    .langswitch button {
+    .langswitch a {
       font-size: 12.5px;
     }
 

@@ -82,6 +82,9 @@ export interface Copy {
   nav3: string;
   nav4: string;
   navCap: string;
+  /** Accessible names of the hero's navigation and the station rail. */
+  navLabel: string;
+  railLabel: string;
 
   heroTitle: string;
   heroLead: string;
@@ -189,6 +192,8 @@ export const de: Copy = {
   nav3: 'Leistungen',
   nav4: 'Nächster Schritt',
   navCap: 'Kapital',
+  navLabel: 'Hauptnavigation',
+  railLabel: 'Sektionen',
 
   // U+00AD soft hyphen: invisible, but gives the browser a break point in the
   // compound so the word cannot run past the edge on a phone. Deterministic
@@ -427,6 +432,8 @@ export const en: Copy = {
   nav3: 'Services',
   nav4: 'Next step',
   navCap: 'Capital',
+  navLabel: 'Main navigation',
+  railLabel: 'Sections',
 
   heroTitle: 'Where technology becomes defence capability.',
   heroLead: 'For companies moving from prototype to series production.',
