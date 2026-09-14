@@ -194,7 +194,10 @@ export const de: Copy = {
   fSend: 'Einschätzung anfragen',
 
   capLabel: 'Kapital & Standortentwicklung',
-  capTitle: 'Der Markt kommt hierher. Der Zugang zu ihm nicht.',
+  // Zeilenumbruch zwischen den beiden Sätzen: .capital__title führt
+  // white-space: pre-line, damit jeder Satz auf seiner eigenen Zeile beginnt
+  // und bei wenig Breite trotzdem weiter umbrechen darf.
+  capTitle: 'Der Markt kommt hierher.\nDer Zugang zu ihm nicht.',
   capBody:
     'Die Hersteller, die hierherkommen, brauchen Flächen, Zulieferer, Dienstleister und Kapital. Vergeben wird davon nichts an den, der die Anforderungen der Branche nicht kennt. Wir kennen sie, und wir kennen die Hersteller.',
   capNote:
@@ -403,7 +406,7 @@ export const en: Copy = {
   fSend: 'Request assessment',
 
   capLabel: 'Capital & site development',
-  capTitle: 'The market is coming here. Access to it is not.',
+  capTitle: 'The market is coming here.\nAccess to it is not.',
   capBody:
     'The manufacturers arriving here need sites, suppliers, service providers and capital. None of it goes to anyone who does not know what the sector requires. We know those requirements, and we know the manufacturers.',
   capNote:
