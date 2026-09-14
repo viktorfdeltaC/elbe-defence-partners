@@ -1,17 +1,9 @@
 ---
 /**
- * Where the contact form lands when it was sent without JavaScript and went
- * through. With JavaScript the same words take the form's place instead.
+ * The contact form's answer after a send without JavaScript that went through,
+ * German route. Its twin is src/pages/en/kontakt/danke.astro.
  */
-import Document from '../../layouts/Document.astro';
-import { DEFAULT_LANG, dictionaries } from '../../content/copy';
-
-const t = dictionaries[DEFAULT_LANG];
+import Sent from '../../components/contact/Sent.astro';
 ---
 
-<Document titleKey="htmlTitleSent" headingKey="fDoneTitle" refKey="ref4" labelKey="nav4">
-  <div class="legal-prose">
-    <p data-i18n="fDoneBody">{t.fDoneBody}</p>
-    <p><a href="/" data-i18n="legalBack">{t.legalBack}</a></p>
-  </div>
-</Document>
+<Sent />

@@ -1,0 +1,19 @@
+---
+/**
+ * Where the contact form lands when it was sent without JavaScript and went
+ * through — /kontakt/danke/ and /en/kontakt/danke/ render this. With
+ * JavaScript the same words take the form's place instead.
+ */
+import Document from '../../layouts/Document.astro';
+import { dictionaries, langFrom, pathIn } from '../../content/copy';
+
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+---
+
+<Document titleKey="htmlTitleSent" headingKey="fDoneTitle" refKey="ref4" labelKey="nav4" indexable={false}>
+  <div class="legal-prose">
+    <p>{t.fDoneBody}</p>
+    <p><a href={pathIn(lang, '/')}>{t.legalBack}</a></p>
+  </div>
+</Document>

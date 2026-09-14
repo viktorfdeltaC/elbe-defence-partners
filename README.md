@@ -123,8 +123,10 @@ language they read the site in. The confirmation carries nothing from the form
 domain to whoever that address belongs to. Its texts are in `src/content/mail.ts`.
 
 Without JavaScript the form still works: the server answers with
-`/kontakt/danke/` or `/kontakt/fehler/`. `src/scripts/contact.ts` keeps the
-visitor on the page instead. Form posts from other sites are refused by Astro's
+`/kontakt/danke/` or `/kontakt/fehler/` — under `/en/` for the English route,
+taken from the form's `lang` field. `src/scripts/contact.ts` keeps the visitor on
+the page instead; its messages come from the form's `data-msg-*` attributes in
+the page's language, so no dictionary is shipped to the browser. Form posts from other sites are refused by Astro's
 origin check, which relies on `security.allowedDomains` in `astro.config.mjs` to
 recognise the real host behind the proxy. A new domain goes there too, or every
 form sent without JavaScript fails with 403.

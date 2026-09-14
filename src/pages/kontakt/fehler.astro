@@ -1,23 +1,9 @@
 ---
 /**
- * Where the contact form lands when it was sent without JavaScript and did not
- * go through — whatever the reason: a field the server refused, too many
- * requests, the mail server out of reach. A prerendered page cannot say which;
- * it can offer the way back and the address.
+ * The contact form's answer after a send without JavaScript that failed,
+ * German route. Its twin is src/pages/en/kontakt/fehler.astro.
  */
-import Document from '../../layouts/Document.astro';
-import { DEFAULT_LANG, dictionaries } from '../../content/copy';
-import { COMPANY } from '../../content/company';
-
-const t = dictionaries[DEFAULT_LANG];
+import Failed from '../../components/contact/Failed.astro';
 ---
 
-<Document titleKey="htmlTitleFailed" headingKey="fFailTitle" refKey="ref4" labelKey="nav4">
-  <div class="legal-prose">
-    <p>
-      <span data-i18n="fFailBody">{t.fFailBody}</span>
-      <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
-    </p>
-    <p><a href="/#kontakt" data-i18n="fBackToForm">{t.fBackToForm}</a></p>
-  </div>
-</Document>
+<Failed />

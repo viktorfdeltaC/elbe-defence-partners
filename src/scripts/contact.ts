@@ -6,24 +6,16 @@
  * checked here first, with the server's own rules, the enquiry goes out with
  * fetch, and the answer takes the form's place.
  *
- * Every message is a key into the dictionaries, set as data-i18n on its node,
- * so the language switch translates it like any other text on the page. The
- * enquiry goes as FormData rather than JSON so that Astro's origin check,
+ * Its messages come from the form's data-msg-* attributes, rendered in the
+ * page's language (Contact.astro), so no dictionary travels with this module.
+ * The enquiry goes as FormData rather than JSON so that Astro's origin check,
  * which only looks at form submissions, still covers it.
  */
-import { dictionaries, type Lang, type TextKey } from '../content/copy';
 import { COMPANY } from '../content/company';
 import { EMAIL, type Field } from '../server/enquiry';
 
 type Outcome = 'sent' | 'invalid' | 'rate' | 'unavailable' | 'failed';
-
-const lang = (): Lang => (document.documentElement.lang === 'en' ? 'en' : 'de');
-
-/** Sets a node's text and marks it, so the language switch keeps it current. */
-const setText = (node: HTMLElement, key: TextKey) => {
-  node.dataset.i18n = key;
-  node.textContent = dictionaries[lang()][key];
-};
+type Message = 'send' | 'sending' | 'required' | 'badMail' | 'invalid' | 'rate' | 'failed';
 
 const form = document.querySelector<HTMLFormElement>('form[data-contact-form]');
 const done = document.querySelector<HTMLElement>('[data-contact-done]');
@@ -33,6 +25,9 @@ const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 if (form && done && status && button) enhance(form, done, status, button);
 
 function enhance(form: HTMLFormElement, done: HTMLElement, status: HTMLElement, button: HTMLButtonElement) {
+  // data-msg-bad-mail arrives as dataset.msgBadMail.
+  const message = (key: Message) => form.dataset[`msg${key[0].toUpperCase()}${key.slice(1)}`] ?? '';
+
   // The browser's own bubbles give way to messages in the page's language and
   // type. Without this module they stay, and they are the check.
   form.noValidate = true;
@@ -41,16 +36,16 @@ function enhance(form: HTMLFormElement, done: HTMLElement, status: HTMLElement, 
   const required: Field[] = ['name', 'company', 'email'];
 
   /** What is wrong with a field, if anything. The length limits are maxlength's job. */
-  const problem = (name: Field): TextKey | null => {
+  const problem = (name: Field): Message | null => {
     const value = control(name).value.trim();
     if (name === 'message') return null;
-    if (!value) return 'fRequired';
-    if (name === 'email' && !EMAIL.test(value)) return 'fBadMail';
+    if (!value) return 'required';
+    if (name === 'email' && !EMAIL.test(value)) return 'badMail';
     return null;
   };
 
   /** A message under the field, tied to it with aria-describedby — or none. */
-  const mark = (name: Field, key: TextKey | null) => {
+  const mark = (name: Field, key: Message | null) => {
     const input = control(name);
     const id = `contact-error-${name}`;
     let note = document.getElementById(id);
@@ -68,17 +63,15 @@ function enhance(form: HTMLFormElement, done: HTMLElement, status: HTMLElement, 
       note.className = 'form__error';
       input.after(note);
     }
-    setText(note, key);
+    note.textContent = message(key);
   };
 
   /** The status line. The address follows as a link where it is the way out. */
-  const say = (key: TextKey | null, { error = false, address = false } = {}) => {
+  const say = (key: Message | null, { error = false, address = false } = {}) => {
     status.replaceChildren();
     status.classList.toggle('is-error', error);
     if (!key) return;
-    const text = document.createElement('span');
-    setText(text, key);
-    status.append(text);
+    status.append(message(key));
     if (address) {
       const link = document.createElement('a');
       link.href = `mailto:${COMPANY.email}`;
@@ -106,16 +99,15 @@ function enhance(form: HTMLFormElement, done: HTMLElement, status: HTMLElement, 
       return key !== null;
     });
     if (invalid.length) {
-      say('fInvalid', { error: true });
+      say('invalid', { error: true });
       control(invalid[0]).focus();
       return;
     }
 
     busy = true;
     button.setAttribute('aria-disabled', 'true');
-    setText(button, 'fSending');
-    say('fSending');
-    control('lang').value = lang();
+    button.textContent = message('sending');
+    say('sending');
 
     let outcome: Outcome = 'failed';
     let fields: Field[] = [];
@@ -141,16 +133,16 @@ function enhance(form: HTMLFormElement, done: HTMLElement, status: HTMLElement, 
 
     busy = false;
     button.removeAttribute('aria-disabled');
-    setText(button, 'fSend');
+    button.textContent = message('send');
 
     if (outcome === 'invalid' && fields.length) {
-      for (const name of fields) mark(name, name === 'email' ? 'fBadMail' : 'fRequired');
-      say('fInvalid', { error: true });
+      for (const name of fields) mark(name, name === 'email' ? 'badMail' : 'required');
+      say('invalid', { error: true });
       control(fields[0]).focus();
     } else if (outcome === 'rate') {
-      say('fRate', { error: true, address: true });
+      say('rate', { error: true, address: true });
     } else {
-      say('fFailed', { error: true, address: true });
+      say('failed', { error: true, address: true });
     }
   });
 }

@@ -17,6 +17,7 @@
  * the confirmation, which may fail without the visitor being told.
  */
 import type { APIRoute } from 'astro';
+import { pathIn, type Lang } from '../../content/copy';
 import { parseEnquiry, type Field } from '../../server/enquiry';
 import { allConfirmations, perIp, perRecipient } from '../../server/limits';
 import { mailConfigured, sendConfirmation, sendToTeam } from '../../server/mailer';
@@ -30,16 +31,21 @@ type Outcome = 'sent' | 'invalid' | 'rate' | 'unavailable' | 'failed';
 
 export const POST: APIRoute = async ({ request, clientAddress, redirect }) => {
   const wantsJson = (request.headers.get('accept') ?? '').includes('application/json');
+
+  // The answer page comes in the visitor's language. Until the form is read,
+  // the page it was sent from is the best guess; after that, its lang field.
+  let lang = langOfReferer(request);
   const answer = (status: number, outcome: Outcome, fields?: Field[]) =>
     wantsJson
       ? Response.json({ ok: outcome === 'sent', outcome, fields }, { status })
-      : redirect(outcome === 'sent' ? '/kontakt/danke/' : '/kontakt/fehler/', 303);
+      : redirect(pathIn(lang, outcome === 'sent' ? '/kontakt/danke/' : '/kontakt/fehler/'), 303);
 
   if (!perIp.take(clientIp(request, clientAddress))) return answer(429, 'rate');
 
   const body = await readForm(request);
   if (body.status) return answer(body.status, 'invalid');
   const { form } = body;
+  lang = form.get('lang') === 'en' ? 'en' : 'de';
 
   // A field people never see. Filled in, it was a bot; it is told "sent" so it
   // has no reason to try again another way.
@@ -83,6 +89,15 @@ export const POST: APIRoute = async ({ request, clientAddress, redirect }) => {
 function clientIp(request: Request, fallback: string) {
   const last = request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim();
   return last || fallback;
+}
+
+/** English if the form was sent from a page under /en/. */
+function langOfReferer(request: Request): Lang {
+  try {
+    return /^\/en(\/|$)/.test(new URL(request.headers.get('referer') ?? '').pathname) ? 'en' : 'de';
+  } catch {
+    return 'de';
+  }
 }
 
 /** The body as form data, read no further than MAX_BODY. */

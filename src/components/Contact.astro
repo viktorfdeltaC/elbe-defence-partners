@@ -6,9 +6,10 @@
  * The form posts to /api/kontakt, which mails the enquiry to the team and a
  * fixed confirmation to the sender. Without JavaScript that is all there is:
  * the browser checks the required fields, the server answers with a page
- * (/kontakt/danke/ or /kontakt/fehler/). src/scripts/contact.ts improves on
- * it — checks here first, sends with fetch, and puts the answer where the form
- * was. The field limits are the server's (src/server/enquiry.ts).
+ * (/kontakt/danke/ or /kontakt/fehler/, under /en/ for the English route).
+ * src/scripts/contact.ts improves on it — checks here first, sends with fetch,
+ * and puts the answer where the form was. The field limits are the server's
+ * (src/server/enquiry.ts).
  *
  * It must stay a POST. The form once had neither `method` nor `action`, and a
  * click sent every field as a GET query to the page's own address — name,
@@ -88,7 +89,21 @@ const fields = [
       </div>
 
       <div class="form-slot">
-        <form class="form" method="post" action="/api/kontakt" data-contact-form>
+        {/* The script's messages, in this page's language — so the browser
+            gets the dozen lines it needs, not both dictionaries. */}
+        <form
+          class="form"
+          method="post"
+          action="/api/kontakt"
+          data-contact-form
+          data-msg-send={t.fSend}
+          data-msg-sending={t.fSending}
+          data-msg-required={t.fRequired}
+          data-msg-bad-mail={t.fBadMail}
+          data-msg-invalid={t.fInvalid}
+          data-msg-rate={t.fRate}
+          data-msg-failed={t.fFailed}
+        >
           {/* The page's language, so the confirmation and the answer page
               come in it too. */}
           <input type="hidden" name="lang" value={lang} />
