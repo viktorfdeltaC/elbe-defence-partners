@@ -12,7 +12,7 @@
  * are: the footer sets mono type and the on-dark focus ring, and the dialog
  * would inherit both. On a phone it rises from the bottom edge, as a sheet.
  */
-import { DEFAULT_LANG, dictionaries, type TextKey } from '../../content/copy';
+import { dictionaries, langFrom, type TextKey } from '../../content/copy';
 
 interface Props {
   id: 'impressum' | 'datenschutz';
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const { id, titleKey } = Astro.props;
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 const titleId = `legal-${id}-title`;
 ---
 
@@ -28,15 +28,9 @@ const titleId = `legal-${id}-title`;
   <div class="legal-dialog__head">
     <div>
       <span class="legal-dialog__ref">{t.docRef}</span>
-      <h2 class="legal-dialog__title" id={titleId} data-i18n={titleKey}>{t[titleKey]}</h2>
+      <h2 class="legal-dialog__title" id={titleId}>{t[titleKey]}</h2>
     </div>
-    <button
-      type="button"
-      class="legal-dialog__close"
-      data-legal-close
-      aria-label={t.legalClose}
-      data-i18n-attr="aria-label:legalClose"
-    >
+    <button type="button" class="legal-dialog__close" data-legal-close aria-label={t.legalClose}>
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M5 5l14 14M19 5L5 19" />
       </svg>

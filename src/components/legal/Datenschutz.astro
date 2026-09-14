@@ -12,11 +12,12 @@
  * the booking, once there is one, adds its own section in the same deploy.
  * The section on the stored language choice went when the language became a
  * route (/en/) — nothing is kept in the browser any more.
+ *
  * Both languages share a structure and a date; the English one is a
- * translation and says so.
+ * translation and says so. Each route renders only its own.
  */
 import { COMPANY, DATA_PROTECTION_AUTHORITY as DPA, HOST, MAIL_PROVIDER } from '../../content/company';
-import { BRAND } from '../../content/copy';
+import { BRAND, langFrom } from '../../content/copy';
 
 interface Props {
   /** 2 on the page, under its h1; 3 in the dialog, under its h2. */
@@ -25,10 +26,12 @@ interface Props {
 
 const { headingLevel = 2 } = Astro.props;
 const H = `h${headingLevel}` as 'h2' | 'h3';
+const lang = langFrom(Astro.currentLocale);
 const mail = `mailto:${COMPANY.email}`;
 ---
 
-<div class="legal-prose" lang="de" data-lang-block="de">
+{lang === 'de' && (
+<div class="legal-prose" lang="de">
   <p class="legal-lead">
     Diese Website stellt {BRAND} vor. Sie setzt keine Cookies, speichert nichts in Ihrem Browser,
     misst keine Reichweite und lädt nichts von Dritten nach. Welche Daten trotzdem anfallen, wofür
@@ -51,9 +54,9 @@ const mail = `mailto:${COMPANY.email}`;
   <p>
     Wir setzen keine Cookies, legen auch sonst nichts in Ihrem Browser ab und verwenden keine
     Analyse-, Tracking- oder Werbewerkzeuge. Es sind keine Inhalte fremder Anbieter eingebunden,
-    also keine Karten, keine Social-Media-Plugins und keine extern gehosteten Videos. Schriften, Bilder und das Video kommen nicht von Google Fonts oder
-    einem anderen fremden Dienst: Alles, was Ihr Browser beim Besuch lädt, kommt von unserem eigenen
-    Server.
+    also keine Karten, keine Social-Media-Plugins und keine extern gehosteten Videos. Schriften,
+    Bilder und das Video kommen nicht von Google Fonts oder einem anderen fremden Dienst: Alles, was
+    Ihr Browser beim Besuch lädt, kommt von unserem eigenen Server.
   </p>
 
   <H><span class="legal-n">03</span>Hosting und Server-Protokolle</H>
@@ -175,8 +178,10 @@ const mail = `mailto:${COMPANY.email}`;
   </p>
   <p class="legal-meta">Stand: September 2026</p>
 </div>
+)}
 
-<div class="legal-prose" lang="en" data-lang-block="en">
+{lang === 'en' && (
+<div class="legal-prose" lang="en">
   <p class="legal-note">This is a translation. In case of doubt, the German version applies.</p>
   <p class="legal-lead">
     This website presents {BRAND}. It sets no cookies, stores nothing in your browser, measures no
@@ -316,3 +321,4 @@ const mail = `mailto:${COMPANY.email}`;
   </p>
   <p class="legal-meta">As of September 2026</p>
 </div>
+)}

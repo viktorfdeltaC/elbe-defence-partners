@@ -4,9 +4,10 @@
  * so a link down to it here would point at what the reader just read.
  */
 import Wordmark from './Wordmark.astro';
-import { dictionaries, langFrom } from '../content/copy';
+import { dictionaries, langFrom, pathIn } from '../content/copy';
 
-const t = dictionaries[langFrom(Astro.currentLocale)];
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
 const year = new Date().getFullYear();
 ---
 
@@ -23,8 +24,8 @@ const year = new Date().getFullYear();
       policy has to grow with the contact form and the booking — see
       src/components/legal/Datenschutz.astro. */}
   <span class="footer__links">
-    <a href="/impressum" data-legal-open="impressum">{t.imprint}</a>
-    <a href="/datenschutz" data-legal-open="datenschutz">{t.privacy}</a>
+    <a href={pathIn(lang, '/impressum/')} data-legal-open="impressum">{t.imprint}</a>
+    <a href={pathIn(lang, '/datenschutz/')} data-legal-open="datenschutz">{t.privacy}</a>
   </span>
 </footer>
 

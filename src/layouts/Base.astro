@@ -1,14 +1,19 @@
 ---
 import '../styles/fonts.css';
 import '../styles/global.css';
-import { BRAND, dictionaries, langFrom, type TextKey } from '../content/copy';
+import { BRAND, dictionaries, langFrom, pathIn, type TextKey } from '../content/copy';
 
 interface Props {
   /** Dictionary key for <title>. The legal pages name themselves; everything else is the one-pager. */
   titleKey?: TextKey;
+  /**
+   * False for pages that must never be indexed, whatever INDEXABLE says: the
+   * contact form's answers are reached by posting, not by searching.
+   */
+  indexable?: boolean;
 }
 
-const { titleKey = 'htmlTitle' } = Astro.props;
+const { titleKey = 'htmlTitle', indexable = true } = Astro.props;
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
 
@@ -28,12 +33,13 @@ const preview = new URL('/og.png', Astro.site);
 
 /**
  * One entry per language, plus x-default for a reader whose own language is
- * neither. Both point at real, separately crawlable URLs; the German one is the
- * site root, which is where it has always been.
+ * neither. Both point at real, separately crawlable URLs — this page's twin in
+ * the other language, not the other home page: /impressum/ pairs with
+ * /en/impressum/. The German one is always the unprefixed path.
  */
 const alternates = [
-  { hreflang: 'de', href: new URL('/', Astro.site).href },
-  { hreflang: 'en', href: new URL('/en/', Astro.site).href },
+  { hreflang: 'de', href: new URL(pathIn('de', Astro.url.pathname), Astro.site).href },
+  { hreflang: 'en', href: new URL(pathIn('en', Astro.url.pathname), Astro.site).href },
 ];
 
 /** en_GB, not en_US: the English copy is written in British spelling. */
@@ -50,7 +56,9 @@ const organisation = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: BRAND,
-  url: canonical.href,
+  // The firm's address on the web is its home page in this language — not
+  // whichever page, the imprint say, happens to carry the block.
+  url: new URL(pathIn(lang, '/'), Astro.site).href,
   logo: preview.href,
   description: t.htmlDescription,
   inLanguage: lang,
@@ -76,7 +84,7 @@ const INDEXABLE = false;
     <meta name="color-scheme" content="light" />
     <title>{t[titleKey]}</title>
     <meta name="description" content={t.htmlDescription} />
-    <meta name="robots" content={INDEXABLE ? 'index, follow' : 'noindex, nofollow'} />
+    <meta name="robots" content={INDEXABLE && indexable ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="canonical" href={canonical.href} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <link rel="alternate" hreflang="x-default" href={alternates[0].href} />

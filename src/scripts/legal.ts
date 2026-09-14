@@ -92,8 +92,9 @@ for (const dialog of dialogs.values()) {
   // handler, and focusing the footer link on the way out of an animated close
   // would scroll the page straight back down to it.
   dialog.addEventListener('click', (event) => {
-    const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]');
-    if (!link) return;
+    const link = (event.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
+    const samePage = link && link.hash && link.origin === location.origin && link.pathname === location.pathname;
+    if (!samePage) return;
     openers.delete(dialog);
     dialog.close();
   });

@@ -1,35 +1,37 @@
 import type { APIRoute } from 'astro';
+import { pathIn } from '../content/copy';
 
 /**
- * Two URLs, so this is generated rather than kept as a file in public/: the
- * absolute addresses come from `site` in astro.config.mjs, which means a move
- * to the firm's own domain changes one line and the sitemap follows. A static
- * copy would keep pointing at the old host until someone noticed.
+ * Generated rather than kept as a file in public/: the absolute addresses come
+ * from `site` in astro.config.mjs, which means a move to the firm's own domain
+ * changes one line and the sitemap follows. A static copy would keep pointing
+ * at the old host until someone noticed.
  *
- * Each entry lists both languages as alternates, the same set the pages
- * themselves carry in their <head> — a crawler that finds one route learns
- * about the other from here as well.
+ * Every page is listed in both languages, and each entry names both as
+ * alternates — the same pairs the pages carry in their <head> — so a crawler
+ * that finds one route learns about the other from here as well. The contact
+ * form's answer pages are left out: they are reached by sending the form, and
+ * they say noindex.
  */
-export const GET: APIRoute = ({ site }) => {
-  const de = new URL('/', site).href;
-  const en = new URL('/en/', site).href;
+const PAGES = ['/', '/impressum/', '/datenschutz/'];
 
-  const alternates = [
-    `    <xhtml:link rel="alternate" hreflang="de" href="${de}" />`,
-    `    <xhtml:link rel="alternate" hreflang="en" href="${en}" />`,
-    `    <xhtml:link rel="alternate" hreflang="x-default" href="${de}" />`,
-  ].join('\n');
+export const GET: APIRoute = ({ site }) => {
+  const url = (path: string) => new URL(path, site).href;
+
+  const entries = PAGES.flatMap((page) => {
+    const de = url(pathIn('de', page));
+    const en = url(pathIn('en', page));
+    const alternates = [
+      `    <xhtml:link rel="alternate" hreflang="de" href="${de}" />`,
+      `    <xhtml:link rel="alternate" hreflang="en" href="${en}" />`,
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${de}" />`,
+    ].join('\n');
+    return [de, en].map((loc) => `  <url>\n    <loc>${loc}</loc>\n${alternates}\n  </url>`);
+  });
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>${de}</loc>
-${alternates}
-  </url>
-  <url>
-    <loc>${en}</loc>
-${alternates}
-  </url>
+${entries.join('\n')}
 </urlset>
 `;
 

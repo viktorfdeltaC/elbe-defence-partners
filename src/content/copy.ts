@@ -239,8 +239,8 @@ export const de: Copy = {
   fFailBody:
     'Das Formular konnte nicht gesendet werden. Bitte prüfen Sie Ihre Angaben und versuchen Sie es noch einmal, oder schreiben Sie uns direkt:',
   fBackToForm: 'Zurück zum Formular',
-  htmlTitleSent: 'Anfrage gesendet — Sanktum Defence Partners',
-  htmlTitleFailed: 'Anfrage nicht gesendet — Sanktum Defence Partners',
+  htmlTitleSent: 'Anfrage gesendet | Sanktum',
+  htmlTitleFailed: 'Anfrage nicht gesendet | Sanktum',
   fPrivacy: 'Wir verwenden Ihre Angaben nur, um Ihre Anfrage zu beantworten. Mehr in der',
   fPrivacyLink: 'Datenschutzerklärung',
 
@@ -258,8 +258,8 @@ export const de: Copy = {
   imprint: 'Impressum',
   privacy: 'Datenschutz',
   privacyTitle: 'Datenschutzerklärung',
-  htmlTitleImprint: 'Impressum — Sanktum Defence Partners',
-  htmlTitlePrivacy: 'Datenschutzerklärung — Sanktum Defence Partners',
+  htmlTitleImprint: 'Impressum | Sanktum',
+  htmlTitlePrivacy: 'Datenschutzerklärung | Sanktum',
   legalLabel: 'Rechtliches',
   legalBack: 'Zur Startseite',
   legalClose: 'Schließen',
@@ -473,8 +473,8 @@ export const en: Copy = {
   fFailBody:
     'The form could not be sent. Please check your details and try again, or write to us directly:',
   fBackToForm: 'Back to the form',
-  htmlTitleSent: 'Enquiry sent — Sanktum Defence Partners',
-  htmlTitleFailed: 'Enquiry not sent — Sanktum Defence Partners',
+  htmlTitleSent: 'Enquiry sent | Sanktum',
+  htmlTitleFailed: 'Enquiry not sent | Sanktum',
   fPrivacy: 'We use your details only to answer your enquiry. More in our',
   fPrivacyLink: 'privacy policy',
 
@@ -489,8 +489,8 @@ export const en: Copy = {
   imprint: 'Legal notice',
   privacy: 'Privacy',
   privacyTitle: 'Privacy policy',
-  htmlTitleImprint: 'Imprint — Sanktum Defence Partners',
-  htmlTitlePrivacy: 'Privacy policy — Sanktum Defence Partners',
+  htmlTitleImprint: 'Legal notice | Sanktum',
+  htmlTitlePrivacy: 'Privacy policy | Sanktum',
   legalLabel: 'Legal',
   legalBack: 'Home page',
   legalClose: 'Close',
@@ -654,6 +654,16 @@ export const DEFAULT_LANG: Lang = 'de';
  */
 export const langFrom = (locale: string | undefined): Lang =>
   locale === 'en' || locale === 'de' ? locale : DEFAULT_LANG;
+
+/**
+ * The same page in the given language. Every page has a twin under /en/ with
+ * the same slug — /impressum/ and /en/impressum/, /kontakt/danke/ and
+ * /en/kontakt/danke/ — so this is a prefix, not a table to keep in step.
+ */
+export const pathIn = (lang: Lang, path: string): string => {
+  const german = path.replace(/^\/en(?=\/|$)/, '') || '/';
+  return lang === 'en' ? `/en${german}` : german;
+};
 
 /** Brand name is a placeholder by design — one edit swaps it everywhere. */
 export const BRAND = 'Sanktum Defence Partners';

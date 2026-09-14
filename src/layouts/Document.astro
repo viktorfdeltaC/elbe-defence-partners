@@ -1,8 +1,9 @@
 ---
 /**
  * The frame for every page that is not the one-pager: the two legal texts
- * (/impressum, /datenschutz) and the contact form's answers for visitors
- * without JavaScript (/kontakt/danke/, /kontakt/fehler/).
+ * (/impressum/, /datenschutz/) and the contact form's answers for visitors
+ * without JavaScript (/kontakt/danke/, /kontakt/fehler/) — each with its
+ * English twin under /en/.
  *
  * The legal texts exist as pages so they are reachable without JavaScript and
  * can be linked to directly — an imprint has to be "unmittelbar erreichbar und
@@ -11,13 +12,13 @@
  *
  * One paper section in the page's own chrome — hairline rules, the black
  * marker with a file reference — under a slim black bar that leads back. The
- * page script runs here too, for the language switch and the rules' entry.
+ * language switch is two links to this page's twins, as in the hero.
  */
 import Base from './Base.astro';
 import SectionRules from '../components/SectionRules.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Wordmark from '../components/Wordmark.astro';
-import { DEFAULT_LANG, dictionaries, type TextKey } from '../content/copy';
+import { dictionaries, langFrom, pathIn, type TextKey } from '../content/copy';
 
 interface Props {
   /** <title> of the page. */
@@ -30,22 +31,26 @@ interface Props {
    */
   refKey?: TextKey;
   labelKey?: TextKey;
+  /** See Base.astro. */
+  indexable?: boolean;
 }
 
-const { titleKey, headingKey, refKey = 'docRef', labelKey = 'legalLabel' } = Astro.props;
-const t = dictionaries[DEFAULT_LANG];
+const { titleKey, headingKey, refKey = 'docRef', labelKey = 'legalLabel', indexable } = Astro.props;
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+const home = pathIn(lang, '/');
 ---
 
-<Base titleKey={titleKey}>
+<Base titleKey={titleKey} indexable={indexable}>
   <header class="legal-bar on-dark">
-    <a class="legal-bar__mark" href="/">
+    <a class="legal-bar__mark" href={home}>
       <Wordmark height={24} />
     </a>
     <div class="legal-bar__nav">
-      <a href="/" data-i18n="legalBack">{t.legalBack}</a>
+      <a href={home}>{t.legalBack}</a>
       <span class="legal-bar__lang">
-        <button type="button" data-lang="de" aria-pressed="true">DE</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <a href={pathIn('de', Astro.url.pathname)} aria-current={lang === 'de' ? 'page' : undefined}>DE</a>
+        <a href={pathIn('en', Astro.url.pathname)} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
       </span>
     </div>
   </header>
@@ -55,9 +60,9 @@ const t = dictionaries[DEFAULT_LANG];
     <div class="section__inner">
       <span class="marker marker--static" data-marker>
         <span class="marker__ref">{t[refKey]}</span>
-        <span data-i18n={labelKey}>{t[labelKey]}</span>
+        <span>{t[labelKey]}</span>
       </span>
-      <h1 class="h2 legal-page__title" data-i18n={headingKey}>{t[headingKey]}</h1>
+      <h1 class="h2 legal-page__title">{t[headingKey]}</h1>
       <slot />
     </div>
   </main>
@@ -109,33 +114,28 @@ const t = dictionaries[DEFAULT_LANG];
     color: #fff;
   }
 
-  /* The switch from the hero, at the same size. */
+  /* The switch from the hero: two links, the current language underlined. */
   .legal-bar__lang {
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .legal-bar__lang button {
-    background: none;
-    border: 0;
+  .legal-bar__lang a {
     padding: 2px 0;
-    cursor: pointer;
-    font-family: var(--font-mono);
     font-size: 11.5px;
     letter-spacing: 0.08em;
     color: rgba(255, 255, 255, 0.55);
     border-bottom: 1px solid transparent;
   }
 
-  .legal-bar__lang button[aria-pressed='true'] {
+  .legal-bar__lang a[aria-current] {
     color: #fff;
     border-bottom-color: #fff;
   }
 
   @media (pointer: coarse) {
-    .legal-bar__nav a,
-    .legal-bar__lang button {
+    .legal-bar__nav a {
       display: inline-flex;
       align-items: center;
       min-height: 44px;

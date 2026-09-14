@@ -2,14 +2,15 @@
 /**
  * Impressum (§ 5 DDG).
  *
- * German only: it answers a German legal requirement, and a translation would
- * be one more text to keep in step. In English mode a one-line note says so.
+ * German only, on both routes: it answers a German legal requirement, and a
+ * translation would be one more text to keep in step. On /en/ a one-line note
+ * above it says so, and the text keeps lang="de" for screen readers.
  *
  * Every fact about the company comes from src/content/company.ts. Left out on
  * purpose, although the Wertentwickler imprint still has it: the link to the EU
  * online dispute resolution platform, which was shut down in July 2025.
  */
-import { BRAND } from '../../content/copy';
+import { BRAND, langFrom, pathIn } from '../../content/copy';
 import { COMPANY } from '../../content/company';
 
 interface Props {
@@ -19,9 +20,10 @@ interface Props {
 
 const { headingLevel = 2 } = Astro.props;
 const H = `h${headingLevel}` as 'h2' | 'h3';
+const lang = langFrom(Astro.currentLocale);
 ---
 
-<p class="legal-note" lang="en" data-lang-block="en">This legal notice is provided in German.</p>
+{lang === 'en' && <p class="legal-note" lang="en">This legal notice is provided in German.</p>}
 
 <div class="legal-prose" lang="de">
   <H>Angaben gemäß § 5 DDG</H>
@@ -39,7 +41,7 @@ const H = `h${headingLevel}` as 'h2' | 'h3';
   <H>Kontakt</H>
   <p>
     E-Mail: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a><br />
-    Kontaktformular: <a href="/#kontakt">auf der Startseite</a>
+    Kontaktformular: <a href={`${pathIn(lang, '/')}#kontakt`}>auf der Startseite</a>
   </p>
 
   <H>Registereintrag</H>

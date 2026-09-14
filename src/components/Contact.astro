@@ -21,7 +21,7 @@ import viktorFink from '../assets/portrait-viktor-fink.webp';
 import dennisArians from '../assets/portrait-dennis-arians.webp';
 import erikEckert from '../assets/portrait-erik-eckert.webp';
 import holgerWeller from '../assets/portrait-holger-weller.webp';
-import { dictionaries, langFrom } from '../content/copy';
+import { dictionaries, langFrom, pathIn } from '../content/copy';
 import { COMPANY } from '../content/company';
 import { LIMITS } from '../server/enquiry';
 
@@ -125,7 +125,7 @@ const fields = [
             <p class="form__status" role="status" data-contact-status></p>
             <p class="form__privacy">
               {t.fPrivacy}
-              <a href="/datenschutz" data-legal-open="datenschutz">{t.fPrivacyLink}</a>.
+              <a href={pathIn(lang, '/datenschutz/')} data-legal-open="datenschutz">{t.fPrivacyLink}</a>.
             </p>
           </div>
         </form>

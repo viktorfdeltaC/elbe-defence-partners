@@ -307,14 +307,6 @@ section[id] {
  * does not live in copy.ts: structured documents rather than strings.
  */
 
-/* Text that exists in both languages is set as two blocks, and the one that
-   does not match the page language is hidden. Keyed off <html lang>, which the
-   language switch sets — no script of its own, and German without JavaScript. */
-html:not([lang='en']) [data-lang-block='en'],
-html[lang='en'] [data-lang-block='de'] {
-  display: none;
-}
-
 .legal-prose {
   max-width: 44em;
   font-size: 15px;

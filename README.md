@@ -99,17 +99,18 @@ mails, below.
 
 **Brand name.** `BRAND` in the same file — it is a placeholder by design.
 
-**Legal texts.** `src/components/legal/` holds the imprint (German only) and the
-privacy policy (German and English, as two blocks switched by `<html lang>`) —
-the one kind of copy that does not live in `copy.ts`. Sanktum Defence Partners
-is a brand of realxtrade GmbH, so the texts name the company, and every fact
-about it comes from `src/content/company.ts`. The privacy policy describes what
-the site actually does, checked against the code rather than taken from a
-template: anything that processes data — the contact form, a booking, another
-host — ships in the same deploy as its section there. Both texts are real pages
-(`/impressum`, `/datenschutz`) and, on the one-pager, native dialogs: a plain
-click on a link with `data-legal-open` opens the dialog, a click with a
-modifier key still opens the page.
+**Legal texts.** `src/components/legal/` holds the imprint (German on both
+routes, with a note on /en/) and the privacy policy (German and English, each
+route rendering its own) — the one kind of copy that does not live in
+`copy.ts`. Sanktum Defence Partners is a brand of realxtrade GmbH, so the texts
+name the company, and every fact about it comes from `src/content/company.ts`.
+The privacy policy describes what the site actually does, checked against the
+code rather than taken from a template: anything that processes data — the
+contact form, a booking, another host — ships in the same deploy as its section
+there. Both texts are real pages (`/impressum/`, `/datenschutz/` and their twins
+under `/en/`, same slugs, so `pathIn()` in `copy.ts` pairs them by prefix) and,
+on the one-pager, native dialogs: a plain click on a link with `data-legal-open`
+opens the dialog, a click with a modifier key still opens the page.
 
 **Contact form.** The form posts to `/api/kontakt`, which checks the fields
 (`src/server/enquiry.ts` — the browser runs the same rules first), limits how
