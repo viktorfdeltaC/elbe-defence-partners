@@ -375,15 +375,15 @@ export const en: Copy = {
 
   s2Title: 'The prototype works. Series production is a different challenge.',
   s2Body:
-    'The prototype proves the technology. It becomes capability only in series. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
+    'The prototype proves the technology. It becomes capability only in series production. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
   s2Pull:
-    'The location decides whether technology becomes capability. Whoever opens it up decides when.',
+    'The location decides whether technology becomes capability. Whoever opens up that location decides when.',
 
   s3Title: 'The right place. The right people.',
   s3Lead: 'Dresden is where defence production scales in Germany.',
   s3bTitle: 'In Europe there are few places for this. This is one of them.',
   s3bBody:
-    'The components your system depends on are built within the same radius. The specialists who take it into series production are already here. And the countries currently investing most in their defence are immediate neighbours. In between sit permits, defence regulations and an administration nobody enjoys running. We run it, and we run it digitally. What comes out of that is not just a location advantage, but a strategic one.',
+    'The components your system depends on are built in the same area. The specialists who take it into series production are already here. And the countries currently investing most in their defence are immediate neighbours. In between sit permits, defence regulations and administrative work nobody enjoys. We run it, and we run it digitally. What comes out of that is not just a location advantage, but a strategic one.',
   s3bNote:
     'Before every mandate we review sites, permitting status and realistic timelines for your project.',
   s3Claim: 'The location is the strategy. We are the execution.',
@@ -410,7 +410,7 @@ export const en: Copy = {
     'This is neither an advisory mandate nor a fund vehicle. Conversations are confidential, under NDA on request.',
   capCta: 'Request a confidential conversation',
 
-  imprint: 'Imprint',
+  imprint: 'Legal notice',
   privacy: 'Privacy',
 
   railStops: [
@@ -433,7 +433,7 @@ export const en: Copy = {
   constraints: [
     { n: '01', t: 'Production readiness in months, not years' },
     { n: '02', t: 'Volumes that carry a procurement decision' },
-    { n: '03', t: 'Labour costs that do not eat the margin' },
+    { n: '03', t: 'Labour costs that do not eat into the margin' },
     { n: '04', t: 'Logistics that reach the main market' },
     { n: '05', t: 'Proximity to the technologies the product depends on' },
     { n: '06', t: 'A partner with first-hand experience in defence and security' },
@@ -445,7 +445,7 @@ export const en: Copy = {
       t: 'Chip proximity',
       fig: '1 in 3',
       figLabel:
-        'Of the semiconductors manufactured in the EU comes from Dresden. For automotive power semiconductors, more than half.',
+        'Share of EU semiconductor manufacturing that comes from Dresden. For automotive power semiconductors, more than half.',
       d: 'Over EUR 16bn of investment is under construction or committed: ESMC/TSMC around 10bn, Infineon around 5bn, GlobalFoundries around 1.1bn, plus Bosch. Anyone building sensors, drones or guidance systems produces where the critical component comes from.',
     },
     {
@@ -454,7 +454,7 @@ export const en: Copy = {
       fig: '82,500',
       figLabel:
         'People employed in microelectronics and software, around 1,500 more than the previous year.',
-      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's radius: the AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
+      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's travel: the AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
     },
     {
       n: '03',
@@ -476,9 +476,9 @@ export const en: Copy = {
     {
       n: 'B-01.1',
       title: 'Arrive',
-      body: 'Site, permitting, construction. Twenty years of building experience, applied to requirements no developer knows.',
+      body: 'Site, permitting, construction. Twenty years of building experience, applied to requirements no property developer knows.',
       items: [
-        'An assessment of whether a site can carry your programme requirements at all',
+        'An assessment of whether a site can meet your programme requirements at all',
         'Site requirements from defence regulations considered from the start: we know them from application, not from the manual',
         'Property access in Dresden and the surrounding region, including airport-adjacent assets',
         'Application and permitting procedures supported on the ground',
@@ -494,7 +494,7 @@ export const en: Copy = {
         'Security-compliant workflows for handling classified material',
         'Digitalised administrative and permitting processes instead of paper and mail chains',
         'Digital project management with reporting for investors and authorities',
-        'Operable with little headcount: processes replace positions, not the other way round',
+        'Can be run with a small team: processes replace positions, not the other way round',
         'Ongoing infrastructure management, support and optimisation',
       ],
     },
@@ -503,7 +503,7 @@ export const en: Copy = {
       title: 'Grow',
       body: 'Network, capital, procurement. Grown over two decades in financial markets and defence.',
       items: [
-        'Access to requirement owners and procurement organisations',
+        'Access to end users and procurement authorities',
         'Strategic and geopolitical assessment for expansion decisions',
         'A project already introduced to capital providers and political decision-makers',
         'Networking events between the German defence hubs and Dresden',
