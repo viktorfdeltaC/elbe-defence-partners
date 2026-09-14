@@ -7,10 +7,10 @@
  * a model described Google Analytics, Google Fonts and a contact form that do
  * not exist there, and left out the booking that does.
  *
- * So this has to change together with the site: the contact form, the booking
- * and a move off Vercel each add or rewrite a section, in the same deploy that
- * ships them. Both languages share a structure and a date; the English one is a
- * translation and says so.
+ * So this has to change together with the site: the contact form and the
+ * booking each add a section, in the same deploy that ships them. Both
+ * languages share a structure and a date; the English one is a translation and
+ * says so.
  */
 import { COMPANY, DATA_PROTECTION_AUTHORITY as DPA, HOST, MAIL_PROVIDER } from '../../content/company';
 import { BRAND } from '../../content/copy';
@@ -47,16 +47,19 @@ const mail = `mailto:${COMPANY.email}`;
   <p>
     Wir setzen keine Cookies und keine Analyse-, Tracking- oder Werbewerkzeuge ein. Es sind keine
     Inhalte fremder Anbieter eingebunden, also keine Karten, keine Social-Media-Plugins und keine
-    extern gehosteten Videos. Schriften, Bilder und das Video liefert unser Hosting selbst aus, nicht
-    Google Fonts oder ein anderer fremder Dienst. Beim Besuch entsteht deshalb keine Verbindung zu
-    Dritten außer zu unserem Hosting-Dienstleister.
+    extern gehosteten Videos. Schriften, Bilder und das Video kommen nicht von Google Fonts oder
+    einem anderen fremden Dienst: Alles, was Ihr Browser beim Besuch lädt, kommt von unserem eigenen
+    Server.
   </p>
 
   <H><span class="legal-n">03</span>Hosting und Server-Protokolle</H>
   <p>
-    Die Website wird bei der {HOST.name}, {HOST.address}, {HOST.country}, gehostet. Wenn Sie die
-    Seite aufrufen, verarbeitet {HOST.name} die dafür technisch nötigen Verbindungsdaten:
+    Die Website läuft auf einem eigenen Server, den wir bei der {HOST.name}, {HOST.address},
+    gemietet haben und selbst betreiben. Der Server steht in einem Rechenzentrum in Deutschland.
+    {HOST.name} stellt Server und Netzanbindung bereit und verarbeitet die Daten dabei in unserem
+    Auftrag (Art. 28 DSGVO).
   </p>
+  <p>Wenn Sie die Seite aufrufen, verarbeitet der Server die dafür technisch nötigen Verbindungsdaten:</p>
   <ul>
     <li>IP-Adresse</li>
     <li>Datum und Uhrzeit des Abrufs</li>
@@ -71,11 +74,9 @@ const mail = `mailto:${COMPANY.email}`;
     stabile Auslieferung der Website.
   </p>
   <p>
-    {HOST.name} verarbeitet die Daten in unserem Auftrag (Art. 28 DSGVO). Dabei können Daten in die
-    USA übermittelt werden. Grundlage dafür ist die Zertifizierung von {HOST.name} nach dem EU-US Data
-    Privacy Framework (Angemessenheitsbeschluss, Art. 45 DSGVO). Die Protokolle werden nicht
-    dauerhaft gespeichert, sondern nach Ablauf der Aufbewahrungsfristen des Anbieters automatisch
-    gelöscht.
+    Die Protokolle löschen wir nach spätestens {HOST.logRetentionDays} Tagen. Muss ein konkreter
+    Angriff aufgeklärt werden, bewahren wir die betroffenen Einträge bis zum Abschluss der Aufklärung
+    auf.
   </p>
 
   <H><span class="legal-n">04</span>Verschlüsselte Übertragung</H>
@@ -180,16 +181,18 @@ const mail = `mailto:${COMPANY.email}`;
   <p>
     We use no cookies and no analytics, tracking or advertising tools. No third-party content is
     embedded: no maps, no social media plugins, no externally hosted videos. Fonts, images and the
-    video are delivered by our own hosting, not by Google Fonts or any other third-party service.
-    Visiting the site therefore creates no connection to third parties other than our hosting
-    provider.
+    video do not come from Google Fonts or any other third-party service: everything your browser
+    loads on a visit comes from our own server.
   </p>
 
   <H><span class="legal-n">03</span>Hosting and server logs</H>
   <p>
-    The website is hosted by {HOST.name}, {HOST.address}, {HOST.country}. When you open the site,
-    {HOST.name} processes the connection data this technically requires:
+    The website runs on a server of our own, which we rent from {HOST.name}, {HOST.address},
+    {HOST.countryEn}, and operate ourselves. The server is located in a data centre in Germany.
+    {HOST.name} provides the server and the network connection and processes the data on our behalf
+    in doing so (Art. 28 GDPR).
   </p>
+  <p>When you open the site, the server processes the connection data this technically requires:</p>
   <ul>
     <li>IP address</li>
     <li>date and time of the request</li>
@@ -203,10 +206,8 @@ const mail = `mailto:${COMPANY.email}`;
     GDPR; our legitimate interest is the secure and stable delivery of the website.
   </p>
   <p>
-    {HOST.name} processes the data on our behalf (Art. 28 GDPR). Data may be transferred to the USA in
-    the process, on the basis of {HOST.name}'s certification under the EU-U.S. Data Privacy Framework
-    (adequacy decision, Art. 45 GDPR). The logs are not kept permanently but deleted automatically once
-    the provider's retention periods have expired.
+    We delete the logs after {HOST.logRetentionDays} days at the latest. Where a specific attack has
+    to be investigated, we keep the entries concerned until the investigation is complete.
   </p>
 
   <H><span class="legal-n">04</span>Encrypted transmission</H>

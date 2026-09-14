@@ -9,6 +9,7 @@
  * chapter — hence the marker here does not stick.
  */
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { COMPANY } from '../content/company';
 
 const t = dictionaries[DEFAULT_LANG];
 ---
@@ -25,7 +26,8 @@ const t = dictionaries[DEFAULT_LANG];
         <h2 class="capital__title" data-i18n="capTitle">{t.capTitle}</h2>
         <p class="capital__body" data-i18n="capBody">{t.capBody}</p>
         <p class="capital__note" data-i18n="capNote">{t.capNote}</p>
-        <a class="capital__cta" href="mailto:kapital@example.com" data-i18n="capCta">{t.capCta}</a>
+        {/* A mail until the booking dialog replaces it. */}
+        <a class="capital__cta" href={`mailto:${COMPANY.email}`} data-i18n="capCta">{t.capCta}</a>
       </div>
 
       <div class="ledger">

@@ -127,12 +127,18 @@ reveals only arm themselves once the script runs.
   every field as a GET query to the page itself — into the address bar, the
   browser history and the host's request log. See the `TODO(backend)` in
   `src/components/Contact.astro`.
-- **Impressum and Datenschutz** are written for the site as it is: hosted on
-  Vercel, no form, no booking. Both want a lawyer's review before `INDEXABLE`
-  goes to true, and the chamber named for the § 34c permit needs confirming
-  (`TODO(legal)` in `src/content/company.ts`).
-- **Placeholder contact details** — `kontakt@example.com`, `kapital@example.com`,
-  `+49 351 000 00x`, and `name@example.com` for both people.
+- **Impressum and Datenschutz** are written for the site as it is: on the
+  company's own server at STRATO, run with Coolify, no form, no booking. Both
+  want a lawyer's review before `INDEXABLE` goes to true. `src/content/company.ts`
+  marks what still has to be made true or confirmed: the chamber named for the
+  § 34c permit, the seven-day log retention on the server, and a mailbox for
+  info@sanktum.de — the domain has no MX record yet.
+- **The copy on elbe-defence-partners.vercel.app** is served by Vercel. Once
+  sanktum.de runs on Coolify, that project should go: the privacy policy it
+  serves describes the STRATO server, not Vercel.
+- **Placeholder contact details** — the phone number in the contact section
+  (`+49 351 000 000`) and `name@example.com` for all four people. The general
+  address is info@sanktum.de, from `src/content/company.ts`.
 - **Hero resolution.** The bundle's hero is 1200 × 675, the size the design tool
   downscaled it to on drop. It is stretched full-bleed across the viewport and
   will look soft on a large display. Dennis Arians' portrait is 400 × 400 for a

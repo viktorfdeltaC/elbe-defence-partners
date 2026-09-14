@@ -6,7 +6,8 @@
  * the contact form sends mail — the footer of every message name realxtrade,
  * not the brand. They draw on this one object so the three cannot disagree.
  *
- * Taken from the imprint of the Wertentwickler website, September 2026.
+ * The company facts are taken from the imprint of the Wertentwickler website,
+ * September 2026; the contact address is the brand's own.
  */
 export const COMPANY = {
   name: 'realxtrade GmbH',
@@ -19,7 +20,8 @@ export const COMPANY = {
   registerCourt: 'Amtsgericht Bamberg',
   registerNumber: 'HRB 11788',
   vatId: 'DE436397359',
-  email: 'info@wertentwickler.de',
+  /** The address this site gives — the brand's, and it reaches realxtrade. */
+  email: 'info@sanktum.de',
   permit34c: {
     scope: '§ 34c Abs. 1 Satz 1 Nr. 1, 2, 3a und 3b GewO',
     // TODO(legal): carried over from the Wertentwickler imprint. The seat is
@@ -38,14 +40,29 @@ export const DATA_PROTECTION_AUTHORITY = {
   urlLabel: 'www.lda.bayern.de',
 } as const;
 
-/** Host of the site. Changes with a move off Vercel — and the privacy policy with it. */
+/**
+ * Where the site runs: the company's own virtual server, rented from STRATO
+ * and run with Coolify, in a data centre in Germany — the same machine as the
+ * Wertentwickler website. STRATO provides the machine and the network and is a
+ * processor under Art. 28 GDPR; the server itself is ours.
+ */
 export const HOST = {
-  name: 'Vercel Inc.',
-  address: '440 N Barranca Ave #4133, Covina, CA 91723',
-  country: 'USA',
+  name: 'STRATO GmbH',
+  address: 'Otto-Ostrowski-Straße 7, 10249 Berlin',
+  country: 'Deutschland',
+  countryEn: 'Germany',
+  // TODO(legal): the privacy policy promises this. It has to match the log
+  // settings on the server — Traefik's access log and the container's.
+  logRetentionDays: 7,
 } as const;
 
-/** Provider of the company mailboxes (Google Workspace). */
+/**
+ * Provider of the mailboxes (Google Workspace), as for wertentwickler.de.
+ *
+ * TODO(mail): sanktum.de has no MX record yet, so info@sanktum.de receives
+ * nothing. This holds once the domain is set up in realxtrade's Google
+ * Workspace; if the mailbox ends up elsewhere, the privacy policy changes too.
+ */
 export const MAIL_PROVIDER = {
   name: 'Google Ireland Limited',
   address: 'Gordon House, Barrow Street, Dublin 4',

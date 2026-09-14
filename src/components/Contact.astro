@@ -20,6 +20,7 @@ import dennisArians from '../assets/portrait-dennis-arians.webp';
 import erikEckert from '../assets/portrait-erik-eckert.webp';
 import holgerWeller from '../assets/portrait-holger-weller.webp';
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { COMPANY } from '../content/company';
 
 const t = dictionaries[DEFAULT_LANG];
 
@@ -78,7 +79,7 @@ const fields = [
         <p class="contact__scarcity" data-i18n="s5Scarcity">{t.s5Scarcity}</p>
         <div class="contact__reach">
           <div>{t.addr2}</div>
-          <div><a href="mailto:kontakt@example.com">kontakt@example.com</a></div>
+          <div><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></div>
         </div>
       </div>
 
