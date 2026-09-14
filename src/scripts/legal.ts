@@ -86,6 +86,18 @@ for (const dialog of dialogs.values()) {
     pressedOnBackdrop = false;
   });
 
+  // A link to a place on this page — the imprint's way to the contact form —
+  // closes the dialog, or the jump would happen out of sight behind it. At
+  // once and without handing focus back: the browser jumps only after this
+  // handler, and focusing the footer link on the way out of an animated close
+  // would scroll the page straight back down to it.
+  dialog.addEventListener('click', (event) => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]');
+    if (!link) return;
+    openers.delete(dialog);
+    dialog.close();
+  });
+
   // Browsers restore focus themselves on close; this covers the ones that
   // do not, and is harmless where they do.
   dialog.addEventListener('close', () => {

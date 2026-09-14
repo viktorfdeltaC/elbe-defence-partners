@@ -88,6 +88,13 @@ video {
   max-width: 100%;
 }
 
+/* The browser hides [hidden] with the weakest rule there is, so any `display`
+   on the element wins and it stays on screen — the contact form did, next to
+   its own thank-you. Hidden means hidden. */
+[hidden] {
+  display: none !important;
+}
+
 ::selection {
   background: var(--ink);
   color: var(--paper);

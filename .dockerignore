@@ -1,0 +1,14 @@
+# Built inside the image, or never needed there.
+node_modules
+dist
+.astro
+.git
+.vercel
+.DS_Store
+
+# Credentials stay out of the build context altogether.
+.env
+.env.*
+
+# The delivered logo is the source for `npm run wordmark`, not part of the site.
+brand

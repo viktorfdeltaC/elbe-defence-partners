@@ -7,10 +7,11 @@
  * a model described Google Analytics, Google Fonts and a contact form that do
  * not exist there, and left out the booking that does.
  *
- * So this has to change together with the site: the contact form and the
- * booking each add a section, in the same deploy that ships them. Both
- * languages share a structure and a date; the English one is a translation and
- * says so.
+ * So this has to change together with the site: section 07 describes the
+ * contact form as src/pages/api/kontakt.ts and src/server/ implement it, and
+ * the booking, once there is one, adds its own section in the same deploy.
+ * Both languages share a structure and a date; the English one is a
+ * translation and says so.
  */
 import { COMPANY, DATA_PROTECTION_AUTHORITY as DPA, HOST, MAIL_PROVIDER } from '../../content/company';
 import { BRAND } from '../../content/copy';
@@ -116,7 +117,30 @@ const mail = `mailto:${COMPANY.email}`;
     Regel sechs Jahre (§ 257 HGB, § 147 AO).
   </p>
 
-  <H><span class="legal-n">07</span>Ihre Rechte</H>
+  <H><span class="legal-n">07</span>Kontaktformular</H>
+  <p>
+    Über das Kontaktformular senden Sie uns Name, Unternehmen und E-Mail-Adresse, auf Wunsch eine
+    Beschreibung Ihres Vorhabens und dazu die Sprache, in der Sie die Seite lesen. Name, Unternehmen
+    und E-Mail-Adresse brauchen wir, um antworten zu können; ohne sie lässt sich das Formular nicht
+    absenden.
+  </p>
+  <p>
+    Unser Server leitet die Angaben als E-Mail an unser Postfach {COMPANY.email} weiter und speichert
+    sie selbst nicht. An die angegebene Adresse geht eine kurze Eingangsbestätigung, die nichts aus dem
+    Formular enthält. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist
+    die Beantwortung geschäftlicher Anfragen. Zielt Ihre Anfrage auf einen Vertrag mit Ihnen selbst,
+    ist Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO. Für die E-Mails gilt, was unter 06 steht: Sie
+    liegen in unserem Postfach bei Google Workspace und werden nach denselben Fristen gelöscht.
+  </p>
+  <p>
+    Gegen Missbrauch begrenzt der Server, wie oft das Formular von einer IP-Adresse aus und an eine
+    E-Mail-Adresse gesendet werden kann. Dafür hält er beide bis zu einem Tag als nicht umkehrbare
+    Kennung (Hash) im Arbeitsspeicher, schreibt sie nicht auf Datenträger und verknüpft sie mit nichts
+    anderem. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist der
+    Schutz des Formulars und unseres Postfachs vor massenhaftem Missbrauch.
+  </p>
+
+  <H><span class="legal-n">08</span>Ihre Rechte</H>
   <p>
     Sie haben das Recht auf Auskunft über die bei uns gespeicherten Daten (Art. 15 DSGVO), auf
     Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und
@@ -131,7 +155,7 @@ const mail = `mailto:${COMPANY.email}`;
     die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
   </p>
 
-  <H><span class="legal-n">08</span>Beschwerderecht</H>
+  <H><span class="legal-n">09</span>Beschwerderecht</H>
   <p>
     Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Zuständig für
     uns ist:
@@ -143,14 +167,15 @@ const mail = `mailto:${COMPANY.email}`;
     <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
   </address>
 
-  <H><span class="legal-n">09</span>Keine Pflicht, keine automatisierten Entscheidungen</H>
+  <H><span class="legal-n">10</span>Keine Pflicht, keine automatisierten Entscheidungen</H>
   <p>
     Sie sind weder gesetzlich noch vertraglich verpflichtet, uns Daten bereitzustellen. Ohne die
-    technisch nötigen Verbindungsdaten lässt sich die Website allerdings nicht ausliefern. Eine
+    technisch nötigen Verbindungsdaten lässt sich die Website allerdings nicht ausliefern, und ohne
+    Name, Unternehmen und E-Mail-Adresse lässt sich keine Anfrage über das Formular senden. Eine
     automatisierte Entscheidungsfindung einschließlich Profiling (Art. 22 DSGVO) findet nicht statt.
   </p>
 
-  <H><span class="legal-n">10</span>Änderungen</H>
+  <H><span class="legal-n">11</span>Änderungen</H>
   <p>
     Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die Rechtslage ändert. Es
     gilt die jeweils hier veröffentlichte Fassung.
@@ -244,7 +269,28 @@ const mail = `mailto:${COMPANY.email}`;
     commercial and tax law require, usually six years (Section 257 HGB, Section 147 AO).
   </p>
 
-  <H><span class="legal-n">07</span>Your rights</H>
+  <H><span class="legal-n">07</span>Contact form</H>
+  <p>
+    Through the contact form you send us your name, company and email address, a description of your
+    project if you wish, and the language you are reading the site in. We need your name, company and
+    email address to be able to reply; the form cannot be sent without them.
+  </p>
+  <p>
+    Our server forwards these details as an email to our mailbox {COMPANY.email} and does not store
+    them itself. A short confirmation of receipt, containing nothing from the form, goes to the address
+    you gave. The legal basis is Art. 6(1)(f) GDPR; our legitimate interest is answering business
+    enquiries. Where your enquiry aims at a contract with you personally, the legal basis is Art. 6(1)(b)
+    GDPR. The emails are then treated as set out under 06: they are kept in our mailbox with Google
+    Workspace and deleted on the same terms.
+  </p>
+  <p>
+    To prevent misuse, the server limits how often the form can be sent from one IP address and to one
+    email address. For this it keeps both for up to one day as an irreversible identifier (hash) in
+    memory only; it does not write them to disk or link them to anything else. The legal basis is
+    Art. 6(1)(f) GDPR; our legitimate interest is protecting the form and our mailbox from mass misuse.
+  </p>
+
+  <H><span class="legal-n">08</span>Your rights</H>
   <p>
     You have the right of access to the data we hold about you (Art. 15 GDPR), to rectification
     (Art. 16), erasure (Art. 17), restriction of processing (Art. 18) and data portability (Art. 20).
@@ -258,7 +304,7 @@ const mail = `mailto:${COMPANY.email}`;
     or defence of legal claims.
   </p>
 
-  <H><span class="legal-n">08</span>Right to lodge a complaint</H>
+  <H><span class="legal-n">09</span>Right to lodge a complaint</H>
   <p>
     You may lodge a complaint with a data protection supervisory authority (Art. 77 GDPR). The
     authority responsible for us is:
@@ -270,14 +316,15 @@ const mail = `mailto:${COMPANY.email}`;
     <a href={DPA.url} target="_blank" rel="noopener noreferrer">{DPA.urlLabel}</a>
   </address>
 
-  <H><span class="legal-n">09</span>No obligation, no automated decisions</H>
+  <H><span class="legal-n">10</span>No obligation, no automated decisions</H>
   <p>
     You are under no statutory or contractual obligation to provide us with data. Without the
-    technically necessary connection data, however, the website cannot be delivered. There is no
+    technically necessary connection data, however, the website cannot be delivered, and without a
+    name, company and email address no enquiry can be sent through the form. There is no
     automated decision-making, including profiling (Art. 22 GDPR).
   </p>
 
-  <H><span class="legal-n">10</span>Changes</H>
+  <H><span class="legal-n">11</span>Changes</H>
   <p>
     We update this privacy policy when the website or the law changes. The version published here
     applies.

@@ -1,14 +1,16 @@
 ---
 /**
- * The frame for the two legal pages, /impressum and /datenschutz.
+ * The frame for every page that is not the one-pager: the two legal texts
+ * (/impressum, /datenschutz) and the contact form's answers for visitors
+ * without JavaScript (/kontakt/danke/, /kontakt/fehler/).
  *
- * They exist as pages so the texts are reachable without JavaScript and can be
- * linked to directly — an imprint has to be "unmittelbar erreichbar und ständig
- * verfügbar". On the one-pager the same components open as dialogs instead
- * (src/components/legal/LegalDialog.astro); here they are plain documents.
+ * The legal texts exist as pages so they are reachable without JavaScript and
+ * can be linked to directly — an imprint has to be "unmittelbar erreichbar und
+ * ständig verfügbar". On the one-pager the same components open as dialogs
+ * instead (src/components/legal/LegalDialog.astro).
  *
  * One paper section in the page's own chrome — hairline rules, the black
- * marker with the file reference — under a slim black bar that leads back. The
+ * marker with a file reference — under a slim black bar that leads back. The
  * page script runs here too, for the language switch and the rules' entry.
  */
 import Base from './Base.astro';
@@ -22,9 +24,15 @@ interface Props {
   titleKey: TextKey;
   /** Visible heading of the page. */
   headingKey: TextKey;
+  /**
+   * The marker above the heading: the document number and "Rechtliches" for
+   * the legal texts, C-01 and "Nächster Schritt" for the contact form's pages.
+   */
+  refKey?: TextKey;
+  labelKey?: TextKey;
 }
 
-const { titleKey, headingKey } = Astro.props;
+const { titleKey, headingKey, refKey = 'docRef', labelKey = 'legalLabel' } = Astro.props;
 const t = dictionaries[DEFAULT_LANG];
 ---
 
@@ -46,8 +54,8 @@ const t = dictionaries[DEFAULT_LANG];
     <SectionRules />
     <div class="section__inner">
       <span class="marker marker--static" data-marker>
-        <span class="marker__ref">{t.docRef}</span>
-        <span data-i18n="legalLabel">{t.legalLabel}</span>
+        <span class="marker__ref">{t[refKey]}</span>
+        <span data-i18n={labelKey}>{t[labelKey]}</span>
       </span>
       <h1 class="h2 legal-page__title" data-i18n={headingKey}>{t[headingKey]}</h1>
       <slot />
@@ -134,9 +142,18 @@ const t = dictionaries[DEFAULT_LANG];
     }
   }
 
+  /* The footer sits at the bottom of the window even when the page is short —
+     the contact form's answers are two lines — instead of ending halfway down
+     with bare paper beneath it. */
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+  }
+
   /* A document, not a chapter of an argument: less air above it than the
      one-pager's sections take. */
   .legal-page {
+    flex: 1 0 auto;
     padding-top: 72px;
   }
 

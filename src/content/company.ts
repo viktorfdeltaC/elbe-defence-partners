@@ -57,11 +57,9 @@ export const HOST = {
 } as const;
 
 /**
- * Provider of the mailboxes (Google Workspace), as for wertentwickler.de.
- *
- * TODO(mail): sanktum.de has no MX record yet, so info@sanktum.de receives
- * nothing. This holds once the domain is set up in realxtrade's Google
- * Workspace; if the mailbox ends up elsewhere, the privacy policy changes too.
+ * Provider of the mailboxes: Google Workspace, as for wertentwickler.de — the
+ * MX record of sanktum.de is smtp.google.com (checked September 2026). If the
+ * mailboxes ever move, the privacy policy changes with them.
  */
 export const MAIL_PROVIDER = {
   name: 'Google Ireland Limited',

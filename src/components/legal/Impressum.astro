@@ -37,7 +37,10 @@ const H = `h${headingLevel}` as 'h2' | 'h3';
   <p>{COMPANY.managingDirector}, Geschäftsführer</p>
 
   <H>Kontakt</H>
-  <p>E-Mail: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
+  <p>
+    E-Mail: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a><br />
+    Kontaktformular: <a href="/#kontakt">auf der Startseite</a>
+  </p>
 
   <H>Registereintrag</H>
   <p>Handelsregister: {COMPANY.registerCourt}, {COMPANY.registerNumber}</p>

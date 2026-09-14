@@ -3,15 +3,17 @@
  * ⑤ C-01 Nächster Schritt — the 30-minute assessment, the form, and the four
  * people carrying the mandate.
  *
- * The form is switched off until its endpoint exists: the submit button is
- * disabled, with a note beside it saying why. A disabled default button also
- * stops the implicit submission on Enter, so this holds without JavaScript.
+ * The form posts to /api/kontakt, which mails the enquiry to the team and a
+ * fixed confirmation to the sender. Without JavaScript that is all there is:
+ * the browser checks the required fields, the server answers with a page
+ * (/kontakt/danke/ or /kontakt/fehler/). src/scripts/contact.ts improves on
+ * it — checks here first, sends with fetch, and puts the answer where the form
+ * was. The field limits are the server's (src/server/enquiry.ts).
  *
- * It used to have neither `method` nor `action`, and a click sent every field
- * as a GET query to the page's own address — name, company, email and the
- * project itself into the address bar, the browser history and the host's
- * request log, while the visitor believed the enquiry had gone out.
- * `method="post"` stays as the second guard for the day the button comes back.
+ * It must stay a POST. The form once had neither `method` nor `action`, and a
+ * click sent every field as a GET query to the page's own address — name,
+ * company, email and the project itself into the address bar, the browser
+ * history and the host's request log.
  */
 import SectionRules from './SectionRules.astro';
 import CroppedImage from './CroppedImage.astro';
@@ -21,6 +23,7 @@ import erikEckert from '../assets/portrait-erik-eckert.webp';
 import holgerWeller from '../assets/portrait-holger-weller.webp';
 import { DEFAULT_LANG, dictionaries } from '../content/copy';
 import { COMPANY } from '../content/company';
+import { LIMITS } from '../server/enquiry';
 
 const t = dictionaries[DEFAULT_LANG];
 
@@ -83,26 +86,56 @@ const fields = [
         </div>
       </div>
 
-      {/* TODO(backend): add `action` and enable the button once the receiving
-          endpoint exists. */}
-      <form class="form" method="post" novalidate>
-        {
-          fields.map((f) => (
-            <label>
-              <span class="form__label" data-i18n={f.key}>
-                {t[f.key]}
-              </span>
-              <input type={f.type} name={f.name} autocomplete={f.autocomplete} required />
-            </label>
-          ))
-        }
-        <label>
-          <span class="form__label" data-i18n="fMsg">{t.fMsg}</span>
-          <textarea name="message" rows="3"></textarea>
-        </label>
-        <button type="submit" disabled aria-describedby="form-pending" data-i18n="fSend">{t.fSend}</button>
-        <p class="form__pending" id="form-pending" data-i18n="fPending">{t.fPending}</p>
-      </form>
+      <div class="form-slot">
+        <form class="form" method="post" action="/api/kontakt" data-contact-form>
+          {/* The confirmation goes out in this language; the script keeps it
+              in step with the switch. */}
+          <input type="hidden" name="lang" value={DEFAULT_LANG} />
+          {
+            fields.map((f) => (
+              <label>
+                <span class="form__label" data-i18n={f.key}>
+                  {t[f.key]}
+                </span>
+                <input
+                  type={f.type}
+                  name={f.name}
+                  autocomplete={f.autocomplete}
+                  maxlength={LIMITS[f.name]}
+                  required
+                />
+              </label>
+            ))
+          }
+          <label>
+            <span class="form__label" data-i18n="fMsg">{t.fMsg}</span>
+            <textarea name="message" rows="3" maxlength={LIMITS.message}></textarea>
+          </label>
+
+          {/* For bots only: off screen, out of the tab order, hidden from
+              screen readers. Named after nothing the form really asks for —
+              "company" is a real field here. */}
+          <div class="form__trap" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <div class="form__foot">
+            <button type="submit" data-i18n="fSend">{t.fSend}</button>
+            {/* Always in the page, empty until there is something to say: a
+                live region has to exist before it changes to be announced. */}
+            <p class="form__status" role="status" data-contact-status></p>
+            <p class="form__privacy">
+              <span data-i18n="fPrivacy">{t.fPrivacy}</span>
+              <a href="/datenschutz" data-legal-open="datenschutz" data-i18n="fPrivacyLink">{t.fPrivacyLink}</a>.
+            </p>
+          </div>
+        </form>
+
+        <div class="form-done" data-contact-done tabindex="-1" hidden>
+          <h3 class="form-done__title" data-i18n="fDoneTitle">{t.fDoneTitle}</h3>
+          <p class="form-done__body" data-i18n="fDoneBody">{t.fDoneBody}</p>
+        </div>
+      </div>
     </div>
 
     <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
@@ -205,6 +238,7 @@ const fields = [
   /* ── Form ────────────────────────────────────────────────────────────── */
 
   .form {
+    position: relative;
     display: grid;
     gap: 20px;
     align-content: start;
@@ -276,20 +310,104 @@ const fields = [
       color 0.2s ease;
   }
 
-  .form button:not(:disabled):hover {
+  .form button:not([aria-disabled='true']):hover {
     background: var(--ocker);
     color: #fff;
   }
 
-  .form button:disabled {
-    cursor: not-allowed;
-    opacity: 0.45;
+  /* While sending. aria-disabled rather than disabled: a disabled button drops
+     the focus of whoever just pressed it. */
+  .form button[aria-disabled='true'] {
+    cursor: progress;
+    opacity: 0.6;
   }
 
-  .form__pending {
-    margin: -6px 0 0;
+  /* Invalid fields take the accent the form already uses for focus; the message
+     under the field says what is wrong. */
+  .form input[aria-invalid='true'],
+  .form textarea[aria-invalid='true'] {
+    border-color: var(--ocker);
+  }
+
+  .form :global(.form__error) {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ocker);
+  }
+
+  .form__trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form__foot {
+    display: grid;
+    justify-items: start;
+  }
+
+  .form__status {
+    margin: 0;
     max-width: 30em;
     font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted-dark);
+  }
+
+  .form__status:not(:empty) {
+    margin-top: 14px;
+  }
+
+  .form__status.is-error {
+    padding-left: 12px;
+    border-left: 2px solid var(--ocker);
+    color: var(--paper);
+  }
+
+  .form__privacy {
+    margin: 14px 0 0;
+    max-width: 30em;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted-dark-2);
+  }
+
+  .form__status :global(a),
+  .form__privacy a {
+    color: var(--paper);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+    text-underline-offset: 3px;
+  }
+
+  .form__status :global(a:hover),
+  .form__privacy a:hover {
+    color: #fff;
+    text-decoration-color: currentColor;
+  }
+
+  /* What the form becomes once the enquiry is through. Focused when it
+     appears, so a screen reader reads it and the keyboard starts from here. */
+  .form-done {
+    border-top: 1px solid var(--rule-dark);
+    padding-top: 22px;
+  }
+
+  .form-done__title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 2.2vw, 28px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .form-done__body {
+    margin: 0;
+    max-width: 28em;
+    font-size: 15.5px;
     line-height: 1.6;
     color: var(--muted-dark);
   }

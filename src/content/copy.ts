@@ -112,8 +112,27 @@ export interface Copy {
   fMail: string;
   fMsg: string;
   fSend: string;
-  /** Note beside the disabled submit button while the form has no endpoint. */
-  fPending: string;
+  /** Button label and status while the enquiry is on its way. */
+  fSending: string;
+  /** Under an empty required field, and under an email address that is not one. */
+  fRequired: string;
+  fBadMail: string;
+  /** Status lines. The two failures are followed by the address as a link. */
+  fInvalid: string;
+  fRate: string;
+  fFailed: string;
+  /** What replaces the form once the enquiry is through — and the page without JavaScript. */
+  fDoneTitle: string;
+  fDoneBody: string;
+  /** The page a failed submission without JavaScript lands on. */
+  fFailTitle: string;
+  fFailBody: string;
+  fBackToForm: string;
+  htmlTitleSent: string;
+  htmlTitleFailed: string;
+  /** Line under the button; `fPrivacyLink` is the link that follows it. */
+  fPrivacy: string;
+  fPrivacyLink: string;
 
   capLabel: string;
   capTitle: string;
@@ -205,7 +224,22 @@ export const de: Copy = {
   fMail: 'E-Mail',
   fMsg: 'Vorhaben',
   fSend: 'Einschätzung anfragen',
-  fPending: 'Der Versand über das Formular wird gerade eingerichtet. Bis dahin erreichen Sie uns per E-Mail.',
+  fSending: 'Wird gesendet …',
+  fRequired: 'Bitte ausfüllen.',
+  fBadMail: 'Bitte eine gültige E-Mail-Adresse angeben.',
+  fInvalid: 'Bitte prüfen Sie die markierten Felder.',
+  fRate: 'Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es später noch einmal oder schreiben Sie uns direkt:',
+  fFailed: 'Die Anfrage konnte gerade nicht gesendet werden. Bitte schreiben Sie uns direkt:',
+  fDoneTitle: 'Danke. Ihre Anfrage ist bei uns.',
+  fDoneBody: 'Wir melden uns. Eine kurze Bestätigung geht an Ihre E-Mail-Adresse.',
+  fFailTitle: 'Die Anfrage ist nicht angekommen.',
+  fFailBody:
+    'Das Formular konnte nicht gesendet werden. Bitte prüfen Sie Ihre Angaben und versuchen Sie es noch einmal, oder schreiben Sie uns direkt:',
+  fBackToForm: 'Zurück zum Formular',
+  htmlTitleSent: 'Anfrage gesendet — Sanktum Defence Partners',
+  htmlTitleFailed: 'Anfrage nicht gesendet — Sanktum Defence Partners',
+  fPrivacy: 'Wir verwenden Ihre Angaben nur, um Ihre Anfrage zu beantworten. Mehr in der',
+  fPrivacyLink: 'Datenschutzerklärung',
 
   capLabel: 'Kapital & Standortentwicklung',
   capTitle: 'Zwei Welten, ein Bindeglied.',
@@ -335,7 +369,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Militärischer Hintergrund, Defence und strategische Lagebeurteilung.',
       phone: '+49 351 000 001',
-      mail: 'h.weller@sanktum.de',
+      mail: 'v.fink@sanktum.de',
     },
     {
       photo: 'dennisArians',
@@ -343,7 +377,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Militärischer Hintergrund, Defence-IT und sicherheitskonforme Prozesse.',
       phone: '+49 351 000 002',
-      mail: 'e.eckert@sanktum.de',
+      mail: 'd.arians@sanktum.de',
     },
     {
       photo: 'erikEckert',
@@ -351,7 +385,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Infrastruktur, Genehmigungsprozesse und Standortentwicklung.',
       phone: '+49 351 000 003',
-      mail: 'd.arians@sanktum.de',
+      mail: 'e.eckert@sanktum.de',
     },
     {
       photo: 'holgerWeller',
@@ -359,7 +393,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Kapitalstrukturen, Vertrieb und Wirtschaftsnetzwerk.',
       phone: '+49 351 000 004',
-      mail: 'v.fink@sanktum.de',
+      mail: 'h.weller@sanktum.de',
     },
   ],
 };
@@ -417,7 +451,22 @@ export const en: Copy = {
   fMail: 'Email',
   fMsg: 'Project',
   fSend: 'Request assessment',
-  fPending: 'Sending through this form is still being set up. Until then, please reach us by email.',
+  fSending: 'Sending …',
+  fRequired: 'Please fill this in.',
+  fBadMail: 'Please enter a valid email address.',
+  fInvalid: 'Please check the highlighted fields.',
+  fRate: 'Too many requests in a short time. Please try again later or write to us directly:',
+  fFailed: 'Your enquiry could not be sent just now. Please write to us directly:',
+  fDoneTitle: 'Thank you. Your enquiry has reached us.',
+  fDoneBody: 'We will get back to you. A short confirmation is on its way to your email address.',
+  fFailTitle: 'Your enquiry did not get through.',
+  fFailBody:
+    'The form could not be sent. Please check your details and try again, or write to us directly:',
+  fBackToForm: 'Back to the form',
+  htmlTitleSent: 'Enquiry sent — Sanktum Defence Partners',
+  htmlTitleFailed: 'Enquiry not sent — Sanktum Defence Partners',
+  fPrivacy: 'We use your details only to answer your enquiry. More in our',
+  fPrivacyLink: 'privacy policy',
 
   capLabel: 'Capital & site development',
   capTitle: 'Two worlds, one bridge.',
@@ -547,7 +596,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Military background, defence and strategic assessment.',
       phone: '+49 351 000 001',
-      mail: 'h.weller@sanktum.de',
+      mail: 'v.fink@sanktum.de',
     },
     {
       photo: 'dennisArians',
@@ -555,7 +604,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Military background, defence IT and security-compliant processes.',
       phone: '+49 351 000 002',
-      mail: 'e.eckert@sanktum.de',
+      mail: 'd.arians@sanktum.de',
     },
     {
       photo: 'erikEckert',
@@ -563,7 +612,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Infrastructure, permitting and site development.',
       phone: '+49 351 000 003',
-      mail: 'd.arians@sanktum.de',
+      mail: 'e.eckert@sanktum.de',
     },
     {
       photo: 'holgerWeller',
@@ -571,7 +620,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Capital structures, sales and industry network.',
       phone: '+49 351 000 004',
-      mail: 'v.fink@sanktum.de',
+      mail: 'h.weller@sanktum.de',
     },
   ],
 };
