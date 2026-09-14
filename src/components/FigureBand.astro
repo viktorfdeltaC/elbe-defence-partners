@@ -5,20 +5,20 @@
  * need none. Set in Archivo Narrow with tabular numerals so the digits line up
  * across the columns; each counts up once on entry.
  */
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
 
 <div class="band on-dark">
   <div class="band__inner">
     {
-      t.figures.map((f, i) => (
+      t.figures.map((f) => (
         <div class="band__cell">
-          <div class="band__value" data-count data-i18n={`figures.${i}.v`}>
+          <div class="band__value" data-count>
             {f.v}
           </div>
-          <div class="band__key" data-i18n={`figures.${i}.k`}>
+          <div class="band__key">
             {f.k}
           </div>
         </div>

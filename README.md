@@ -26,14 +26,16 @@ src/
   content/copy.ts       All German and English copy, one typed shape (`Copy`)
   content/company.ts    The company behind the brand: legal texts, mail footer
   content/mail.ts       The contact form's two mails (server only)
-  layouts/Base.astro    <head>, fonts, metadata
-  layouts/Document.astro  Frame of every page that is not the one-pager
-  pages/                The one-pager, /impressum, /datenschutz, /kontakt/…
+  pages/index.astro     The German route; pages/en/index.astro is its twin
+  pages/                Also /impressum, /datenschutz, /kontakt/…, sitemap, robots
   pages/api/kontakt.ts  The contact form's endpoint — the one server route
   server/               Its rules: validation, rate limits, sending
+  components/Page.astro The page both routes render
   components/           One per section, in page order
   components/legal/     Imprint and privacy policy
-  scripts/page.ts       Reveals, count-up, station rail, DE/EN switch
+  layouts/Base.astro    <head>, fonts, metadata, hreflang
+  layouts/Document.astro  Frame of every page that is not the one-pager
+  scripts/page.ts       Reveals, count-up, station rail
   scripts/legal.ts      Imprint and privacy policy as dialogs on the one-pager
   scripts/contact.ts    The form in place: checks, fetch, answer
   styles/global.css     Design tokens, the shared section chrome, legal text
@@ -126,12 +128,16 @@ origin check, which relies on `security.allowedDomains` in `astro.config.mjs` to
 recognise the real host behind the proxy. A new domain goes there too, or every
 form sent without JavaScript fails with 403.
 
-**Language.** The page is rendered in German and switched client-side, as the
-prototype did. Every translatable node carries `data-i18n` with a dot path into
-`Copy` (`axes.2.figLabel`), and the switch walks those paths; attributes use
-`data-i18n-attr="alt:imgAlt"`. A returning visitor keeps the language they
-chose. If the two languages should ever become separate crawlable URLs, this is
-the part to replace.
+**Language.** Two routes, both rendered at build time: `/` is German, `/en/` is
+English (`i18n` in `astro.config.mjs`, `prefixDefaultLocale: false`, so the
+German page stays at the root it has always had). Every section reads its own
+language from the URL with `dictionaries[langFrom(Astro.currentLocale)]`, and
+`Base.astro` emits the matching `<html lang>`, canonical and `hreflang` set. The
+DE/EN control in the hero is two links, not a script.
+
+The prototype instead swapped the text in the browser from both dictionaries,
+which meant one URL, one set of metadata, and an English version no crawler
+could ever see.
 
 **Images.** Drop a replacement into `src/assets/` and update the import. The
 portraits are framed by `CroppedImage`, which reproduces the crop the design

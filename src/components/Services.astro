@@ -8,9 +8,9 @@
  * is the point of the block, so it gets the display face and the width.
  */
 import SectionRules from './SectionRules.astro';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 
-const t = dictionaries[DEFAULT_LANG];
+const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
 
 <section id="leistungen" class="section">
@@ -19,28 +19,28 @@ const t = dictionaries[DEFAULT_LANG];
     <div class="section__head">
       <span class="marker" data-marker>
         <span class="marker__ref">{t.ref3}</span>
-        <span data-i18n="nav3">{t.nav3}</span>
+        <span>{t.nav3}</span>
       </span>
 
-      <h2 class="h2 services__title" data-i18n="s4Title">{t.s4Title}</h2>
+      <h2 class="h2 services__title">{t.s4Title}</h2>
     </div>
 
     <div data-reveal>
       {
-        t.blocks.map((b, i) => (
+        t.blocks.map((b) => (
           <div class="block">
             <div class="block__lead">
               <div class="block__n">{b.n}</div>
-              <h3 class="block__title" data-i18n={`blocks.${i}.title`}>
+              <h3 class="block__title">
                 {b.title}
               </h3>
-              <p class="block__body" data-i18n={`blocks.${i}.body`}>
+              <p class="block__body">
                 {b.body}
               </p>
             </div>
             <ul class="block__items">
-              {b.items.map((item, j) => (
-                <li data-i18n={`blocks.${i}.items.${j}`}>{item}</li>
+              {b.items.map((item) => (
+                <li>{item}</li>
               ))}
             </ul>
           </div>

@@ -1,7 +1,7 @@
 ---
 import '../styles/fonts.css';
 import '../styles/global.css';
-import { BRAND, DEFAULT_LANG, dictionaries, type TextKey } from '../content/copy';
+import { BRAND, dictionaries, langFrom, type TextKey } from '../content/copy';
 
 interface Props {
   /** Dictionary key for <title>. The legal pages name themselves; everything else is the one-pager. */
@@ -9,15 +9,16 @@ interface Props {
 }
 
 const { titleKey = 'htmlTitle' } = Astro.props;
-const t = dictionaries[DEFAULT_LANG];
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
 
 /**
  * Link preview. The page is passed around as a link far more than it is found,
  * and without this it arrives in WhatsApp, LinkedIn or Slack as a bare URL.
  *
- * German throughout, and deliberately not wired to the language toggle: a
- * scraper reads the delivered HTML and runs no JavaScript, so what stands here
- * is what everyone sees, whatever the visitor switches to afterwards.
+ * Each route carries its own: a scraper reads the delivered HTML and runs no
+ * JavaScript, so the German page hands out German metadata and /en/ hands out
+ * English. Before the two routes existed, only the German set was ever seen.
  *
  * The absolute URLs come from `site` in astro.config.mjs — a scraper has no
  * page to resolve a relative path against.
@@ -26,26 +27,59 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const preview = new URL('/og.png', Astro.site);
 
 /**
+ * One entry per language, plus x-default for a reader whose own language is
+ * neither. Both point at real, separately crawlable URLs; the German one is the
+ * site root, which is where it has always been.
+ */
+const alternates = [
+  { hreflang: 'de', href: new URL('/', Astro.site).href },
+  { hreflang: 'en', href: new URL('/en/', Astro.site).href },
+];
+
+/** en_GB, not en_US: the English copy is written in British spelling. */
+const ogLocale = lang === 'en' ? 'en_GB' : 'de_DE';
+
+/**
+ * The firm as an entity, for search engines that build one. Deliberately thin:
+ * everything here is verifiable from the page itself. Address, telephone and
+ * sameAs profiles belong in it too, and go in once the Impressum exists and the
+ * contact details are real — a wrong address in structured data is worse than
+ * none, because it is machine-read and repeated.
+ */
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: BRAND,
+  url: canonical.href,
+  logo: preview.href,
+  description: t.htmlDescription,
+  inLanguage: lang,
+  areaServed: { '@type': 'Place', name: 'Dresden, Sachsen' },
+};
+
+/**
  * Search engines are kept out while the page is a shareable draft: the contact
  * details are still placeholders and the legal texts have not been reviewed,
  * and an indexed page outlives the version that was indexed.
  *
- * Flip to true — together with public/robots.txt — when the copy is final and
- * the legal texts are signed off. Nothing else has to change.
+ * Flip to true — together with the Disallow lines in src/pages/robots.txt.ts —
+ * when the copy is final and the legal texts are signed off.
  */
 const INDEXABLE = false;
 ---
 
 <!doctype html>
-<html lang={DEFAULT_LANG}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <title data-i18n={titleKey}>{t[titleKey]}</title>
-    <meta name="description" content={t.htmlDescription} data-i18n-attr="content:htmlDescription" />
+    <title>{t[titleKey]}</title>
+    <meta name="description" content={t.htmlDescription} />
     <meta name="robots" content={INDEXABLE ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="canonical" href={canonical.href} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     {/* Link preview. The card is the wordmark on the dark ground — a shrunken
@@ -57,7 +91,7 @@ const INDEXABLE = false;
     <meta property="og:title" content={t.ogTitle} />
     <meta property="og:description" content={t.ogDescription} />
     <meta property="og:url" content={canonical.href} />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:image" content={preview.href} />
     {/* Stated, so a scraper can lay out the card before the image arrives. */}
     <meta property="og:image:width" content="1200" />
@@ -69,6 +103,7 @@ const INDEXABLE = false;
         headline from reflowing after first paint. */}
     <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="application/ld+json" set:html={JSON.stringify(organisation)} is:inline />
   </head>
   <body>
     <slot />

@@ -1,9 +1,9 @@
 /**
  * Bilingual copy for the Sanktum Defence Partners one-pager.
  *
- * Both dictionaries share one shape (`Copy`), so every string rendered on the
- * page can be addressed by the same dot path in either language — that is what
- * the client-side DE/EN toggle walks (see src/scripts/page.ts).
+ * Both dictionaries share one shape (`Copy`), so a missing translation is a
+ * type error rather than a blank on the page. Which one is rendered follows
+ * from the route: `/` is German, `/en/` is English (see astro.config.mjs).
  *
  * Text is carried over verbatim from Richtung-D-Grid.dc.html; the figures in
  * `axes` and `figures` are the researched, publicly sourced values the user
@@ -166,7 +166,10 @@ export interface Copy {
 }
 
 export const de: Copy = {
-  htmlTitle: 'Sanktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
+  // Der Title steht im Suchergebnis, nicht in der Linkvorschau — das ist
+  // ogTitle. Deshalb trägt er Begriffe, nach denen jemand sucht, und bleibt
+  // unter den rund 60 Zeichen, die Google anzeigt.
+  htmlTitle: 'Defence-Produktion in Dresden ansiedeln | Sanktum',
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
 
@@ -211,13 +214,13 @@ export const de: Copy = {
     'Vor jedem Mandat prüfen wir Flächen, Genehmigungslage und realistische Fristen für Ihr Vorhaben.',
   s3Claim: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
   imgCap: 'Dresden — Mikroelektronik-Cluster',
-  imgAlt: 'Dresden bei Nacht, Blick über die Elbe auf die Altstadt',
+  imgAlt: 'Die Dresdner Altstadt, deren Spiegelung in eine Leiterplatte übergeht',
 
-  s4Title: 'Leistungsspektrum',
+  s4Title: 'Was ein Vorhaben trägt, bis es läuft.',
 
   s5Title: 'Erste Einschätzung in 30 Minuten.',
   s5Lead: 'Wo Sie heute stehen, was in Dresden möglich wäre, was es realistisch braucht.',
-  s5Scarcity: 'Wir arbeiten mit einer begrenzten Zahl von Unternehmen pro Jahr.',
+  s5Scarcity: 'Gespräche werden vertraulich geführt, auf Wunsch unter NDA.',
   addr2: '+49 351 000 000',
   fName: 'Name',
   fCompany: 'Unternehmen',
@@ -242,11 +245,14 @@ export const de: Copy = {
   fPrivacyLink: 'Datenschutzerklärung',
 
   capLabel: 'Kapital & Standortentwicklung',
-  capTitle: 'Zwei Welten, ein Bindeglied.',
+  // Zeilenumbruch zwischen den beiden Sätzen: .capital__title führt
+  // white-space: pre-line, damit jeder Satz auf seiner eigenen Zeile beginnt
+  // und bei wenig Breite trotzdem weiter umbrechen darf.
+  capTitle: 'Der Markt kommt hierher.\nDer Zugang zu ihm nicht.',
   capBody:
-    'Auf der einen Seite Hersteller, die Produktionskapazität brauchen. Auf der anderen Seite Family Offices, kommunale Akteure und Landespolitik, die Standortentwicklung und Anschluss an die Herstellerwelt suchen. Wir stehen zwischen beiden und führen aus.',
+    'Die Hersteller, die hierherkommen, brauchen Flächen, Zulieferer, Dienstleister und Kapital. Vergeben wird davon nichts an den, der die Anforderungen der Branche nicht kennt. Wir kennen sie, und wir kennen die Hersteller.',
   capNote:
-    'Dieser Zugang ist kein Beratungsmandat und kein Fondsvehikel. Gespräche werden vertraulich geführt, auf Wunsch unter NDA.',
+    'Dieser Zugang ist kein Beratungsmandat und kein Fondsvehikel.',
   capCta: 'Vertrauliches Gespräch anfragen',
 
   imprint: 'Impressum',
@@ -265,6 +271,7 @@ export const de: Copy = {
     'B-01.2 Betreiben',
     'B-01.3 Wachsen',
     'C-01 Kontakt',
+    'D-01 Kapital',
   ],
 
   figures: [
@@ -320,10 +327,11 @@ export const de: Copy = {
     {
       n: 'B-01.1',
       title: 'Ankommen',
-      body: 'Standort, Genehmigung, Bau. Schlüsselfertig, aus 20 Jahren Immobilien- und Bauprojekten.',
+      body: 'Standort, Genehmigung, Bau. Zwanzig Jahre Bauerfahrung, angewendet auf Anforderungen, die kein Bauträger kennt.',
       items: [
+        'Bewertung, ob ein Standort die Anforderungen Ihres Programms überhaupt tragen kann',
+        'Standortanforderungen aus Rüstungsvorschriften von Anfang an mitgedacht: Wir kennen sie aus der Anwendung, nicht aus dem Handbuch',
         'Immobilienzugang in Dresden und Umland, inklusive flughafennaher Assets',
-        'Standortanforderungen aus Rüstungsvorschriften von Anfang an mitgedacht — wir kennen sie aus der Anwendung, nicht aus dem Handbuch',
         'Antrags- und Genehmigungsverfahren vor Ort begleitet',
         'Vergabe und Koordination aller Gewerke, Baubegleitung nach §34c GewO',
       ],
@@ -331,11 +339,12 @@ export const de: Copy = {
     {
       n: 'B-01.2',
       title: 'Betreiben',
-      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut aus militärischer und regulatorischer Erfahrung — und der Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
+      body: 'Verwaltung, die läuft, ohne dass Sie hinsehen. Aufgebaut aus militärischer und regulatorischer Erfahrung. Dazu die Fähigkeit, Prozesse digital zu bauen statt nur zu verwalten.',
       items: [
+        'Die Voraussetzungen für die Geheimschutzbetreuung, hergestellt und dokumentiert',
+        'Sicherheitskonforme Workflows für den Umgang mit eingestuftem Material',
         'Digitalisierte Verwaltungs- und Genehmigungsprozesse statt Papier und Mailketten',
         'Digitales Projektmanagement mit Reporting für Investoren und Behörden',
-        'Sicherheitskonforme Workflows für den Umgang mit eingestuftem Material',
         'Mit wenig Personal betreibbar: Prozesse ersetzen Stellen, nicht umgekehrt',
         'Laufende Infrastrukturverwaltung, Betreuung und Optimierung',
       ],
@@ -343,12 +352,13 @@ export const de: Copy = {
     {
       n: 'B-01.3',
       title: 'Wachsen',
-      body: 'Netzwerk, Kapital, politischer Zugang — gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
+      body: 'Netzwerk, Kapital, Beschaffung. Gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
       items: [
+        'Anschluss an Bedarfsträger und Beschaffungsorganisationen',
+        'Strategische und geopolitische Einordnung für Expansionsentscheidungen',
+        'Ein Vorhaben, das bei Kapitalgebern und politischen Entscheidern eingeführt ist',
         'Netzwerkformate zwischen den Defence-Hubs im Bundesgebiet und Dresden',
         'Kuratiertes Dienstleisternetzwerk',
-        'Strategische und geopolitische Einordnung für Expansionsentscheidungen',
-        'Zugang zu Family Offices und politischen Entscheidern',
       ],
     },
   ],
@@ -399,7 +409,7 @@ export const de: Copy = {
 };
 
 export const en: Copy = {
-  htmlTitle: 'Sanktum Defence Partners — Where technology becomes defence capability',
+  htmlTitle: 'Set up defence production in Dresden | Sanktum',
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
@@ -425,26 +435,26 @@ export const en: Copy = {
 
   s2Title: 'The prototype works. Series production is a different challenge.',
   s2Body:
-    'The prototype proves the technology. It becomes capability only in series. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
+    'The prototype proves the technology. It becomes capability only in series production. At that point, technology is no longer the bottleneck. That makes it a question of capability, not of manufacturing.',
   s2Pull:
-    'The location decides whether technology becomes capability. Whoever opens it up decides when.',
+    'The location decides whether technology becomes capability. Whoever opens up that location decides when.',
 
   s3Title: 'The right place. The right people.',
   s3Lead: 'Dresden is where defence production scales in Germany.',
   s3bTitle: 'In Europe there are few places for this. This is one of them.',
   s3bBody:
-    'The components your system depends on are built within the same radius. The specialists who take it into series production are already here. And the countries currently investing most in their defence are immediate neighbours. In between sit permits, defence regulations and an administration nobody enjoys running. We run it, and we run it digitally. What comes out of that is not just a location advantage, but a strategic one.',
+    'The components your system depends on are built in the same area. The specialists who take it into series production are already here. And the countries currently investing most in their defence are immediate neighbours. In between sit permits, defence regulations and administrative work nobody enjoys. We run it, and we run it digitally. What comes out of that is not just a location advantage, but a strategic one.',
   s3bNote:
     'Before every mandate we review sites, permitting status and realistic timelines for your project.',
   s3Claim: 'The location is the strategy. We are the execution.',
   imgCap: 'Dresden — microelectronics cluster',
-  imgAlt: 'Dresden at night, looking across the Elbe towards the old town',
+  imgAlt: 'The Dresden skyline, its reflection dissolving into a circuit board',
 
-  s4Title: 'Services',
+  s4Title: 'What carries a project through to operation.',
 
   s5Title: 'An initial assessment in 30 minutes.',
   s5Lead: 'Where you stand today, what would be possible in Dresden, what it realistically takes.',
-  s5Scarcity: 'We work with a limited number of companies per year.',
+  s5Scarcity: 'Conversations are confidential, under NDA on request.',
   addr2: '+49 351 000 000',
   fName: 'Name',
   fCompany: 'Company',
@@ -469,14 +479,14 @@ export const en: Copy = {
   fPrivacyLink: 'privacy policy',
 
   capLabel: 'Capital & site development',
-  capTitle: 'Two worlds, one bridge.',
+  capTitle: 'The market is coming here.\nAccess to it is not.',
   capBody:
-    'On one side, manufacturers who need production capacity. On the other, family offices, municipal actors and state politics looking for site development and access to the manufacturer world. We stand between the two and execute.',
+    'The manufacturers arriving here need sites, suppliers, service providers and capital. None of it goes to anyone who does not know what the sector requires. We know those requirements, and we know the manufacturers.',
   capNote:
-    'This is neither an advisory mandate nor a fund vehicle. Conversations are confidential, under NDA on request.',
+    'This is neither an advisory mandate nor a fund vehicle.',
   capCta: 'Request a confidential conversation',
 
-  imprint: 'Imprint',
+  imprint: 'Legal notice',
   privacy: 'Privacy',
   privacyTitle: 'Privacy policy',
   htmlTitleImprint: 'Imprint — Sanktum Defence Partners',
@@ -492,6 +502,7 @@ export const en: Copy = {
     'B-01.2 Operate',
     'B-01.3 Grow',
     'C-01 Contact',
+    'D-01 Capital',
   ],
 
   figures: [
@@ -504,7 +515,7 @@ export const en: Copy = {
   constraints: [
     { n: '01', t: 'Production readiness in months, not years' },
     { n: '02', t: 'Volumes that carry a procurement decision' },
-    { n: '03', t: 'Labour costs that do not eat the margin' },
+    { n: '03', t: 'Labour costs that do not eat into the margin' },
     { n: '04', t: 'Logistics that reach the main market' },
     { n: '05', t: 'Proximity to the technologies the product depends on' },
     { n: '06', t: 'A partner with first-hand experience in defence and security' },
@@ -516,7 +527,7 @@ export const en: Copy = {
       t: 'Chip proximity',
       fig: '1 in 3',
       figLabel:
-        'Of the semiconductors manufactured in the EU comes from Dresden. For automotive power semiconductors, more than half.',
+        'Share of EU semiconductor manufacturing that comes from Dresden. For automotive power semiconductors, more than half.',
       d: 'Over EUR 16bn of investment is under construction or committed: ESMC/TSMC around 10bn, Infineon around 5bn, GlobalFoundries around 1.1bn, plus Bosch. Anyone building sensors, drones or guidance systems produces where the critical component comes from.',
     },
     {
@@ -525,7 +536,7 @@ export const en: Copy = {
       fig: '82,500',
       figLabel:
         'People employed in microelectronics and software, around 1,500 more than the previous year.',
-      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's radius: the AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
+      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's travel: the AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
     },
     {
       n: '03',
@@ -547,10 +558,11 @@ export const en: Copy = {
     {
       n: 'B-01.1',
       title: 'Arrive',
-      body: 'Site, permitting, construction. Turnkey, from 20 years of real estate and construction projects.',
+      body: 'Site, permitting, construction. Twenty years of building experience, applied to requirements no property developer knows.',
       items: [
+        'An assessment of whether a site can meet your programme requirements at all',
+        'Site requirements from defence regulations considered from the start: we know them from application, not from the manual',
         'Property access in Dresden and the surrounding region, including airport-adjacent assets',
-        'Site requirements from defence regulations considered from the start — we know them from application, not from the manual',
         'Application and permitting procedures supported on the ground',
         'Tendering and coordination of all trades, construction supervision under §34c GewO',
       ],
@@ -558,24 +570,26 @@ export const en: Copy = {
     {
       n: 'B-01.2',
       title: 'Operate',
-      body: 'Administration that runs without you watching. Built from military and regulatory experience — and the ability to build processes digitally rather than merely administer them.',
+      body: 'Administration that runs without you watching. Built from military and regulatory experience. Plus the ability to build processes digitally rather than merely administer them.',
       items: [
+        'The prerequisites for industrial security clearance, established and documented',
+        'Security-compliant workflows for handling classified material',
         'Digitalised administrative and permitting processes instead of paper and mail chains',
         'Digital project management with reporting for investors and authorities',
-        'Security-compliant workflows for handling classified material',
-        'Operable with little headcount: processes replace positions, not the other way round',
+        'Can be run with a small team: processes replace positions, not the other way round',
         'Ongoing infrastructure management, support and optimisation',
       ],
     },
     {
       n: 'B-01.3',
       title: 'Grow',
-      body: 'Network, capital, political access — grown over two decades in financial markets and defence.',
+      body: 'Network, capital, procurement. Grown over two decades in financial markets and defence.',
       items: [
+        'Access to end users and procurement authorities',
+        'Strategic and geopolitical assessment for expansion decisions',
+        'A project already introduced to capital providers and political decision-makers',
         'Networking events between the German defence hubs and Dresden',
         'Curated service provider network',
-        'Strategic and geopolitical assessment for expansion decisions',
-        'Access to family offices and political decision-makers',
       ],
     },
   ],
@@ -627,11 +641,19 @@ export const en: Copy = {
 
 export const dictionaries: Record<Lang, Copy> = { de, en };
 
-/** Keys of `Copy` that hold a single string — the ones a node can name directly in data-i18n. */
+/** Keys of `Copy` that hold a single string — a title, a label, one line of text. */
 export type TextKey = { [K in keyof Copy]: Copy[K] extends string ? K : never }[keyof Copy];
 
-/** Language rendered at build time; the client toggle starts from here. */
+/** The language served from the unprefixed route, `/`. */
 export const DEFAULT_LANG: Lang = 'de';
+
+/**
+ * Narrows what Astro derived from the URL to a language we actually carry.
+ * `Astro.currentLocale` is typed as a plain string and is undefined outside a
+ * configured locale, so every component goes through here rather than casting.
+ */
+export const langFrom = (locale: string | undefined): Lang =>
+  locale === 'en' || locale === 'de' ? locale : DEFAULT_LANG;
 
 /** Brand name is a placeholder by design — one edit swaps it everywhere. */
 export const BRAND = 'Sanktum Defence Partners';

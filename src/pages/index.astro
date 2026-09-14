@@ -1,59 +1,9 @@
 ---
 /**
- * The one-pager. Order is the argument:
- *
- *   Hero            — what the firm is for
- *   Rail + figures  — where you are, and the market that frames it
- *   A-01            — the problem the reader actually has
- *   Claim           — answers the line A-01 ends on; the page's hinge
- *   A-02            — why Dresden answers it, and what the firm does about it
- *   B-01            — the services, each with the reason they can claim it
- *   Band            — a breath before the ask
- *   C-01            — the ask, and the four people behind it
- *   D-01            — the second audience, reached by one route only
- *
- * After the footer, the imprint and the privacy policy as dialogs — direct
- * children of <body>, opened from the footer links.
+ * German, served from the site root. The page itself is in Page.astro; this
+ * file exists to claim the route. Its English twin is src/pages/en/index.astro.
  */
-import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import ProgressRail from '../components/ProgressRail.astro';
-import FigureBand from '../components/FigureBand.astro';
-import Challenge from '../components/Challenge.astro';
-import ClaimBand from '../components/ClaimBand.astro';
-import WhySaxony from '../components/WhySaxony.astro';
-import Services from '../components/Services.astro';
-import VideoBand from '../components/VideoBand.astro';
-import Contact from '../components/Contact.astro';
-import Capital from '../components/Capital.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import LegalDialog from '../components/legal/LegalDialog.astro';
-import Impressum from '../components/legal/Impressum.astro';
-import Datenschutz from '../components/legal/Datenschutz.astro';
+import Page from '../components/Page.astro';
 ---
 
-<Base>
-  <Hero />
-  <ProgressRail />
-  <FigureBand />
-  <Challenge />
-  <ClaimBand textKey="s3Claim" />
-  <WhySaxony />
-  <Services />
-  <VideoBand />
-  <Contact />
-  <Capital />
-  <SiteFooter />
-  <LegalDialog id="impressum" titleKey="imprint">
-    <Impressum headingLevel={3} />
-  </LegalDialog>
-  <LegalDialog id="datenschutz" titleKey="privacyTitle">
-    <Datenschutz headingLevel={3} />
-  </LegalDialog>
-</Base>
-
-<script>
-  import '../scripts/page';
-  import '../scripts/legal';
-  import '../scripts/contact';
-</script>
+<Page />

@@ -12,6 +12,18 @@ export default defineConfig({
   site: 'https://sanktum.de',
 
   /**
+   * Two crawlable routes instead of one page that swaps its text in the
+   * browser: `/` is German, `/en/` is English. `prefixDefaultLocale: false`
+   * keeps the German page exactly where it has always been, so every link
+   * already sent out still resolves.
+   */
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
+
+  /**
    * Static, with one exception: /api/kontakt, the contact form's endpoint,
    * opts out of prerendering. Every page is still rendered to HTML at build
    * time; the Node server delivers those files and runs that one route.

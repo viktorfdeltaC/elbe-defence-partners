@@ -21,11 +21,12 @@ import viktorFink from '../assets/portrait-viktor-fink.webp';
 import dennisArians from '../assets/portrait-dennis-arians.webp';
 import erikEckert from '../assets/portrait-erik-eckert.webp';
 import holgerWeller from '../assets/portrait-holger-weller.webp';
-import { DEFAULT_LANG, dictionaries } from '../content/copy';
+import { dictionaries, langFrom } from '../content/copy';
 import { COMPANY } from '../content/company';
 import { LIMITS } from '../server/enquiry';
 
-const t = dictionaries[DEFAULT_LANG];
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
 
 /**
  * Portraits, with the framing the design tool stored for each one
@@ -71,15 +72,15 @@ const fields = [
     <div class="section__head">
       <span class="marker marker--invert" data-marker>
         <span class="marker__ref">{t.ref4}</span>
-        <span data-i18n="nav4">{t.nav4}</span>
+        <span>{t.nav4}</span>
       </span>
     </div>
 
     <div class="contact__grid">
       <div>
-        <h2 class="h2 contact__title" data-i18n="s5Title">{t.s5Title}</h2>
-        <p class="contact__lead" data-i18n="s5Lead">{t.s5Lead}</p>
-        <p class="contact__scarcity" data-i18n="s5Scarcity">{t.s5Scarcity}</p>
+        <h2 class="h2 contact__title">{t.s5Title}</h2>
+        <p class="contact__lead">{t.s5Lead}</p>
+        <p class="contact__scarcity">{t.s5Scarcity}</p>
         <div class="contact__reach">
           <div>{t.addr2}</div>
           <div><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></div>
@@ -88,15 +89,13 @@ const fields = [
 
       <div class="form-slot">
         <form class="form" method="post" action="/api/kontakt" data-contact-form>
-          {/* The confirmation goes out in this language; the script keeps it
-              in step with the switch. */}
-          <input type="hidden" name="lang" value={DEFAULT_LANG} />
+          {/* The page's language, so the confirmation and the answer page
+              come in it too. */}
+          <input type="hidden" name="lang" value={lang} />
           {
             fields.map((f) => (
               <label>
-                <span class="form__label" data-i18n={f.key}>
-                  {t[f.key]}
-                </span>
+                <span class="form__label">{t[f.key]}</span>
                 <input
                   type={f.type}
                   name={f.name}
@@ -108,7 +107,7 @@ const fields = [
             ))
           }
           <label>
-            <span class="form__label" data-i18n="fMsg">{t.fMsg}</span>
+            <span class="form__label">{t.fMsg}</span>
             <textarea name="message" rows="3" maxlength={LIMITS.message}></textarea>
           </label>
 
@@ -120,27 +119,27 @@ const fields = [
           </div>
 
           <div class="form__foot">
-            <button type="submit" data-i18n="fSend">{t.fSend}</button>
+            <button type="submit">{t.fSend}</button>
             {/* Always in the page, empty until there is something to say: a
                 live region has to exist before it changes to be announced. */}
             <p class="form__status" role="status" data-contact-status></p>
             <p class="form__privacy">
-              <span data-i18n="fPrivacy">{t.fPrivacy}</span>
-              <a href="/datenschutz" data-legal-open="datenschutz" data-i18n="fPrivacyLink">{t.fPrivacyLink}</a>.
+              {t.fPrivacy}
+              <a href="/datenschutz" data-legal-open="datenschutz">{t.fPrivacyLink}</a>.
             </p>
           </div>
         </form>
 
         <div class="form-done" data-contact-done tabindex="-1" hidden>
-          <h3 class="form-done__title" data-i18n="fDoneTitle">{t.fDoneTitle}</h3>
-          <p class="form-done__body" data-i18n="fDoneBody">{t.fDoneBody}</p>
+          <h3 class="form-done__title">{t.fDoneTitle}</h3>
+          <p class="form-done__body">{t.fDoneBody}</p>
         </div>
       </div>
     </div>
 
     <div class:list={['people', t.people.length >= 4 && 'people--four']} data-reveal>
       {
-        t.people.map((p, i) => (
+        t.people.map((p) => (
           <div class="people__person">
             {p.photo ? (
               <CroppedImage
@@ -156,16 +155,16 @@ const fields = [
               /* An empty frame, not a stand-in face. Same 4:5 box, so the row
                  keeps its rhythm while the seat is visibly still open. */
               <div class="people__frame">
-                <span data-i18n="photoPending">{t.photoPending}</span>
+                <span>{t.photoPending}</span>
               </div>
             )}
-            <h3 class="people__name" data-i18n={`people.${i}.name`}>
+            <h3 class="people__name">
               {p.name}
             </h3>
-            <div class="people__role" data-i18n={`people.${i}.role`}>
+            <div class="people__role">
               {p.role}
             </div>
-            <p class="people__bio" data-i18n={`people.${i}.bio`}>
+            <p class="people__bio">
               {p.bio}
             </p>
             {p.mail && (
