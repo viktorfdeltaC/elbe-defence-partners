@@ -134,7 +134,10 @@ export interface Copy {
 }
 
 export const de: Copy = {
-  htmlTitle: 'Sanktum Defence Partners — Wo aus Technologie Verteidigungsfähigkeit wird',
+  // Der Title steht im Suchergebnis, nicht in der Linkvorschau — das ist
+  // ogTitle. Deshalb trägt er Begriffe, nach denen jemand sucht, und bleibt
+  // unter den rund 60 Zeichen, die Google anzeigt.
+  htmlTitle: 'Defence-Produktion in Dresden ansiedeln | Sanktum',
   htmlDescription:
     'Standortzugang, Genehmigungsverfahren und Betrieb in Dresden für Defence- und Dual-Use-Hersteller, die vom Prototyp in die Serie gehen.',
 
@@ -179,7 +182,7 @@ export const de: Copy = {
     'Vor jedem Mandat prüfen wir Flächen, Genehmigungslage und realistische Fristen für Ihr Vorhaben.',
   s3Claim: 'Der Standort ist die Strategie. Wir sind die Umsetzung.',
   imgCap: 'Dresden — Mikroelektronik-Cluster',
-  imgAlt: 'Dresden bei Nacht, Blick über die Elbe auf die Altstadt',
+  imgAlt: 'Die Dresdner Altstadt, deren Spiegelung in eine Leiterplatte übergeht',
 
   s4Title: 'Was ein Vorhaben trägt, bis es läuft.',
 
@@ -352,7 +355,7 @@ export const de: Copy = {
 };
 
 export const en: Copy = {
-  htmlTitle: 'Sanktum Defence Partners — Where technology becomes defence capability',
+  htmlTitle: 'Set up defence production in Dresden | Sanktum',
   htmlDescription:
     'Site access, permitting and operations in Dresden for defence and dual-use manufacturers moving from prototype to series production.',
 
@@ -391,7 +394,7 @@ export const en: Copy = {
     'Before every mandate we review sites, permitting status and realistic timelines for your project.',
   s3Claim: 'The location is the strategy. We are the execution.',
   imgCap: 'Dresden — microelectronics cluster',
-  imgAlt: 'Dresden at night, looking across the Elbe towards the old town',
+  imgAlt: 'The Dresden skyline, its reflection dissolving into a circuit board',
 
   s4Title: 'What carries a project through to operation.',
 

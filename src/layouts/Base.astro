@@ -34,6 +34,24 @@ const alternates = [
 const ogLocale = lang === 'en' ? 'en_GB' : 'de_DE';
 
 /**
+ * The firm as an entity, for search engines that build one. Deliberately thin:
+ * everything here is verifiable from the page itself. Address, telephone and
+ * sameAs profiles belong in it too, and go in once the Impressum exists and the
+ * contact details are real — a wrong address in structured data is worse than
+ * none, because it is machine-read and repeated.
+ */
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: BRAND,
+  url: canonical.href,
+  logo: preview.href,
+  description: t.htmlDescription,
+  inLanguage: lang,
+  areaServed: { '@type': 'Place', name: 'Dresden, Sachsen' },
+};
+
+/**
  * Search engines are kept out while the page is a shareable draft: the contact
  * details are still placeholders and there is no Impressum yet, and an indexed
  * page outlives the version that was indexed.
@@ -79,6 +97,7 @@ const INDEXABLE = false;
         headline from reflowing after first paint. */}
     <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="application/ld+json" set:html={JSON.stringify(organisation)} is:inline />
   </head>
   <body>
     <slot />
