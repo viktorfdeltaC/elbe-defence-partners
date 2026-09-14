@@ -291,7 +291,7 @@ export const de: Copy = {
     {
       n: 'B-01.3',
       title: 'Wachsen',
-      body: 'Netzwerk, Kapital, politischer Zugang. Gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
+      body: 'Netzwerk, Kapital, Beschaffung. Gewachsen über zwei Jahrzehnte in Finanzmarkt und Defence.',
       items: [
         'Anschluss an Bedarfsträger und Beschaffungsorganisationen',
         'Strategische und geopolitische Einordnung für Expansionsentscheidungen',
@@ -499,7 +499,7 @@ export const en: Copy = {
     {
       n: 'B-01.3',
       title: 'Grow',
-      body: 'Network, capital, political access. Grown over two decades in financial markets and defence.',
+      body: 'Network, capital, procurement. Grown over two decades in financial markets and defence.',
       items: [
         'Access to requirement owners and procurement organisations',
         'Strategic and geopolitical assessment for expansion decisions',
