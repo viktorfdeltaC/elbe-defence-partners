@@ -335,7 +335,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Militärischer Hintergrund, Defence und strategische Lagebeurteilung.',
       phone: '+49 351 000 001',
-      mail: 'name@example.com',
+      mail: 'h.weller@sanktum.de',
     },
     {
       photo: 'dennisArians',
@@ -343,7 +343,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Militärischer Hintergrund, Defence-IT und sicherheitskonforme Prozesse.',
       phone: '+49 351 000 002',
-      mail: 'name@example.com',
+      mail: 'e.eckert@sanktum.de',
     },
     {
       photo: 'erikEckert',
@@ -351,7 +351,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Infrastruktur, Genehmigungsprozesse und Standortentwicklung.',
       phone: '+49 351 000 003',
-      mail: 'name@example.com',
+      mail: 'd.arians@sanktum.de',
     },
     {
       photo: 'holgerWeller',
@@ -359,7 +359,7 @@ export const de: Copy = {
       role: 'Mandatsverantwortung',
       bio: 'Kapitalstrukturen, Vertrieb und Wirtschaftsnetzwerk.',
       phone: '+49 351 000 004',
-      mail: 'name@example.com',
+      mail: 'v.fink@sanktum.de',
     },
   ],
 };
@@ -547,7 +547,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Military background, defence and strategic assessment.',
       phone: '+49 351 000 001',
-      mail: 'name@example.com',
+      mail: 'h.weller@sanktum.de',
     },
     {
       photo: 'dennisArians',
@@ -555,7 +555,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Military background, defence IT and security-compliant processes.',
       phone: '+49 351 000 002',
-      mail: 'name@example.com',
+      mail: 'e.eckert@sanktum.de',
     },
     {
       photo: 'erikEckert',
@@ -563,7 +563,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Infrastructure, permitting and site development.',
       phone: '+49 351 000 003',
-      mail: 'name@example.com',
+      mail: 'd.arians@sanktum.de',
     },
     {
       photo: 'holgerWeller',
@@ -571,7 +571,7 @@ export const en: Copy = {
       role: 'Mandate responsibility',
       bio: 'Capital structures, sales and industry network.',
       phone: '+49 351 000 004',
-      mail: 'name@example.com',
+      mail: 'v.fink@sanktum.de',
     },
   ],
 };
