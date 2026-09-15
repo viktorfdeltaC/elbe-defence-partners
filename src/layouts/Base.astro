@@ -66,14 +66,16 @@ const organisation = {
 };
 
 /**
- * Search engines are kept out while the page is a shareable draft: the contact
- * details are still placeholders and the legal texts have not been reviewed,
- * and an indexed page outlives the version that was indexed.
+ * Open to search engines since the site moved to sanktum.de: the imprint and
+ * the privacy policy are published, the contact form delivers, and the
+ * addresses are real. Pages that must stay out regardless say so themselves
+ * with `indexable={false}` — the form's two answer pages do.
  *
- * Flip to true — together with the Disallow lines in src/pages/robots.txt.ts —
- * when the copy is final and the legal texts are signed off.
+ * Flip back to false only together with the Allow line in
+ * src/pages/robots.txt.ts. One without the other either hides an indexable page
+ * or offers one that says noindex.
  */
-const INDEXABLE = false;
+const INDEXABLE = true;
 ---
 
 <!doctype html>

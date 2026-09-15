@@ -6,15 +6,15 @@ import type { APIRoute } from 'astro';
  * the host. This replaces the file that used to sit in public/.
  */
 export const GET: APIRoute = ({ site }) => {
-  const body = `# The page is a shareable draft: the legal texts are not yet reviewed.
-# Crawlers are kept out until the copy is final — an indexed page outlives the
-# version that was indexed.
+  const body = `# Open to crawlers. The contact form's answer pages are not listed in the
+# sitemap and carry their own noindex, so they stay out of results either way.
 #
-# To open it up, delete the two Disallow lines below and set INDEXABLE = true in
-# src/layouts/Base.astro. Both have to change; one without the other either
-# hides an indexable page or offers a page that says noindex.
+# To close the site again, put \`Disallow: /\` here in place of the Allow line
+# and set INDEXABLE = false in src/layouts/Base.astro. Both have to change; one
+# without the other either hides an indexable page or offers one that says
+# noindex.
 User-agent: *
-Disallow: /
+Allow: /
 
 Sitemap: ${new URL('/sitemap.xml', site).href}
 `;
