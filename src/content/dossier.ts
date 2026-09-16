@@ -1,11 +1,17 @@
 /**
- * The dossier download: a button in the hero opens a dialog, the visitor gives
- * an email address and a company, and the PDF downloads straight away.
+ * The dossier download: a button opens a dialog, the visitor gives an email
+ * address and a company, and the PDF downloads straight away.
+ *
+ * Two dossiers, one for each audience the page speaks to, each requested where
+ * that audience is addressed: the manufacturers' from the hero, the site
+ * partners' (business owners, capital, municipalities) from the capital
+ * section. Both go live together.
  *
  * The frontend is finished; the backend is not. It will be built in the
- * Laravel backend, which also holds the two PDFs. Until then:
+ * Laravel backend, which also holds the PDFs — two dossiers in two languages,
+ * four files. Until then:
  *
- *   - the button and the dialog render in `npm run dev` only, so the flow can
+ *   - the buttons and the dialogs render in `npm run dev` only, so the flow can
  *     be tried on localhost while sanktum.de stays as it is;
  *   - with no endpoint set, src/scripts/dossier-mock.ts answers in its place
  *     and hands out a placeholder PDF. That module is never part of a
@@ -17,8 +23,11 @@
  * being true the moment the requests below are written to a database.
  */
 
-/** True once the backend answers. Until then the dossier exists on localhost only. */
+/** True once the backend answers. Until then both dossiers exist on localhost only. */
 export const DOSSIER_LIVE = false;
+
+/** Which dossier a request is for. Sent as the `dossier` field. */
+export type DossierKind = 'manufacturers' | 'partners';
 
 export const showDossier = DOSSIER_LIVE || import.meta.env.DEV;
 
@@ -31,15 +40,18 @@ export const showDossier = DOSSIER_LIVE || import.meta.env.DEV;
  *
  *   email     required, max 254, one plain address
  *   company   required, max 150
+ *   dossier   'manufacturers' | 'partners' — which of the two dossiers
  *   lang      'de' | 'en' — the page the visitor was on
  *   website   honeypot, hidden from people. Filled in: it was a bot. Answer as
  *             if successful and store nothing.
  *
  * ── What the backend does ────────────────────────────────────────────────────
  * TODO(backend): store every valid request in the database — email, company,
- * lang, time of the request. This is the list of who has the dossier.
+ * dossier, lang, time of the request. This is the list of who has which
+ * dossier, and with `dossier` stored it shows how each audience responds.
  *
- * TODO(backend): pick the PDF by `lang` and return a URL to it. The PDF must
+ * TODO(backend): pick the PDF by `dossier` and `lang` and return a URL to it.
+ * An unknown value for either is a 422 on that field. The PDF must
  * not be reachable at a fixed public address, or the form can be skipped: a
  * signed, expiring route (Laravel's URL::temporarySignedRoute) does this.
  * Deliver it with `Content-Disposition: attachment`, so it downloads rather than

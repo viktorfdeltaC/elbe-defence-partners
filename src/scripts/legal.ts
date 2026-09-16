@@ -116,5 +116,20 @@ document.addEventListener('click', (event) => {
   if (!link || !dialog) return;
 
   event.preventDefault();
+
+  // data-legal-replace swaps the dialog the link sits in for the one it names —
+  // the two dossier requests point at each other. The first closes at once, and
+  // focus later goes back to the button that opened it, not to a link in a
+  // dialog that is gone. Without the attribute a dialog opens on top, as the
+  // privacy policy does over a form.
+  const current = link.hasAttribute('data-legal-replace') ? link.closest('dialog') : null;
+  if (current?.open) {
+    const opener = openers.get(current) ?? link;
+    openers.delete(current);
+    current.close();
+    openDialog(dialog, opener);
+    return;
+  }
+
   openDialog(dialog, link);
 });

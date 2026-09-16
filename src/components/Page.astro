@@ -58,9 +58,14 @@ import { showDossier } from '../content/dossier';
   </LegalDialog>
   {
     showDossier && (
-      <LegalDialog id="dossier" titleKey="cta2">
-        <DossierForm />
-      </LegalDialog>
+      <>
+        <LegalDialog id="dossier-manufacturers" titleKey="dossierManufacturers">
+          <DossierForm kind="manufacturers" />
+        </LegalDialog>
+        <LegalDialog id="dossier-partners" titleKey="dossierPartners">
+          <DossierForm kind="partners" />
+        </LegalDialog>
+      </>
     )
   }
 </Base>

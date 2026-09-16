@@ -4,8 +4,8 @@
  * production build leaves it out.
  *
  * It answers the way the backend is meant to (src/content/dossier.ts) and hands
- * out a one-page placeholder PDF in the page's language, so the whole flow —
- * checking, waiting, downloading — can be tried on localhost.
+ * out a one-page placeholder PDF naming the dossier and the page's language, so
+ * the whole flow — checking, waiting, downloading — can be tried on localhost.
  *
  * Two addresses try the failures:
  *   fehler@…   the backend fails
@@ -17,23 +17,28 @@ export async function mockDossier(form: FormData): Promise<Response> {
   const email = String(form.get('email') ?? '').toLowerCase();
   const company = String(form.get('company') ?? '');
   const lang = form.get('lang') === 'en' ? 'en' : 'de';
+  const dossier = form.get('dossier') === 'partners' ? 'partners' : 'manufacturers';
 
   if (email.startsWith('fehler@')) return new Response('{}', { status: 500 });
   if (email.startsWith('limit@')) return new Response('{}', { status: 429 });
 
   // What the backend will write to its database.
-  console.info('[dossier] Platzhalter, würde gespeichert:', { email, company, lang, at: new Date().toISOString() });
+  console.info('[dossier] Platzhalter, würde gespeichert:', { email, company, dossier, lang, at: new Date().toISOString() });
 
-  const pdf = new Blob([placeholderPdf(lang)], { type: 'application/pdf' });
+  const pdf = new Blob([placeholderPdf(dossier, lang)], { type: 'application/pdf' });
   return Response.json({ url: URL.createObjectURL(pdf) });
 }
 
 /** A valid single-page PDF, ASCII only so the standard Helvetica can set it. */
-function placeholderPdf(lang: 'de' | 'en') {
+function placeholderPdf(dossier: 'manufacturers' | 'partners', lang: 'de' | 'en') {
+  const title = {
+    de: { manufacturers: 'Dossier fuer Hersteller (Deutsch)', partners: 'Dossier fuer Standortpartner (Deutsch)' },
+    en: { manufacturers: 'Dossier for manufacturers (English)', partners: 'Dossier for site partners (English)' },
+  }[lang][dossier];
   const lines =
     lang === 'en'
-      ? ['Sanktum Defence Partners', 'Dossier (English)', '', 'Placeholder from localhost.', 'The real PDF comes from the backend.']
-      : ['Sanktum Defence Partners', 'Dossier (Deutsch)', '', 'Platzhalter von localhost.', 'Die echte PDF kommt aus dem Backend.'];
+      ? ['Sanktum Defence Partners', title, '', 'Placeholder from localhost.', 'The real PDF comes from the backend.']
+      : ['Sanktum Defence Partners', title, '', 'Platzhalter von localhost.', 'Die echte PDF kommt aus dem Backend.'];
 
   const text = lines.map((line, i) => `BT /F1 ${i < 2 ? 22 : 13} Tf 72 ${760 - i * 34} Td (${line}) Tj ET`).join('\n');
 

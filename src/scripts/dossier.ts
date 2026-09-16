@@ -1,10 +1,12 @@
 /**
- * The dossier dialog's form: check the two fields, ask the backend for the
- * PDF, start the download.
+ * The dossier dialogs' forms: check the two fields, ask the backend for the
+ * PDF, start the download. There are two, one per dossier, and each is
+ * handled on its own.
  *
- * Opening and closing the dialog is legal.ts — the hero button carries
- * data-legal-open="dossier". Messages come from the form's data-msg-*
- * attributes, in the page's language, as in contact.ts.
+ * Opening, closing and switching the dialogs is legal.ts — the buttons carry
+ * data-legal-open="dossier-manufacturers" or "dossier-partners". Messages come
+ * from each form's data-msg-* attributes, in the page's language, as in
+ * contact.ts.
  */
 import { COMPANY } from '../content/company';
 import { DOSSIER_ENDPOINT } from '../content/dossier';
@@ -13,13 +15,14 @@ import { EMAIL } from '../server/enquiry';
 type Field = 'email' | 'company';
 type Message = 'send' | 'sending' | 'required' | 'badMail' | 'invalid' | 'rate' | 'failed';
 
-const form = document.querySelector<HTMLFormElement>('form[data-dossier-form]');
-const done = document.querySelector<HTMLElement>('[data-dossier-done]');
-const status = form?.querySelector<HTMLElement>('[data-dossier-status]');
-const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
-const link = done?.querySelector<HTMLAnchorElement>('[data-dossier-link]');
-
-if (form && done && status && button && link) enhance(form, done, status, button, link);
+for (const form of document.querySelectorAll<HTMLFormElement>('form[data-dossier-form]')) {
+  const dialog = form.closest('dialog');
+  const done = dialog?.querySelector<HTMLElement>('[data-dossier-done]');
+  const status = form.querySelector<HTMLElement>('[data-dossier-status]');
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const link = done?.querySelector<HTMLAnchorElement>('[data-dossier-link]');
+  if (done && status && button && link) enhance(form, done, status, button, link);
+}
 
 /** Without an endpoint: the local placeholder, in `npm run dev` only. */
 async function request(body: FormData): Promise<Response> {
@@ -40,6 +43,8 @@ function enhance(
   const message = (key: Message) => form.dataset[`msg${key[0].toUpperCase()}${key.slice(1)}`] ?? '';
   const control = (name: Field) => form.elements.namedItem(name) as HTMLInputElement;
   const fields: Field[] = ['email', 'company'];
+  /** Both dialogs are in the page at once; their error notes need ids of their own. */
+  const kind = (form.elements.namedItem('dossier') as HTMLInputElement).value;
 
   const problem = (name: Field): Message | null => {
     const value = control(name).value.trim();
@@ -50,7 +55,7 @@ function enhance(
 
   const mark = (name: Field, key: Message | null) => {
     const input = control(name);
-    const id = `dossier-error-${name}`;
+    const id = `dossier-error-${kind}-${name}`;
     let note = document.getElementById(id);
     if (!key) {
       input.removeAttribute('aria-invalid');
@@ -124,9 +129,8 @@ function enhance(
     }
 
     if (response?.ok && data.url) {
-      const lang = new FormData(form).get('lang');
       link.href = data.url;
-      link.download = `Sanktum-Dossier-${lang === 'en' ? 'EN' : 'DE'}.pdf`;
+      link.download = form.dataset.filename ?? '';
       form.hidden = true;
       done.hidden = false;
       done.focus();

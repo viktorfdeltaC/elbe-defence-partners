@@ -138,10 +138,18 @@ export interface Copy {
   fPrivacyLink: string;
 
   /**
-   * The dossier dialog (src/components/DossierForm.astro). Its title is `cta2`,
-   * the fields reuse fMail and fCompany, the checks fRequired, fBadMail,
-   * fInvalid and fRate, and the privacy note ends on fPrivacyLink.
+   * The two dossier dialogs (src/components/DossierForm.astro). Both are opened
+   * by a button labelled `cta2`; the fields reuse fMail and fCompany, the checks
+   * fRequired, fBadMail, fInvalid and fRate, and the privacy note ends on
+   * fPrivacyLink.
    */
+  dossierManufacturers: string;
+  dossierPartners: string;
+  /** At the foot of each dialog: a question for whoever is in the wrong one, and the link across. */
+  dossierToPartners: string;
+  dossierToPartnersLink: string;
+  dossierToManufacturers: string;
+  dossierToManufacturersLink: string;
   dossierLead: string;
   dossierSend: string;
   dossierSending: string;
@@ -264,6 +272,12 @@ export const de: Copy = {
   fPrivacy: 'Wir verwenden Ihre Angaben, um Ihre Anfrage zu beantworten und das Formular vor Missbrauch zu schützen. Mehr in der',
   fPrivacyLink: 'Datenschutzerklärung',
 
+  dossierManufacturers: 'Dossier für Hersteller',
+  dossierPartners: 'Dossier für Standortpartner',
+  dossierToPartners: 'Sie sind Unternehmer oder Kapitalgeber in der Region?',
+  dossierToPartnersLink: 'Zum Dossier für Standortpartner',
+  dossierToManufacturers: 'Sie bringen selbst ein System in die Serie?',
+  dossierToManufacturersLink: 'Zum Dossier für Hersteller',
   dossierLead: 'Geben Sie Ihre E-Mail-Adresse und Ihr Unternehmen an. Der Download startet direkt danach.',
   dossierSend: 'Dossier herunterladen',
   dossierSending: 'Wird vorbereitet …',
@@ -510,6 +524,12 @@ export const en: Copy = {
   fPrivacy: 'We use your details to answer your enquiry and to protect the form from misuse. More in our',
   fPrivacyLink: 'privacy policy',
 
+  dossierManufacturers: 'Dossier for manufacturers',
+  dossierPartners: 'Dossier for site partners',
+  dossierToPartners: 'Are you a business owner or investor in the region?',
+  dossierToPartnersLink: 'To the dossier for site partners',
+  dossierToManufacturers: 'Are you taking a system of your own into series production?',
+  dossierToManufacturersLink: 'To the dossier for manufacturers',
   dossierLead: 'Enter your email address and company. The download starts straight after.',
   dossierSend: 'Download dossier',
   dossierSending: 'Preparing …',

@@ -10,6 +10,7 @@
  */
 import { dictionaries, langFrom } from '../content/copy';
 import { COMPANY } from '../content/company';
+import { showDossier } from '../content/dossier';
 
 const t = dictionaries[langFrom(Astro.currentLocale)];
 ---
@@ -26,8 +27,17 @@ const t = dictionaries[langFrom(Astro.currentLocale)];
         <h2 class="capital__title">{t.capTitle}</h2>
         <p class="capital__body">{t.capBody}</p>
         <p class="capital__note">{t.capNote}</p>
-        {/* A mail until the booking dialog replaces it. */}
-        <a class="capital__cta" href={`mailto:${COMPANY.email}`}>{t.capCta}</a>
+        <div class="capital__ctas">
+          {/* A mail until the booking dialog replaces it. */}
+          <a class="capital__cta" href={`mailto:${COMPANY.email}`}>{t.capCta}</a>
+          {/* The site partners' dossier, as the hero offers the manufacturers'.
+              Local only until DOSSIER_LIVE in src/content/dossier.ts. */}
+          {showDossier && (
+            <a class="capital__cta capital__cta--ghost" href="#kapital" data-legal-open="dossier-partners">
+              {t.cta2}
+            </a>
+          )}
+        </div>
       </div>
 
       <div class="ledger">
@@ -105,6 +115,24 @@ const t = dictionaries[langFrom(Astro.currentLocale)];
   .capital__cta:hover {
     background: var(--ocker);
     color: #fff;
+  }
+
+  .capital__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .capital__cta--ghost {
+    background: none;
+    color: var(--ink);
+    border: 1px solid var(--rule-light-tick);
+    padding: 14px 27px;
+  }
+
+  .capital__cta--ghost:hover {
+    background: var(--ink);
+    color: var(--paper);
   }
 
   .ledger {

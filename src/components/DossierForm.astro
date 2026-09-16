@@ -1,6 +1,9 @@
 ---
 /**
- * The dossier request, as the content of a LegalDialog (id "dossier").
+ * A dossier request, as the content of a LegalDialog — "dossier-manufacturers"
+ * or "dossier-partners". The two are the same form; `kind` decides which PDF
+ * the backend hands out, the download's file name, and which dialog the link at
+ * the foot switches to.
  *
  * Email address and company, then the PDF downloads. What happens on submit is
  * src/scripts/dossier.ts; where the request goes, and what the backend has to
@@ -11,16 +14,34 @@
  * hero button then goes to the contact form instead.
  */
 import { dictionaries, langFrom, pathIn } from '../content/copy';
+import type { DossierKind } from '../content/dossier';
 import { LIMITS } from '../server/enquiry';
 
+interface Props {
+  kind: DossierKind;
+}
+
+const { kind } = Astro.props;
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
+
+const other = kind === 'manufacturers' ? 'partners' : 'manufacturers';
+const cross =
+  kind === 'manufacturers'
+    ? { question: t.dossierToPartners, link: t.dossierToPartnersLink, href: '#kapital' }
+    : { question: t.dossierToManufacturers, link: t.dossierToManufacturersLink, href: '#kontakt' };
+
+const filename = {
+  de: { manufacturers: 'Sanktum-Dossier-Hersteller-DE.pdf', partners: 'Sanktum-Dossier-Standortpartner-DE.pdf' },
+  en: { manufacturers: 'Sanktum-Dossier-Manufacturers-EN.pdf', partners: 'Sanktum-Dossier-Site-Partners-EN.pdf' },
+}[lang][kind];
 ---
 
 <form
   class="dossier"
   novalidate
   data-dossier-form
+  data-filename={filename}
   data-msg-send={t.dossierSend}
   data-msg-sending={t.dossierSending}
   data-msg-required={t.fRequired}
@@ -31,7 +52,8 @@ const t = dictionaries[lang];
 >
   <p class="dossier__lead">{t.dossierLead}</p>
 
-  {/* Decides which of the two PDFs the backend hands out. */}
+  {/* Together they decide which of the four PDFs the backend hands out. */}
+  <input type="hidden" name="dossier" value={kind} />
   <input type="hidden" name="lang" value={lang} />
 
   <label>
@@ -63,6 +85,12 @@ const t = dictionaries[lang];
     <a href="#" data-dossier-link>{t.dossierFile}</a>
   </p>
 </div>
+
+{/* For whoever opened the wrong one: swaps this dialog for the other. */}
+<p class="dossier-cross">
+  {cross.question}
+  <a href={cross.href} data-legal-open={`dossier-${other}`} data-legal-replace>{cross.link}</a>
+</p>
 
 <style>
   .dossier {
@@ -198,6 +226,37 @@ const t = dictionaries[lang];
     font-weight: 600;
     font-size: 22px;
     letter-spacing: -0.03em;
+  }
+
+  .dossier-cross {
+    margin: 28px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-light);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+
+  /* On its own line, heavier and with an arrow: in the same ocker as the prose
+     around it, a plain underline did not read as something to click. */
+  .dossier-cross a {
+    display: block;
+    width: fit-content;
+    margin-top: 4px;
+    font-weight: 600;
+    color: var(--ocker-on-light);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .dossier-cross a::after {
+    content: ' →';
+  }
+
+  .dossier-cross a:hover {
+    color: var(--ink);
   }
 
   .dossier-done__body {
