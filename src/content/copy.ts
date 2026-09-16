@@ -7,7 +7,8 @@
  *
  * Text is carried over verbatim from Richtung-D-Grid.dc.html; the figures in
  * `axes` and `figures` are the researched, publicly sourced values the user
- * signed off on (Silicon Saxony, NATO/BMVg budgets, Polish defence budget).
+ * signed off on (Silicon Saxony, Council of the EU, the federal budget, Polish
+ * defence budget, ESMC and GlobalFoundries).
  */
 
 export type Lang = 'de' | 'en';
@@ -361,10 +362,10 @@ export const de: Copy = {
   ],
 
   figures: [
-    { v: '739 Mrd. €', k: 'Verteidigungsausgaben der europäischen NATO-Staaten 2025' },
-    { v: '117,2 Mrd. €', k: 'Deutscher Verteidigungshaushalt 2026' },
-    { v: '40 km', k: 'Bis zur Flugerprobung in Kamenz' },
-    { v: '2 h', k: 'Nach Berlin und an die polnische Grenze' },
+    { v: '418 Mrd. €', k: 'Verteidigungsausgaben der EU-Mitgliedstaaten 2025' },
+    { v: '108,2 Mrd. €', k: 'Deutscher Verteidigungshaushalt 2026, inkl. Sondervermögen' },
+    { v: '40 km', k: 'Bis zum zivilen Flugerprobungszentrum in Kamenz' },
+    { v: '1 h', k: 'Bis zur polnischen Grenze' },
   ],
 
   constraints: [
@@ -383,7 +384,7 @@ export const de: Copy = {
       fig: '1 von 3',
       figLabel:
         'In der EU gefertigten Halbleitern kommt aus Dresden. Bei Leistungshalbleitern für die Automobilindustrie über die Hälfte.',
-      d: 'Über 16 Mrd. Euro Investitionsvolumen sind im Bau oder beschlossen: ESMC/TSMC rund 10 Mrd., Infineon rund 5 Mrd., GlobalFoundries rund 1,1 Mrd., dazu Bosch. Wer Sensorik, Drohnen oder Lenksysteme baut, produziert dort, wo die kritische Komponente herkommt.',
+      d: 'Allein das ESMC-Werk steht für rund 10 Mrd. Euro, GlobalFoundries hat in Dresden kumuliert über 12 Mrd. US-Dollar investiert. Wer Sensorik, Drohnen oder Lenksysteme baut, produziert dort, wo die kritische Komponente herkommt.',
     },
     {
       n: '02',
@@ -391,7 +392,7 @@ export const de: Copy = {
       fig: '82.500',
       figLabel:
         'Beschäftigte in Mikroelektronik und Software, rund 1.500 mehr als im Vorjahr.',
-      d: 'Grenoble als zweitgrößter europäischer Verbund kommt auf rund 38.000. Dazu Erprobungsinfrastruktur im Tagesradius: das AEF-Forschungs- und Flugerprobungszentrum in Kamenz, rund 40 km entfernt, mit Schwerpunkten in elektrischen und hybriden Antrieben, Schwarmanwendungen, Datenübertragung und autonomer Navigation.',
+      d: 'Grenoble als zweitgrößter europäischer Verbund kommt auf rund 38.000. Dazu Erprobungsinfrastruktur im Tagesradius: das zivile AEF-Forschungs- und Flugerprobungszentrum in Kamenz, rund 40 km entfernt, mit Schwerpunkten in elektrischen und hybriden Antrieben, Schwarmanwendungen, Datenübertragung und autonomer Navigation.',
     },
     {
       n: '03',
@@ -629,10 +630,10 @@ export const en: Copy = {
   ],
 
   figures: [
-    { v: 'EUR 739bn', k: 'Defence spending of European NATO members, 2025' },
-    { v: 'EUR 117.2bn', k: 'German defence budget 2026' },
-    { v: '40 km', k: 'To flight test facilities in Kamenz' },
-    { v: '2 h', k: 'To Berlin and the Polish border' },
+    { v: 'EUR 418bn', k: 'Defence spending of EU member states, 2025' },
+    { v: 'EUR 108.2bn', k: 'German defence budget 2026, incl. special fund' },
+    { v: '40 km', k: 'To the civil flight test centre in Kamenz' },
+    { v: '1 h', k: 'To the Polish border' },
   ],
 
   constraints: [
@@ -651,7 +652,7 @@ export const en: Copy = {
       fig: '1 in 3',
       figLabel:
         'Share of EU semiconductor manufacturing that comes from Dresden. For automotive power semiconductors, more than half.',
-      d: 'Over EUR 16bn of investment is under construction or committed: ESMC/TSMC around 10bn, Infineon around 5bn, GlobalFoundries around 1.1bn, plus Bosch. Anyone building sensors, drones or guidance systems produces where the critical component comes from.',
+      d: 'The ESMC plant alone accounts for around EUR 10bn, and GlobalFoundries has invested more than USD 12bn in Dresden to date. Anyone building sensors, drones or guidance systems produces where the critical component comes from.',
     },
     {
       n: '02',
@@ -659,7 +660,7 @@ export const en: Copy = {
       fig: '82,500',
       figLabel:
         'People employed in microelectronics and software, around 1,500 more than the previous year.',
-      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's travel: the AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
+      d: "Grenoble, Europe's second-largest cluster, reaches around 38,000. Added to this is test infrastructure within a day's travel: the civil AEF research and flight test centre in Kamenz, some 40 km away, focused on electric and hybrid propulsion, swarm applications, data transmission and autonomous navigation.",
     },
     {
       n: '03',
