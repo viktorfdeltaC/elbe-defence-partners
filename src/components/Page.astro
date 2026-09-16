@@ -34,6 +34,8 @@ import SiteFooter from './SiteFooter.astro';
 import LegalDialog from './legal/LegalDialog.astro';
 import Impressum from './legal/Impressum.astro';
 import Datenschutz from './legal/Datenschutz.astro';
+import DossierForm from './DossierForm.astro';
+import { showDossier } from '../content/dossier';
 ---
 
 <Base>
@@ -54,10 +56,18 @@ import Datenschutz from './legal/Datenschutz.astro';
   <LegalDialog id="datenschutz" titleKey="privacyTitle">
     <Datenschutz headingLevel={3} />
   </LegalDialog>
+  {
+    showDossier && (
+      <LegalDialog id="dossier" titleKey="cta2">
+        <DossierForm />
+      </LegalDialog>
+    )
+  }
 </Base>
 
 <script>
   import '../scripts/page';
   import '../scripts/legal';
   import '../scripts/contact';
+  import '../scripts/dossier';
 </script>

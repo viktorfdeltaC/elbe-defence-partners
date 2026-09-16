@@ -1,6 +1,7 @@
 ---
 /**
- * The imprint or the privacy policy as a dialog over the one-pager.
+ * The imprint or the privacy policy as a dialog over the one-pager — and the
+ * dossier request, which borrows the same dialog.
  *
  * The footer links point at the real pages; src/scripts/legal.ts turns a plain
  * click into showModal() on one of these instead. A native <dialog> in the top
@@ -15,7 +16,7 @@
 import { dictionaries, langFrom, type TextKey } from '../../content/copy';
 
 interface Props {
-  id: 'impressum' | 'datenschutz';
+  id: 'impressum' | 'datenschutz' | 'dossier';
   titleKey: TextKey;
 }
 

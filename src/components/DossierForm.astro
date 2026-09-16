@@ -1,0 +1,209 @@
+---
+/**
+ * The dossier request, as the content of a LegalDialog (id "dossier").
+ *
+ * Email address and company, then the PDF downloads. What happens on submit is
+ * src/scripts/dossier.ts; where the request goes, and what the backend has to
+ * answer, is src/content/dossier.ts.
+ *
+ * Reachable only through the dialog, which only opens with JavaScript — so,
+ * unlike the contact form, there is no page to fall back to without it. The
+ * hero button then goes to the contact form instead.
+ */
+import { dictionaries, langFrom, pathIn } from '../content/copy';
+import { LIMITS } from '../server/enquiry';
+
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+---
+
+<form
+  class="dossier"
+  novalidate
+  data-dossier-form
+  data-msg-send={t.dossierSend}
+  data-msg-sending={t.dossierSending}
+  data-msg-required={t.fRequired}
+  data-msg-bad-mail={t.fBadMail}
+  data-msg-invalid={t.fInvalid}
+  data-msg-rate={t.fRate}
+  data-msg-failed={t.dossierFailed}
+>
+  <p class="dossier__lead">{t.dossierLead}</p>
+
+  {/* Decides which of the two PDFs the backend hands out. */}
+  <input type="hidden" name="lang" value={lang} />
+
+  <label>
+    <span class="dossier__label">{t.fMail}</span>
+    <input type="email" name="email" autocomplete="email" maxlength={LIMITS.email} required />
+  </label>
+  <label>
+    <span class="dossier__label">{t.fCompany}</span>
+    <input type="text" name="company" autocomplete="organization" maxlength={LIMITS.company} required />
+  </label>
+
+  {/* For bots only, as in the contact form. */}
+  <div class="dossier__trap" aria-hidden="true">
+    <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <button type="submit">{t.dossierSend}</button>
+  <p class="dossier__status" role="status" data-dossier-status></p>
+  <p class="dossier__privacy">
+    {t.dossierPrivacy}
+    <a href={pathIn(lang, '/datenschutz/')} data-legal-open="datenschutz">{t.fPrivacyLink}</a>.
+  </p>
+</form>
+
+<div class="dossier-done" tabindex="-1" hidden data-dossier-done>
+  <p class="dossier-done__title">{t.dossierDone}</p>
+  <p class="dossier-done__body">
+    {t.dossierFallback}
+    <a href="#" data-dossier-link>{t.dossierFile}</a>
+  </p>
+</div>
+
+<style>
+  .dossier {
+    display: grid;
+    gap: 18px;
+    max-width: 30rem;
+  }
+
+  .dossier__lead {
+    margin: 0 0 6px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+
+  .dossier label {
+    display: grid;
+    gap: 8px;
+  }
+
+  .dossier__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-light-2);
+  }
+
+  .dossier input {
+    background: #fff;
+    border: 1px solid var(--rule-light-strong);
+    border-radius: 0;
+    padding: 14px 18px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  /* Same reason as in the contact form: iOS zooms in on anything under 16px. */
+  @media (pointer: coarse) {
+    .dossier input {
+      font-size: 16px;
+    }
+  }
+
+  .dossier input:focus {
+    border-color: var(--ocker-on-light);
+    outline: none;
+  }
+
+  .dossier input:focus-visible {
+    outline: 2px solid var(--ocker-on-light);
+    outline-offset: 1px;
+  }
+
+  .dossier input[aria-invalid='true'] {
+    border-color: #b3261e;
+  }
+
+  .dossier :global(.dossier__error) {
+    font-size: 13px;
+    color: #b3261e;
+  }
+
+  .dossier__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .dossier button {
+    justify-self: start;
+    margin-top: 6px;
+    padding: 16px 28px;
+    border: 0;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .dossier button:not([aria-disabled='true']):hover {
+    background: var(--ocker-on-light);
+  }
+
+  .dossier button[aria-disabled='true'] {
+    cursor: progress;
+    opacity: 0.7;
+  }
+
+  .dossier__status {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted-light);
+  }
+
+  .dossier__status:empty {
+    display: none;
+  }
+
+  .dossier__status.is-error {
+    color: #b3261e;
+  }
+
+  .dossier__privacy {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--muted-light-2);
+  }
+
+  .dossier__status :global(a),
+  .dossier__privacy a,
+  .dossier-done a {
+    color: var(--ocker-on-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .dossier-done {
+    outline: none;
+  }
+
+  .dossier-done__title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.03em;
+  }
+
+  .dossier-done__body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+</style>

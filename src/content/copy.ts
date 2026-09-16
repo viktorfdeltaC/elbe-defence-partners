@@ -137,6 +137,21 @@ export interface Copy {
   fPrivacy: string;
   fPrivacyLink: string;
 
+  /**
+   * The dossier dialog (src/components/DossierForm.astro). Its title is `cta2`,
+   * the fields reuse fMail and fCompany, the checks fRequired, fBadMail,
+   * fInvalid and fRate, and the privacy note ends on fPrivacyLink.
+   */
+  dossierLead: string;
+  dossierSend: string;
+  dossierSending: string;
+  dossierFailed: string;
+  /** What replaces the form: the download is under way, and a link in case it is not. */
+  dossierDone: string;
+  dossierFallback: string;
+  dossierFile: string;
+  dossierPrivacy: string;
+
   capLabel: string;
   capTitle: string;
   capBody: string;
@@ -248,6 +263,16 @@ export const de: Copy = {
   htmlTitleFailed: 'Anfrage nicht gesendet | Sanktum',
   fPrivacy: 'Wir verwenden Ihre Angaben, um Ihre Anfrage zu beantworten und das Formular vor Missbrauch zu schützen. Mehr in der',
   fPrivacyLink: 'Datenschutzerklärung',
+
+  dossierLead: 'Geben Sie Ihre E-Mail-Adresse und Ihr Unternehmen an. Der Download startet direkt danach.',
+  dossierSend: 'Dossier herunterladen',
+  dossierSending: 'Wird vorbereitet …',
+  dossierFailed: 'Das Dossier konnte gerade nicht geladen werden. Bitte schreiben Sie uns direkt:',
+  dossierDone: 'Der Download startet.',
+  dossierFallback: 'Falls nicht, laden Sie es hier herunter:',
+  dossierFile: 'Dossier als PDF',
+  dossierPrivacy:
+    'Wir speichern Ihre E-Mail-Adresse und Ihr Unternehmen, um nachzuvollziehen, wer das Dossier angefordert hat. Mehr in der',
 
   capLabel: 'Kapital & Standortentwicklung',
   // Zeilenumbruch zwischen den beiden Sätzen: .capital__title führt
@@ -484,6 +509,16 @@ export const en: Copy = {
   htmlTitleFailed: 'Enquiry not sent | Sanktum',
   fPrivacy: 'We use your details to answer your enquiry and to protect the form from misuse. More in our',
   fPrivacyLink: 'privacy policy',
+
+  dossierLead: 'Enter your email address and company. The download starts straight after.',
+  dossierSend: 'Download dossier',
+  dossierSending: 'Preparing …',
+  dossierFailed: 'The dossier could not be loaded just now. Please write to us directly:',
+  dossierDone: 'Your download is starting.',
+  dossierFallback: 'If it does not, download it here:',
+  dossierFile: 'Dossier as PDF',
+  dossierPrivacy:
+    'We store your email address and company to keep track of who requested the dossier. More in the',
 
   capLabel: 'Capital & site development',
   capTitle: 'The market is coming here.\nAccess to it is not.',
