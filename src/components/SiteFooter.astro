@@ -1,10 +1,12 @@
 ---
 /**
- * Footer. Imprint and privacy only — the capital section sits directly above,
- * so a link down to it here would point at what the reader just read.
+ * Footer. Imprint and privacy, and the Lagezentrum — no link down to the
+ * capital section: it sits directly above, and would point at what the reader
+ * just read.
  */
 import Wordmark from './Wordmark.astro';
 import { dictionaries, langFrom, pathIn } from '../content/copy';
+import { showLagezentrum } from '../content/lagezentrum';
 
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
@@ -24,6 +26,9 @@ const year = new Date().getFullYear();
       policy has to grow with the contact form and the booking — see
       src/components/legal/Datenschutz.astro. */}
   <span class="footer__links">
+    {/* The Lagezentrum: in the footer too, because on a phone the hero's nav is
+        hidden and the station rail only covers the one-pager. */}
+    {showLagezentrum && <a href={pathIn(lang, '/lagezentrum/')}>{t.navLz}</a>}
     <a href={pathIn(lang, '/impressum/')} data-legal-open="impressum">{t.imprint}</a>
     <a href={pathIn(lang, '/datenschutz/')} data-legal-open="datenschutz">{t.privacy}</a>
   </span>

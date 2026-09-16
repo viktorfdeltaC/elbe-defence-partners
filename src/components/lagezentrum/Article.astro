@@ -1,0 +1,240 @@
+---
+/**
+ * A Lagezentrum post, inside Document without its marker and heading: the post
+ * brings its own. Free in structure — the Markdown decides — with a fixed
+ * frame around it: title, teaser and byline on top; below, the date the
+ * analysis reflects, the note that it is the author's assessment, the author,
+ * a quiet way to the contact form, and two more posts.
+ */
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import PostCard from './PostCard.astro';
+import { dictionaries, langFrom, pathIn } from '../../content/copy';
+import { formatDate, postPath, readingMinutes, type Post } from '../../content/lagezentrum';
+
+interface Props {
+  post: Post;
+  more: Post[];
+}
+
+const { post, more } = Astro.props;
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+const { Content } = await render(post);
+const { title, teaser, date, stand, author, image, imageAlt, imageCaption, placeholder } = post.data;
+const person = t.people.find((p) => p.name === author);
+---
+
+<article class="article">
+  <a class="back" href={postPath(lang)}>{t.lzAllPosts}</a>
+
+  <header class="head">
+    {placeholder && <span class="lz-badge">{t.lzPlaceholder}</span>}
+    <h1 class="title">{title}</h1>
+    <p class="teaser">{teaser}</p>
+    <p class="lz-meta">
+      {t.lzBy} {author} · {formatDate(lang, date)} · {readingMinutes(post)} {t.lzMinutes}
+    </p>
+  </header>
+
+  {
+    image && (
+      <figure class="figure">
+        <Image src={image} alt={imageAlt ?? ''} widths={[800, 1200, 1800]} sizes="(max-width: 1100px) 100vw, 1000px" />
+        {imageCaption && <figcaption>{imageCaption}</figcaption>}
+      </figure>
+    )
+  }
+
+  <div class="lz-prose">
+    <Content />
+  </div>
+
+  <footer class="foot">
+    <p class="lz-meta">{t.lzStand} {formatDate(lang, stand ?? date)}</p>
+    <p class="disclaimer">{t.lzDisclaimer}</p>
+
+    {
+      person && (
+        <div class="author">
+          <p class="author__label lz-meta">{t.lzAuthor}</p>
+          <p class="author__name">{person.name}</p>
+          <p class="author__bio">{person.bio}</p>
+        </div>
+      )
+    }
+
+    <p class="cta">
+      {t.lzCtaQuestion}
+      <a href={`${pathIn(lang, '/')}#kontakt`}>{t.lzCtaLink}</a>
+    </p>
+  </footer>
+</article>
+
+{
+  more.length > 0 && (
+    <aside class="more">
+      <h2 class="more__title">{t.lzMore}</h2>
+      <ul class="more__grid">
+        {more.map((other) => (
+          <li>
+            <PostCard post={other} headingLevel={3} />
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+
+<style>
+  .article {
+    max-width: 62rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 40px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-light-2);
+  }
+
+  .back::before {
+    content: '← ';
+  }
+
+  .back:hover {
+    color: var(--ink);
+  }
+
+  .head {
+    max-width: 44rem;
+    margin-bottom: 40px;
+  }
+
+  .title {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(32px, 4.2vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .teaser {
+    margin: 0 0 22px;
+    font-size: clamp(18px, 1.7vw, 22px);
+    line-height: 1.5;
+    color: var(--muted-light);
+    text-wrap: pretty;
+  }
+
+  .figure {
+    margin: 0 0 48px;
+  }
+
+  .figure :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .figure figcaption {
+    margin-top: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted-light-2);
+  }
+
+  .foot {
+    max-width: 38em;
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-light-strong);
+  }
+
+  .disclaimer {
+    margin: 8px 0 36px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted-light-2);
+  }
+
+  .author {
+    margin-bottom: 36px;
+    padding: 22px 24px;
+    background: #fff;
+    border-left: 2px solid var(--ink);
+  }
+
+  .author__label {
+    margin-bottom: 6px;
+  }
+
+  .author__name {
+    margin: 0 0 4px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .author__bio {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+
+  .cta {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .cta a {
+    display: block;
+    width: fit-content;
+    margin-top: 4px;
+    font-weight: 600;
+    color: var(--ocker-on-light);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .cta a::after {
+    content: ' →';
+  }
+
+  .cta a:hover {
+    color: var(--ink);
+  }
+
+  .more {
+    margin-top: 96px;
+  }
+
+  .more__title {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.03em;
+  }
+
+  .more__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 0 48px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+/**
+ * One post as a card: on the overview below the newest, and under a post as
+ * "read on". The whole card is the link.
+ */
+import { dictionaries, langFrom } from '../../content/copy';
+import { formatDate, postPath, readingMinutes, slugOf, type Post } from '../../content/lagezentrum';
+
+interface Props {
+  post: Post;
+  /** 2 on the overview, 3 under a post, where "read on" is the h2. */
+  headingLevel?: 2 | 3;
+}
+
+const { post, headingLevel = 2 } = Astro.props;
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<a class="card" href={postPath(lang, slugOf(post))}>
+  {post.data.placeholder && <span class="lz-badge">{t.lzPlaceholder}</span>}
+  <Heading class="card__title">{post.data.title}</Heading>
+  <p class="card__teaser">{post.data.teaser}</p>
+  <p class="lz-meta">{formatDate(lang, post.data.date)} · {readingMinutes(post)} {t.lzMinutes}</p>
+</a>
+
+<style>
+  .card {
+    display: block;
+    height: 100%;
+    padding: 26px 0 30px;
+    border-top: 1px solid var(--rule-light-strong);
+    color: var(--ink);
+  }
+
+  .card:hover {
+    color: var(--ink);
+  }
+
+  .card__title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 1.8vw, 24px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+    transition: color 0.2s ease;
+  }
+
+  .card:hover .card__title {
+    color: var(--ocker-on-light);
+  }
+
+  .card__teaser {
+    margin: 0 0 16px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+</style>

@@ -1,9 +1,9 @@
 ---
 /**
  * The frame for every page that is not the one-pager: the two legal texts
- * (/impressum/, /datenschutz/) and the contact form's answers for visitors
- * without JavaScript (/kontakt/danke/, /kontakt/fehler/) — each with its
- * English twin under /en/.
+ * (/impressum/, /datenschutz/), the contact form's answers for visitors
+ * without JavaScript (/kontakt/danke/, /kontakt/fehler/) and the Lagezentrum
+ * — each with its English twin under /en/.
  *
  * The legal texts exist as pages so they are reachable without JavaScript and
  * can be linked to directly — an imprint has to be "unmittelbar erreichbar und
@@ -21,10 +21,15 @@ import Wordmark from '../components/Wordmark.astro';
 import { dictionaries, langFrom, pathIn, type TextKey } from '../content/copy';
 
 interface Props {
-  /** <title> of the page. */
-  titleKey: TextKey;
-  /** Visible heading of the page. */
-  headingKey: TextKey;
+  /** <title> of the page, as a dictionary key or as text (see Base.astro). */
+  titleKey?: TextKey;
+  title?: string;
+  description?: string;
+  /**
+   * Visible heading of the page, with the marker above it. Left out, the page
+   * brings its own heading in the slot — a Lagezentrum post does.
+   */
+  headingKey?: TextKey;
   /**
    * The marker above the heading: the document number and "Rechtliches" for
    * the legal texts, C-01 and "Nächster Schritt" for the contact form's pages.
@@ -35,13 +40,13 @@ interface Props {
   indexable?: boolean;
 }
 
-const { titleKey, headingKey, refKey = 'docRef', labelKey = 'legalLabel', indexable } = Astro.props;
+const { titleKey, title, description, headingKey, refKey = 'docRef', labelKey = 'legalLabel', indexable } = Astro.props;
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
 const home = pathIn(lang, '/');
 ---
 
-<Base titleKey={titleKey} indexable={indexable}>
+<Base titleKey={titleKey} title={title} description={description} indexable={indexable}>
   <header class="legal-bar on-dark">
     <a class="legal-bar__mark" href={home}>
       <Wordmark height={24} />
@@ -58,11 +63,17 @@ const home = pathIn(lang, '/');
   <main class="section legal-page">
     <SectionRules />
     <div class="section__inner">
-      <span class="marker marker--static" data-marker>
-        <span class="marker__ref">{t[refKey]}</span>
-        <span>{t[labelKey]}</span>
-      </span>
-      <h1 class="h2 legal-page__title">{t[headingKey]}</h1>
+      {
+        headingKey && (
+          <>
+            <span class="marker marker--static" data-marker>
+              <span class="marker__ref">{t[refKey]}</span>
+              <span>{t[labelKey]}</span>
+            </span>
+            <h1 class="h2 legal-page__title">{t[headingKey]}</h1>
+          </>
+        )
+      }
       <slot />
     </div>
   </main>

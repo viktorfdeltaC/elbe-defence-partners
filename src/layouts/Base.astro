@@ -7,13 +7,19 @@ interface Props {
   /** Dictionary key for <title>. The legal pages name themselves; everything else is the one-pager. */
   titleKey?: TextKey;
   /**
+   * Title and description given as text rather than a dictionary key — for a
+   * Lagezentrum post, which brings its own. They stand in the link preview too.
+   */
+  title?: string;
+  description?: string;
+  /**
    * False for pages that must never be indexed, whatever INDEXABLE says: the
    * contact form's answers are reached by posting, not by searching.
    */
   indexable?: boolean;
 }
 
-const { titleKey = 'htmlTitle', indexable = true } = Astro.props;
+const { titleKey = 'htmlTitle', title, description, indexable = true } = Astro.props;
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
 
@@ -84,8 +90,8 @@ const INDEXABLE = true;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <title>{t[titleKey]}</title>
-    <meta name="description" content={t.htmlDescription} />
+    <title>{title ?? t[titleKey]}</title>
+    <meta name="description" content={description ?? t.htmlDescription} />
     <meta name="robots" content={INDEXABLE && indexable ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="canonical" href={canonical.href} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
@@ -98,8 +104,8 @@ const INDEXABLE = true;
         Regenerate the image with `npm run og`. */}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={BRAND} />
-    <meta property="og:title" content={t.ogTitle} />
-    <meta property="og:description" content={t.ogDescription} />
+    <meta property="og:title" content={title ?? t.ogTitle} />
+    <meta property="og:description" content={description ?? t.ogDescription} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:image" content={preview.href} />

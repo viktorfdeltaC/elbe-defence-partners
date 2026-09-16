@@ -9,8 +9,9 @@
 import { Image } from 'astro:assets';
 import hero from '../assets/hero-dresden-nacht.webp';
 import Wordmark from './Wordmark.astro';
-import { dictionaries, langFrom } from '../content/copy';
+import { dictionaries, langFrom, pathIn } from '../content/copy';
 import { showDossier } from '../content/dossier';
+import { showLagezentrum } from '../content/lagezentrum';
 
 const lang = langFrom(Astro.currentLocale);
 const t = dictionaries[lang];
@@ -21,6 +22,9 @@ const nav = [
   { href: '#leistungen', ref: t.ref3, key: 'nav3' },
   { href: '#kontakt', ref: t.ref4, key: 'nav4' },
   { href: '#kapital', ref: t.refCap, key: 'navCap' },
+  // A page of its own rather than a place on this one. Local only until
+  // LAGEZENTRUM_LIVE in src/content/lagezentrum.ts.
+  ...(showLagezentrum ? [{ href: pathIn(lang, '/lagezentrum/'), ref: t.refLz, key: 'navLz' } as const] : []),
 ] as const;
 ---
 

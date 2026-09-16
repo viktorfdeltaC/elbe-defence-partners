@@ -1,0 +1,38 @@
+---
+/**
+ * The Lagezentrum, English ("Situation Room"): the overview at /en/lagezentrum/
+ * and every post at /en/lagezentrum/<file name>/. Its twin is src/pages/lagezentrum/[...slug].astro.
+ *
+ * No paths at all while the Lagezentrum is hidden (src/content/lagezentrum.ts),
+ * so a production build does not contain these pages.
+ */
+import Document from '../../../layouts/Document.astro';
+import Overview from '../../../components/lagezentrum/Overview.astro';
+import Article from '../../../components/lagezentrum/Article.astro';
+import { dictionaries } from '../../../content/copy';
+import { postsIn, showLagezentrum, slugOf, type Post } from '../../../content/lagezentrum';
+
+export async function getStaticPaths() {
+  if (!showLagezentrum) return [];
+  const posts = await postsIn('en');
+  return [
+    { params: { slug: undefined }, props: { posts } },
+    ...posts.map((post) => ({ params: { slug: slugOf(post) }, props: { posts, post } })),
+  ];
+}
+
+const { posts, post } = Astro.props as { posts: Post[]; post?: Post };
+const t = dictionaries.en;
+---
+
+{
+  post ? (
+    <Document title={`${post.data.title} | Sanktum`} description={post.data.teaser}>
+      <Article post={post} more={posts.filter((p) => p.id !== post.id).slice(0, 2)} />
+    </Document>
+  ) : (
+    <Document title={t.htmlTitleLz} description={t.lzDescription} headingKey="lzHeading" refKey="refLz" labelKey="navLz">
+      <Overview posts={posts} />
+    </Document>
+  )
+}

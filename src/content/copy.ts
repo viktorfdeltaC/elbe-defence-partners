@@ -160,6 +160,29 @@ export interface Copy {
   dossierFile: string;
   dossierPrivacy: string;
 
+  /** The Lagezentrum (src/components/lagezentrum/), English "Situation Room". */
+  navLz: string;
+  refLz: string;
+  htmlTitleLz: string;
+  lzDescription: string;
+  lzHeading: string;
+  lzLead: string;
+  /** Shown if there is nothing to list yet. */
+  lzEmpty: string;
+  /** After the number of minutes: "12 Min." */
+  lzMinutes: string;
+  lzAllPosts: string;
+  lzBy: string;
+  lzAuthor: string;
+  /** "Stand" in German: the date an analysis reflects. */
+  lzStand: string;
+  lzDisclaimer: string;
+  lzCtaQuestion: string;
+  lzCtaLink: string;
+  lzMore: string;
+  /** Marks placeholder posts on localhost; they never reach a production build. */
+  lzPlaceholder: string;
+
   capLabel: string;
   capTitle: string;
   capBody: string;
@@ -287,6 +310,25 @@ export const de: Copy = {
   dossierFile: 'Dossier als PDF',
   dossierPrivacy:
     'Wir speichern Ihre E-Mail-Adresse und Ihr Unternehmen, um nachzuvollziehen, wer das Dossier angefordert hat. Mehr in der',
+
+  navLz: 'Lagezentrum',
+  refLz: 'E-01',
+  htmlTitleLz: 'Lagezentrum | Sanktum',
+  lzDescription:
+    'Analysen zu Geopolitik, Konflikten und Beschaffung, und was sie für Verteidigungsindustrie und Standort bedeuten.',
+  lzHeading: 'Die Lage, eingeordnet.',
+  lzLead: 'Analysen zu Geopolitik, Konflikten und Beschaffung, und was sie für Industrie und Standort bedeuten.',
+  lzEmpty: 'Die ersten Analysen erscheinen in Kürze.',
+  lzMinutes: 'Min.',
+  lzAllPosts: 'Alle Analysen',
+  lzBy: 'Von',
+  lzAuthor: 'Autor',
+  lzStand: 'Stand:',
+  lzDisclaimer: 'Die Analyse gibt die Einschätzung des Autors zum angegebenen Stand wieder.',
+  lzCtaQuestion: 'Was bedeutet das für Ihr Vorhaben?',
+  lzCtaLink: 'Sprechen Sie uns an',
+  lzMore: 'Weiterlesen',
+  lzPlaceholder: 'Platzhalter',
 
   capLabel: 'Kapital & Standortentwicklung',
   // Zeilenumbruch zwischen den beiden Sätzen: .capital__title führt
@@ -539,6 +581,25 @@ export const en: Copy = {
   dossierFile: 'Dossier as PDF',
   dossierPrivacy:
     'We store your email address and company to keep track of who requested the dossier. More in the',
+
+  navLz: 'Situation Room',
+  refLz: 'E-01',
+  htmlTitleLz: 'Situation Room | Sanktum',
+  lzDescription:
+    'Analyses of geopolitics, conflicts and procurement, and what they mean for the defence industry and its locations.',
+  lzHeading: 'The situation, assessed.',
+  lzLead: 'Analyses of geopolitics, conflicts and procurement, and what they mean for industry and location.',
+  lzEmpty: 'The first analyses are coming soon.',
+  lzMinutes: 'min read',
+  lzAllPosts: 'All analyses',
+  lzBy: 'By',
+  lzAuthor: 'Author',
+  lzStand: 'As of',
+  lzDisclaimer: "This analysis reflects the author's assessment as of the date given.",
+  lzCtaQuestion: 'What does this mean for your project?',
+  lzCtaLink: 'Talk to us',
+  lzMore: 'Read on',
+  lzPlaceholder: 'Placeholder',
 
   capLabel: 'Capital & site development',
   capTitle: 'The market is coming here.\nAccess to it is not.',

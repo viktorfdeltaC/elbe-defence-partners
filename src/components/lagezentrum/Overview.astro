@@ -1,0 +1,139 @@
+---
+/**
+ * The Lagezentrum's front page, inside Document (which sets the marker and the
+ * heading): a line on what happens here, the newest analysis large, the rest
+ * as cards.
+ */
+import { Image } from 'astro:assets';
+import PostCard from './PostCard.astro';
+import { dictionaries, langFrom } from '../../content/copy';
+import { formatDate, postPath, readingMinutes, slugOf, type Post } from '../../content/lagezentrum';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const lang = langFrom(Astro.currentLocale);
+const t = dictionaries[lang];
+const [latest, ...rest] = posts;
+---
+
+<p class="lead">{t.lzLead}</p>
+
+{!latest && <p class="empty">{t.lzEmpty}</p>}
+
+{
+  latest && (
+    <a class:list={['latest', latest.data.image && 'latest--image']} href={postPath(lang, slugOf(latest))}>
+      {latest.data.image && (
+        <Image
+          class="latest__img"
+          src={latest.data.image}
+          alt={latest.data.imageAlt ?? ''}
+          widths={[600, 900, 1200]}
+          sizes="(max-width: 900px) 100vw, 55vw"
+        />
+      )}
+      <div class="latest__text">
+        {latest.data.placeholder && <span class="lz-badge">{t.lzPlaceholder}</span>}
+        <h2 class="latest__title">{latest.data.title}</h2>
+        <p class="latest__teaser">{latest.data.teaser}</p>
+        <p class="lz-meta">
+          {latest.data.author} · {formatDate(lang, latest.data.date)} · {readingMinutes(latest)} {t.lzMinutes}
+        </p>
+      </div>
+    </a>
+  )
+}
+
+{
+  rest.length > 0 && (
+    <ul class="grid">
+      {rest.map((post) => (
+        <li>
+          <PostCard post={post} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .lead {
+    max-width: 34em;
+    margin: -16px 0 56px;
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.55;
+    color: var(--muted-light);
+  }
+
+  .empty {
+    font-size: 17px;
+    color: var(--muted-light);
+  }
+
+  .latest {
+    display: grid;
+    gap: 28px;
+    margin-bottom: 64px;
+    color: var(--ink);
+  }
+
+  .latest:hover {
+    color: var(--ink);
+  }
+
+  .latest--image {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+  }
+
+  .latest__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .latest__title {
+    margin: 0 0 16px;
+    max-width: 18em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    text-wrap: pretty;
+    transition: color 0.2s ease;
+  }
+
+  .latest:hover .latest__title {
+    color: var(--ocker-on-light);
+  }
+
+  .latest__teaser {
+    max-width: 32em;
+    margin: 0 0 20px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--muted-light);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 0 48px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 900px) {
+    .latest--image {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+  }
+</style>

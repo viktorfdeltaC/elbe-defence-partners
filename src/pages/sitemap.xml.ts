@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { pathIn } from '../content/copy';
+import { LAGEZENTRUM_LIVE, postsIn, slugOf } from '../content/lagezentrum';
 
 /**
  * Generated rather than kept as a file in public/: the absolute addresses come
@@ -15,10 +16,16 @@ import { pathIn } from '../content/copy';
  */
 const PAGES = ['/', '/impressum/', '/datenschutz/'];
 
-export const GET: APIRoute = ({ site }) => {
+export const GET: APIRoute = async ({ site }) => {
   const url = (path: string) => new URL(path, site).href;
 
-  const entries = PAGES.flatMap((page) => {
+  // The Lagezentrum only once it is public — on localhost it exists, but it is
+  // not something to hand to a search engine yet.
+  const lagezentrum = LAGEZENTRUM_LIVE
+    ? ['/lagezentrum/', ...(await postsIn('de')).map((post) => `/lagezentrum/${slugOf(post)}/`)]
+    : [];
+
+  const entries = [...PAGES, ...lagezentrum].flatMap((page) => {
     const de = url(pathIn('de', page));
     const en = url(pathIn('en', page));
     const alternates = [
